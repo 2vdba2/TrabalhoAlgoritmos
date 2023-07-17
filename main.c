@@ -1,6 +1,6 @@
 #include "raylib.h"
 #include <string.h>
-#include "maps/mapToArray.c"
+#include "codes/mapToArray.c"
 
 int main(void)
 {
