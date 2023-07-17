@@ -3,5 +3,5 @@
 int main(void)
 {
 	drawMap();
-    return 0;
+	return 0;
 }
