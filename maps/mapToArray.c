@@ -4,46 +4,39 @@
 #define MAP_SIZE_L 30 //number of lines
 #define MAP_SIZE_C 60 //number of columns
 
-extern int matrixMap[MAP_SIZE_L][MAP_SIZE_C]={0};
+extern char map[MAP_SIZE_L][MAP_SIZE_C]={' '};
 int readMap()
 {
+	FILE* filePointer;
+	int lineLength = MAP_SIZE_C+3; //include \n\0
+	char line[lineLength]; /* not ISO 90 compatible */
+	int i=0,j=0;
 
-FILE* filePointer;
-int lineLength = MAP_SIZE_C+3; //include \n\0
-char line[lineLength]; /* not ISO 90 compatible */
-int i=0,j=0;
+	filePointer = fopen("maps/mapa1.txt", "r");
 
-filePointer = fopen("maps/mapa1.txt", "r");
+	while(fgets(line, lineLength, filePointer)) {
 
-while(fgets(line, lineLength, filePointer)) {
-    //printf("\n%2d-%2d %s", i,strlen(line),line);
-    
-    printf("\n");
-    for(j=0;j<MAP_SIZE_C;j++)
-    {
-		
-		printf("%c",line[j]);
-		if(line[j]=='#')
+		printf("\n");
+		for(j=0;j<MAP_SIZE_C;j++)
 		{
-			matrixMap[i][j]=1;
+			map[i][j]=line[j];
 		}
+		i++;
 	}
-	i++;
-	
-	
-}
 
-fclose(filePointer);
-/*
-printf("\n");
-for(i=0;i<MAP_SIZE_L;i++)
-{
-	for(j=0;j<MAP_SIZE_C;j++)
-	{
-		printf("%d",matrixMap[i][j]);
-	}
+	fclose(filePointer);
+
+	//PRINT MATRIX MAP
+
 	printf("\n");
-}
-*/
-return 0;
+	for(i=0;i<MAP_SIZE_L;i++)
+	{
+		for(j=0;j<MAP_SIZE_C;j++)
+		{
+			printf("%c",map[i][j]);
+		}
+		printf("\n");
+	}
+
+	return 0;
 }
