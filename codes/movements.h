@@ -1,5 +1,5 @@
-#ifndef MECHANICSFUNCTIONS_H
-#define MECHANICSFUNCTIONS_H
+#ifndef MOVEMENTS_H
+#define MOVEMENTS_H
 
 #include "constants.h"
 #include "structs.h"
