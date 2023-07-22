@@ -3,7 +3,7 @@
 
 #include "constants.h"
 #include "structs.h"
-#include <stdbool.h> 
+#include <stdbool.h>
 
 void move(int dx, int dy, struct Isaac *isaac)
 {
@@ -18,10 +18,10 @@ int verifyMove(int dx, int dy, struct Isaac *isaac)
 {
 	int result=0;
 	int xNext, yNext;
-	
+
 	xNext=(*isaac).posX   +dx;
 	yNext=(*isaac).posY   +dy;
-	
+
 	if(map[yNext][xNext]==' ')
 	{
 		result=1;
