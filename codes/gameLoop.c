@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include <string.h>
 #include "mapToArray.c"
-#include "mechanicsFunctions.h"
+#include "movements.h"
 #include "shoot.c"
 #include "constants.h"
 #include "keyboardFunctions.h"
