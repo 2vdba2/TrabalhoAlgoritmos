@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define MAP_SIZE_L 30 //number of lines
-#define MAP_SIZE_C 60 //number of columns
+#include "structs.h"
+#include "constants.h"
 
-extern char map[MAP_SIZE_L][MAP_SIZE_C]={' '};
-int readMap()
+extern char map[MAP_SIZE_Y][MAP_SIZE_X]={' '};
+int readMap(struct Isaac *isaac)
 {
 	FILE* filePointer;
-	int lineLength = MAP_SIZE_C+3; //include \n\0
+	int lineLength = MAP_SIZE_X+3; //include \n\0
 	char line[lineLength]; /* not ISO 90 compatible */
 	int i=0,j=0;
 
@@ -17,9 +17,18 @@ int readMap()
 	while(fgets(line, lineLength, filePointer)) {
 
 		printf("\n");
-		for(j=0;j<MAP_SIZE_C;j++)
+		for(j=0;j<MAP_SIZE_X;j++)
 		{
 			map[i][j]=line[j];
+			// get isaac initial position
+			if(map[i][j]=='J')
+			{
+				//initial position
+				(*isaac).posX=j;
+				(*isaac).posY=i;
+				(*isaac).posXpx=(*isaac).posX*SQUARESIZE;
+				(*isaac).posYpx=(*isaac).posY*SQUARESIZE;
+			}
 		}
 		i++;
 	}
@@ -29,9 +38,9 @@ int readMap()
 	//PRINT MATRIX MAP
 
 	printf("\n");
-	for(i=0;i<MAP_SIZE_L;i++)
+	for(i=0;i<MAP_SIZE_Y;i++)
 	{
-		for(j=0;j<MAP_SIZE_C;j++)
+		for(j=0;j<MAP_SIZE_X;j++)
 		{
 			printf("%c",map[i][j]);
 		}
