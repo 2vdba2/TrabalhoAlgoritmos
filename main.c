@@ -1,8 +1,8 @@
 
-#include "codes/drawMap.c"
+#include "codes/gameLoop.c"
 
 int main(void)
 {
-	drawMap();
+	gameLoop();
 	return 0;
 }
