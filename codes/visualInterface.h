@@ -7,7 +7,7 @@
 void drawMap()
 {
 	int xpx,ypx;
-
+	DrawRectangle(0,0,MAP_SIZE_X_PX,MAP_SIZE_Y_PX,BEIGE);
 	//Draw matrixMap
 	for(int i=0; i<MAP_SIZE_Y; i++)
 	{
@@ -48,11 +48,25 @@ void drawMap()
 		}
 	}
 }
+void informationBar()
+{
+	int xPxCol1  = INFORMATION_BAR_X_PX/30;
+	int xPxCol2  = xPxCol1+INFORMATION_BAR_X_PX/1.25;
+	int yPxLine1 = MAP_SIZE_Y_PX+INFORMATION_BAR_Y_PX/6;
+	int yPxLine2 = yPxLine1 + INFORMATION_BAR_Y_PX/2;
+	
+	DrawRectangle(0,MAP_SIZE_Y_PX,INFORMATION_BAR_X_PX,INFORMATION_BAR_Y_PX,SKYBLUE);
+	DrawText("Time alive: ", xPxCol1,yPxLine1,30, BLACK);
+	DrawText("Lifes: ", xPxCol1,yPxLine2,30, BLACK);
+	DrawText("Stage: ", xPxCol2,yPxLine1,30, BLACK);
+	DrawText("Enemies: ", xPxCol2,yPxLine2,30, BLACK);
+}
 void drawWindow()
 {
 	BeginDrawing();//Inicia o ambiente de desenho na tela
 	ClearBackground(RAYWHITE);//Limpa a tela e define cor de fundo
 	drawMap();
+	 informationBar();
 	EndDrawing();//Finaliza o ambiente de desenho na tela
 }
 #endif

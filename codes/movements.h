@@ -32,10 +32,15 @@ int verifyMove(int dx, int dy, struct Isaac *isaac)
 	{
 		result=1;
 	}
-	else if(map[yNext][xNext]=='I'||map[yNext][xNext]=='X')//inimigo(I) ou fogueira (X)
+	else if(map[yNext][xNext]=='X')//fogueira (X)
 	{
 		(*isaac).nLifes-=1;
 		result=1;
+	}
+	else if(map[yNext][xNext]=='I')//inimigo(I)
+	{
+		(*isaac).nLifes-=1;
+		result=0;
 	}
 	else if(map[yNext][xNext]=='#')// parede (#) ou bomba (B)
 	{
