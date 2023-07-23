@@ -45,6 +45,11 @@ void drawMap()
 			{
 				DrawRectangle(xpx,ypx,SQUARESIZE,SQUARESIZE,ORANGE);
 			}
+			//Enemy
+			else if(map[i][j]=='I')
+			{
+				DrawRectangle(xpx,ypx,SQUARESIZE,SQUARESIZE,PURPLE);
+			}
 		}
 	}
 }
@@ -66,7 +71,7 @@ void drawWindow()
 	BeginDrawing();//Inicia o ambiente de desenho na tela
 	ClearBackground(RAYWHITE);//Limpa a tela e define cor de fundo
 	drawMap();
-	 informationBar();
+	informationBar();
 	EndDrawing();//Finaliza o ambiente de desenho na tela
 }
 #endif
