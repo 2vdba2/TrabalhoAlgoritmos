@@ -1,4 +1,3 @@
-
 #include "codes/gameLoop.c"
 
 int main(void)

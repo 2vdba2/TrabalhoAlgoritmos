@@ -12,7 +12,12 @@ void move(int dx, int dy, struct Isaac *isaac)
 	(*isaac).posY  =(*isaac).posY   +dy;
 	(*isaac).posXpx=(*isaac).posX*SQUARESIZE;
 	(*isaac).posYpx=(*isaac).posY*SQUARESIZE;
-	map[(*isaac).posY][(*isaac).posX]='J';//update position
+	
+	//se proxima posicao esta vazia, coloca J
+	if(map[(*isaac).posY][(*isaac).posX]==' ')
+	{
+		map[(*isaac).posY][(*isaac).posX]='J';//update position
+	}
 }
 int verifyMove(int dx, int dy, struct Isaac *isaac)
 {
