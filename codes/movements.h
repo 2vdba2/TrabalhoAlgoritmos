@@ -7,7 +7,8 @@
 
 void move(int dx, int dy, struct Isaac *isaac)
 {
-	map[(*isaac).posY][(*isaac).posX]=' ';//replace previous position by ' ' empty
+	if(map[(*isaac).posY][(*isaac).posX]=='J')
+		map[(*isaac).posY][(*isaac).posX]=' ';//replace previous position by ' ' empty if it was fire
 	(*isaac).posX  =(*isaac).posX   +dx;
 	(*isaac).posY  =(*isaac).posY   +dy;
 	(*isaac).posXpx=(*isaac).posX*SQUARESIZE;
