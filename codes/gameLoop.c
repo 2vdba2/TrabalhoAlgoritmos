@@ -6,6 +6,8 @@
 #include "constants.h"
 #include "keyboardFunctions.h"
 #include "visualInterface.h"
+#include "mazeSolver.h"
+
 
 struct Bullet bullets[MAX_BULLLETS];
 
@@ -14,8 +16,24 @@ void gameLoop()
 	int i,j,missionComplete=0;
 	int xpx,ypx;
 	struct Isaac isaac;
+	struct Enemy enemy1;
 
-	readMap(&isaac);
+	readMap(&isaac,&enemy1);
+	
+	//TESTING START
+	/*
+	static int graph[V][V];
+	static int dist[V][V];
+	static int Next[V][V];
+	static int path[V];
+	
+	int maze[MAP_SIZE_Y][MAP_SIZE_X];
+	mapToMaze(maze);
+	mazeToGraph(maze,graph,Next,dist);
+	floydWarshall(graph,Next);
+	construct(Next, 150, 153,path);
+	*/
+	//TESTING END
 
 	//--------------------------------------------------------------------------------------
 	//Inicializa¸c~oes
