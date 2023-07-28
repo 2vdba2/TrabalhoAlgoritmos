@@ -18,6 +18,21 @@ struct Isaac
     int posYpx;
     int nBombs;
     int nLifes;
+    int vertex;
+    char id;
+    bool IsAlive;
+};
+
+struct Enemy
+{
+    int posX;
+    int posY;
+    int posXpx;
+    int posYpx;
+    int dx;
+    int dy;
+    char id;
+    int vertex;
     bool IsAlive;
 };
 

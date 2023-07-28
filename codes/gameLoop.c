@@ -6,7 +6,8 @@
 #include "constants.h"
 #include "keyboardFunctions.h"
 #include "visualInterface.h"
-#include "mazeSolver.h"
+//include "mazeSolver2.h"
+#include "mazeSolverDijkstra.h"
 
 
 struct Bullet bullets[MAX_BULLLETS];
@@ -17,22 +18,46 @@ void gameLoop()
 	int xpx,ypx;
 	struct Isaac isaac;
 	struct Enemy enemy1;
-
 	readMap(&isaac,&enemy1);
 	
 	//TESTING START
 	/*
+	isaac.id='J';
+	
+	enemy1.id='I';
+	
+	isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
+	enemy1.vertex=indexToVertex(enemy1.posY,enemy1.posX);
+	
+	printf("\nisaac vertex = %d",isaac.vertex);
+	printf("\nenemy vertex = %d",enemy1.vertex);
+	
 	static int graph[V][V];
 	static int dist[V][V];
 	static int Next[V][V];
 	static int path[V];
-	
-	int maze[MAP_SIZE_Y][MAP_SIZE_X];
+	int nVertices=V;
+	static int maze[MAP_SIZE_Y][MAP_SIZE_X];
 	mapToMaze(maze);
-	mazeToGraph(maze,graph,Next,dist);
-	floydWarshall(graph,Next);
-	construct(Next, 150, 153,path);
+	mazeToGraph(maze,graph);
+    int** adjacencyMatrix = (int**)malloc(nVertices * sizeof(int*));
+    for (int i = 0; i < nVertices; i++) {
+        adjacencyMatrix[i] = (int*)malloc(nVertices * sizeof(int));
+    }
+
+    for (int i = 0; i < nVertices; i++) {
+        for (int j = 0; j < nVertices; j++) {
+            adjacencyMatrix[i][j]=graph[i][j];
+        }
+    }
+    int dxdy[2];
+    dijkstra(adjacencyMatrix, 1160, V, 200, dxdy);
+    printf("\nenemy x = %d, y = %d",enemy1.posX,enemy1.posY);
+    //enemyMove(isaac,&enemy1);
+    printf("\nenemy x = %d, y = %d",enemy1.posX,enemy1.posY);
+	//printf("Go to %d!",dxdy[0]);
 	*/
+	
 	//TESTING END
 
 	//--------------------------------------------------------------------------------------
@@ -49,7 +74,7 @@ void gameLoop()
 
 		readKeyboardMove(&isaac);
 		readKeyboardShoot(isaac,bullets);
-
+		
 		if(map[isaac.posY][isaac.posX]=='P')
 		{
 			missionComplete=1;
