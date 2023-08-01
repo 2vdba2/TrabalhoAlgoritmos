@@ -29,8 +29,9 @@ struct Enemy
     int posY;
     int posXpx;
     int posYpx;
-    int dx;
-    int dy;
+    int dx; //next move x
+    int dy; //next move y
+    int nLifes;
     char id;
     int vertex;
     bool IsAlive;

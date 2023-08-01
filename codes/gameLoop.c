@@ -74,6 +74,11 @@ void gameLoop()
 
 		readKeyboardMove(&isaac);
 		readKeyboardShoot(isaac,bullets);
+		enemy1.id='I';
+		enemy1.dx=1;
+		enemy1.dy=0;
+		moveAndVerifyEnemy(&enemy1);
+		
 		
 		if(map[isaac.posY][isaac.posX]=='P')
 		{

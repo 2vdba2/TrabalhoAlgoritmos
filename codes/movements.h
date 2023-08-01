@@ -84,5 +84,49 @@ void moveEnemy(struct Enemy *enemy)
 		map[(*enemy).posY][(*enemy).posX]=(*enemy).id;//update position
 	}
 }
+int verifyMoveEnemy(struct Enemy *enemy)
+{
+	int result=0;
+	int xNext, yNext;
+
+	xNext=(*enemy).posX   +(*enemy).dx;
+	yNext=(*enemy).posY   +(*enemy).dy;
+
+	if(map[yNext][xNext]==' ')
+	{
+		result=1;
+	}
+	else if(map[yNext][xNext]=='X')//fogueira (X)
+	{
+		result=1;
+	}
+	else if(map[yNext][xNext]=='I')//inimigo(I)
+	{
+		result=0;
+	}
+	else if(map[yNext][xNext]=='#')// parede (#) ou bomba (B)
+	{
+		result=0;
+	}
+	else if(map[yNext][xNext]=='B')
+	{
+		(*enemy).nLifes-=1;
+		result=1;
+	}
+	else if(map[yNext][xNext]=='P')//portal
+	{
+		result=0;
+	}
+	//printf("\n%d",result);
+	return result;
+}
+
+void moveAndVerifyEnemy(struct Enemy *enemy)
+{
+	if(verifyMoveEnemy(enemy))
+	{
+		moveEnemy(enemy);
+	}
+}
 
 #endif
