@@ -23,6 +23,11 @@ void gameLoop()
 	struct Enemy enemy1;
 	readMap(&isaac,&enemy1);
 	
+	//Characters Variables
+	isaac.id='J';
+	enemy1.id='I';
+	isaac.nLifes=300;
+	
 	//Time
 	int start_time= time(NULL);
 	int elapsed_time= time(NULL);
@@ -30,12 +35,10 @@ void gameLoop()
 	
 	//TESTING START
 	
-	isaac.id='J';
+
 	
-	enemy1.id='I';
-	
-	isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
-	enemy1.vertex=indexToVertex(enemy1.posY,enemy1.posX);
+	//isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
+	//enemy1.vertex=indexToVertex(enemy1.posY,enemy1.posX);
 	
 	printf("\nisaac vertex = %d",isaac.vertex);
 	printf("\nenemy vertex = %d",enemy1.vertex);
@@ -48,6 +51,8 @@ void gameLoop()
 	static int maze[MAP_SIZE_Y][MAP_SIZE_X];
 	mapToMaze(maze);
 	mazeToGraph(maze,graph);
+
+
     int** adjacencyMatrix = (int**)malloc(nVertices * sizeof(int*));
     for (int i = 0; i < nVertices; i++) {
         adjacencyMatrix[i] = (int*)malloc(nVertices * sizeof(int));
@@ -63,7 +68,7 @@ void gameLoop()
     isaac.vertex=indexToVertex(isaac.posY, isaac.posX);
     enemy1.vertex=indexToVertex(enemy1.posY, enemy1.posX);
     
-    dijkstra(adjacencyMatrix, enemy1.vertex, V, isaac.vertex, dxdy);
+    dijkstra(adjacencyMatrix, enemy1.vertex, V, isaac.vertex, dxdy); // NAO SEI PQ PRECISA DESSA AJANCENT MATRIX< MAS COM GRAPH NAO FUNCIONA!!!!
     //dijkstra(adjacencyMatrix, 153, V, 150, dxdy);
     printf("\nenemy x = %d, y = %d",enemy1.posX,enemy1.posY);
     //enemyMove(isaac,&enemy1);
@@ -98,7 +103,7 @@ void gameLoop()
 			enemy1.dy=dxdy[1];
 			
 			
-			moveAndVerifyEnemy(&enemy1);
+			moveAndVerifyEnemy(&enemy1,&isaac);
 			isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
 			enemy1.vertex=indexToVertex(enemy1.posY,enemy1.posX);
 			fframe++;
@@ -117,7 +122,7 @@ void gameLoop()
 			CloseWindow();
 		}
 		get_elapsed_time(start_time,&elapsed_time, str_time);
-		drawWindow(str_time);
+		drawWindow(str_time,isaac);
 		printf("%d",fframe);
 
 	}

@@ -54,7 +54,7 @@ void drawMap()
 		}
 	}
 }
-void informationBar(char str_time[])
+void informationBar(char str_time[], struct Isaac isaac)
 {
 	int xPxCol1  = INFORMATION_BAR_X_PX/30;
 	int xPxCol2  = xPxCol1+INFORMATION_BAR_X_PX/1.25;
@@ -62,22 +62,29 @@ void informationBar(char str_time[])
 	int yPxLine2 = yPxLine1 + INFORMATION_BAR_Y_PX/2;
 	
 	char time_text[21] = {"Time alive: "};
+	
 	strcat(time_text,str_time);
+	
+	char life_text[10] = {"Lifes: "};
+	char nLifes_char[10];
+	sprintf(nLifes_char, "%d", isaac.nLifes);
+	strcat(life_text,nLifes_char);
+	
 	
 	DrawRectangle(0,MAP_SIZE_Y_PX,INFORMATION_BAR_X_PX,INFORMATION_BAR_Y_PX,SKYBLUE);
 	//DrawText(strcat("Time alive: ",str_time), xPxCol1,yPxLine1,30, BLACK);
 	
 	DrawText(time_text,xPxCol1,yPxLine1,30, BLACK);
-	DrawText("Lifes: ", xPxCol1,yPxLine2,30, BLACK);
+	DrawText(life_text, xPxCol1,yPxLine2,30, BLACK);
 	DrawText("Stage: ", xPxCol2,yPxLine1,30, BLACK);
 	DrawText("Enemies: ", xPxCol2,yPxLine2,30, BLACK);
 }
-void drawWindow(char str_time[])
+void drawWindow(char str_time[],struct Isaac isaac)
 {
 	BeginDrawing();//Inicia o ambiente de desenho na tela
 	ClearBackground(RAYWHITE);//Limpa a tela e define cor de fundo
 	drawMap();
-	informationBar(str_time);
+	informationBar(str_time,isaac);
 	EndDrawing();//Finaliza o ambiente de desenho na tela
 }
 #endif

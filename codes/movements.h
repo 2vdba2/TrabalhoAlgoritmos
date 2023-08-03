@@ -84,7 +84,7 @@ void moveEnemy(struct Enemy *enemy)
 		map[(*enemy).posY][(*enemy).posX]=(*enemy).id;//update position
 	}
 }
-int verifyMoveEnemy(struct Enemy *enemy)
+int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac)
 {
 	int result=0;
 	int xNext, yNext;
@@ -117,13 +117,18 @@ int verifyMoveEnemy(struct Enemy *enemy)
 	{
 		result=0;
 	}
+	else if(map[yNext][xNext]=='J')//Isaac
+	{
+		(*isaac).nLifes-=1;
+		result=0;
+	}
 	//printf("\n%d",result);
 	return result;
 }
 
-void moveAndVerifyEnemy(struct Enemy *enemy)
+void moveAndVerifyEnemy(struct Enemy *enemy,struct Isaac *isaac)
 {
-	if(verifyMoveEnemy(enemy))
+	if(verifyMoveEnemy(enemy,isaac))
 	{
 		moveEnemy(enemy);
 	}
