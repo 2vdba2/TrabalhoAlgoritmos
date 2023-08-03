@@ -1,8 +1,43 @@
 #include <stdio.h>
-#define NROWS 2
-#define NCOLS 2
+#include "mapToArray.c"
+#include "structs.h"
+#define NROWS MAP_SIZE_Y
+#define NCOLS MAP_SIZE_X
 #define INF 999
 #define V ( NROWS * NCOLS )
+
+void mapToMaze(int maze[][MAP_SIZE_X])
+{
+	int i,j;
+	struct Isaac isaac;
+	struct Enemy enemy1;
+
+	readMap(&isaac,&enemy1);
+	for(i=0; i<MAP_SIZE_Y; i++)
+	{
+		for(j=0; j<MAP_SIZE_X; j++)
+		{
+			if(map[i][j]==' ')
+			{
+				maze[i][j]=0;
+			}
+			else
+			{
+				maze[i][j]=1;
+			}
+		}
+	}
+	printf("\n");
+	for(i=0;i<MAP_SIZE_Y;i++)
+	{
+		for(j=0;j<MAP_SIZE_X;j++)
+		{
+			printf("%d",maze[i][j]);
+		}
+		printf("\n");
+	}
+}
+
 
 void mazeToGraph(int maze[][NCOLS],int graph[][V])
 {
@@ -32,7 +67,7 @@ void mazeToGraph(int maze[][NCOLS],int graph[][V])
 						jAdj = j + dj;
 						cGraph = iAdj * NCOLS + jAdj;
 						//verify if adjacent position is valid
-						if (iAdj < NROWS && iAdj >= 0 && jAdj >= 0 && jAdj < NCOLS && maze[iAdj][jAdj] == 0 && maze[i][j] == 0) {
+						if (iAdj < NROWS && iAdj >= 0 && jAdj >= 0 && jAdj < NCOLS && maze[iAdj][jAdj] == 0 ) {//removed maze[i][j] == 0 then can start from wall=character
 							//verify if start and end vertices are the same
 							if (i==iAdj&&j==jAdj) {
 								graph[lGraph][cGraph] = 0;
@@ -100,6 +135,23 @@ void floydWarshall(int dist[][V], int Next[][V])
 	// Print the shortest distance matrix
 
 }
+void construct(int Next[][V],int u,int v,int *path)
+{
+	if (Next[u][v] == -1)
+	{
+		return;
+	}
+	
+	int i=0;
+	path[0] = u;
+	printf("%d",u);
+	while (u != v){
+		u = Next[u][v];
+		path[i]=u;
+		printf("--> %d ",path[i]);
+		i++;
+	}
+}
 
 /* A utility function to print solution */
 
@@ -116,10 +168,15 @@ int main()
 							{0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
 							{0, 0, 1, 1, 1, 1, 0, 1, 1, 0}};
 	*/
-	int maze[2][2]=	{	{0, 1},{ 0, 0}};
+	//int maze[2][2]=	{	{0, 1},{ 0, 0}};
+	static int maze[MAP_SIZE_Y][MAP_SIZE_X];
+	
 
-	int graph[V][V], dist[V][V], Next[V][V];
-
+	static int graph[V][V];
+	static int dist[V][V];
+	static int Next[V][V];
+	static int path[V];
+	mapToMaze(maze);
 	mazeToGraph(maze,graph);
 	printf("\nMaze");
 	for (int i=0; i<NROWS; i++)
@@ -158,5 +215,6 @@ int main()
 	printSolution(dist);
 	printf("\nNextF");
 	printSolution(Next);
+	construct(Next, 0, 3,path);
 	return 0;
 }

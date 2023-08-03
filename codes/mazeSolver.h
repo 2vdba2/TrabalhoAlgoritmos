@@ -23,10 +23,12 @@ void mapToMaze(int maze[][MAP_SIZE_X])
 	printf("\n");
 	for(i=0;i<MAP_SIZE_Y;i++)
 	{
+		printf("[");
 		for(j=0;j<MAP_SIZE_X;j++)
 		{
-			printf("%d",maze[i][j]);
+			printf("%d,",maze[i][j]);
 		}
+		printf("],");
 		printf("\n");
 	}
 }
@@ -59,7 +61,7 @@ void mazeToGraph(int maze[][NCOLS],int graph[][V],int dist[][V],int Next[][V])
 						jAdj = j + dj;
 						cGraph = iAdj * NCOLS + jAdj;
 						//verify if adjacent position is valid
-						if (iAdj < NROWS && iAdj >= 0 && jAdj >= 0 && jAdj < NCOLS && maze[iAdj][jAdj] == 0 ) {//removed maze[i][j] == 0 then can start from wall=character
+						if (iAdj < NROWS && iAdj >= 0 && jAdj >= 0 && jAdj < NCOLS && maze[iAdj][jAdj] == 0 &&maze[i][j] == 0 ) {//removed maze[i][j] == 0 then can start from wall=character
 							//verify if start and end vertices are the same
 							if (i==iAdj&&j==jAdj) {
 								graph[lGraph][cGraph] = 0;
@@ -132,7 +134,10 @@ void floydWarshall(int dist[][V], int Next[][V])
 				// If vertex k is on the shortest path from
 				// i to j, then update the value of
 				// dist[i][j]
-
+				if (dist[i][k] == INF || dist[k][j] == INF)
+				{
+					continue;
+				}
 				if (dist[i][k] + dist[k][j] < dist[i][j])
 				{
 					dist[i][j] = dist[i][k] + dist[k][j];
