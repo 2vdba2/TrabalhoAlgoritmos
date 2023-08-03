@@ -3,6 +3,7 @@
 
 #include "constants.h"
 #include "structs.h"
+#include <string.h>
 
 void drawMap()
 {
@@ -53,25 +54,30 @@ void drawMap()
 		}
 	}
 }
-void informationBar()
+void informationBar(char str_time[])
 {
 	int xPxCol1  = INFORMATION_BAR_X_PX/30;
 	int xPxCol2  = xPxCol1+INFORMATION_BAR_X_PX/1.25;
 	int yPxLine1 = MAP_SIZE_Y_PX+INFORMATION_BAR_Y_PX/6;
 	int yPxLine2 = yPxLine1 + INFORMATION_BAR_Y_PX/2;
 	
+	char time_text[21] = {"Time alive: "};
+	strcat(time_text,str_time);
+	
 	DrawRectangle(0,MAP_SIZE_Y_PX,INFORMATION_BAR_X_PX,INFORMATION_BAR_Y_PX,SKYBLUE);
-	DrawText("Time alive: ", xPxCol1,yPxLine1,30, BLACK);
+	//DrawText(strcat("Time alive: ",str_time), xPxCol1,yPxLine1,30, BLACK);
+	
+	DrawText(time_text,xPxCol1,yPxLine1,30, BLACK);
 	DrawText("Lifes: ", xPxCol1,yPxLine2,30, BLACK);
 	DrawText("Stage: ", xPxCol2,yPxLine1,30, BLACK);
 	DrawText("Enemies: ", xPxCol2,yPxLine2,30, BLACK);
 }
-void drawWindow()
+void drawWindow(char str_time[])
 {
 	BeginDrawing();//Inicia o ambiente de desenho na tela
 	ClearBackground(RAYWHITE);//Limpa a tela e define cor de fundo
 	drawMap();
-	informationBar();
+	informationBar(str_time);
 	EndDrawing();//Finaliza o ambiente de desenho na tela
 }
 #endif

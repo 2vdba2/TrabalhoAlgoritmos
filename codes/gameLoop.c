@@ -8,6 +8,9 @@
 #include "visualInterface.h"
 //include "mazeSolver2.h"
 #include "mazeSolverDijkstra.h"
+#include "stopwatch.h"
+#include <time.h>       // for time()
+#include <unistd.h>     // for sleep()
 
 
 struct Bullet bullets[MAX_BULLLETS];
@@ -19,6 +22,11 @@ void gameLoop()
 	struct Isaac isaac;
 	struct Enemy enemy1;
 	readMap(&isaac,&enemy1);
+	
+	//Time
+	int start_time= time(NULL);
+	int elapsed_time= time(NULL);
+	char str_time[9]={"00:00:00"};
 	
 	//TESTING START
 	
@@ -108,7 +116,8 @@ void gameLoop()
 			missionComplete=1;
 			CloseWindow();
 		}
-		drawWindow();
+		get_elapsed_time(start_time,&elapsed_time, str_time);
+		drawWindow(str_time);
 		printf("%d",fframe);
 
 	}
