@@ -20,7 +20,7 @@ void printPath(int currentVertex, int* parents, int nVertices,int i) {
     printPath(parents[currentVertex], parents, nVertices,i+1);
     printf("%d ", currentVertex);
 }
-int printFirstPath(int startVertex, int endVertex,int* parents, int nVertices, int distance) {
+int printFirstPath(int startVertex, int endVertex,int* parents, int nVertices, int* distances) {
     int path[nVertices];
     
 	if (parents[endVertex] == -1)
@@ -28,15 +28,25 @@ int printFirstPath(int startVertex, int endVertex,int* parents, int nVertices, i
 		return;
 	}
 	
-	int i=0;
+	int distance=distances[endVertex];
+	int i=distance;
 	int u=endVertex;
-	path[0] = u;
-	printf("%d",u);
+	path[i] = u;
+	//printf("%d",u);
 	while (u !=  startVertex){
 		u = parents[u];
+		i--;
 		path[i]=u;
-		printf("--> %d ",path[i]);
-		i++;
+		
+	}
+
+	for(int i=0;i<=distance;i++)
+	{
+		printf("%d",path[i]);
+		if(i!=distance)
+		{
+			printf("-->");
+		}
 	}
 	printf("\nNext vertex: %d",path[1]);
 	return path[1]; 
@@ -121,7 +131,7 @@ void mazeToGraph(int maze[][NCOLS],int graph[][V])
 			//verify adjacent positions (vertically and horizontally)
 			for (di = -1; di<2; di++) {
 				for (dj = -1; dj<2; dj++) {
-					if ((di * dj) == 0) { //this avoids diagonal
+					//if ((di * dj) == 0) { //this avoids diagonal
 						iAdj = i + di;
 
 						jAdj = j + dj;
@@ -137,7 +147,7 @@ void mazeToGraph(int maze[][NCOLS],int graph[][V])
 							}
 						}
 
-					}
+					//}
 				}
 			}
 		}
@@ -152,7 +162,7 @@ void mapToMaze(int maze[][MAP_SIZE_X])
 	{
 		for(j=0; j<MAP_SIZE_X; j++)
 		{
-			if(map[i][j]==' ')
+			if(map[i][j]!='#')
 			{
 				maze[i][j]=0;
 			}

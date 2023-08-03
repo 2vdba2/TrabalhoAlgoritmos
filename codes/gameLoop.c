@@ -21,7 +21,7 @@ void gameLoop()
 	readMap(&isaac,&enemy1);
 	
 	//TESTING START
-	/*
+	
 	isaac.id='J';
 	
 	enemy1.id='I';
@@ -51,12 +51,17 @@ void gameLoop()
         }
     }
     int dxdy[2];
-    dijkstra(adjacencyMatrix, 1160, V, 200, dxdy);
+    
+    isaac.vertex=indexToVertex(isaac.posY, isaac.posX);
+    enemy1.vertex=indexToVertex(enemy1.posY, enemy1.posX);
+    
+    dijkstra(adjacencyMatrix, enemy1.vertex, V, isaac.vertex, dxdy);
+    //dijkstra(adjacencyMatrix, 153, V, 150, dxdy);
     printf("\nenemy x = %d, y = %d",enemy1.posX,enemy1.posY);
     //enemyMove(isaac,&enemy1);
     printf("\nenemy x = %d, y = %d",enemy1.posX,enemy1.posY);
 	//printf("Go to %d!",dxdy[0]);
-	*/
+	
 	
 	//TESTING END
 
@@ -66,6 +71,7 @@ void gameLoop()
 	SetTargetFPS(60);// Ajusta a execu¸c~ao do jogo para 60 frames por segundo
 	//--------------------------------------------------------------------------------------
 	//La¸co principal do jogo
+	int fframe=0;
 	while (!WindowShouldClose()) // Detect window close button or ESC key
 	{
 		// Trata entrada do usu´ario e atualiza estado do jogo
@@ -75,17 +81,36 @@ void gameLoop()
 		readKeyboardMove(&isaac);
 		readKeyboardShoot(isaac,bullets);
 		enemy1.id='I';
-		enemy1.dx=1;
-		enemy1.dy=0;
-		moveAndVerifyEnemy(&enemy1);
-		
-		
+		if(fframe==0)
+		{
+			dijkstra(adjacencyMatrix, enemy1.vertex, V, isaac.vertex, dxdy);
+			//enemy1.dx=1;
+			//enemy1.dy=0;
+			enemy1.dx=dxdy[0];
+			enemy1.dy=dxdy[1];
+			
+			
+			moveAndVerifyEnemy(&enemy1);
+			isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
+			enemy1.vertex=indexToVertex(enemy1.posY,enemy1.posX);
+			fframe++;
+		}
+		else
+		{
+			fframe++;
+			if(fframe>=20)
+			{
+				fframe=0;
+			}
+		}
 		if(map[isaac.posY][isaac.posX]=='P')
 		{
 			missionComplete=1;
 			CloseWindow();
 		}
 		drawWindow();
+		printf("%d",fframe);
+
 	}
 	CloseWindow();// Fecha a janela e o contexto OpenGL
 }
