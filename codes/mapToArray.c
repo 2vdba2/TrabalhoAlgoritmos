@@ -5,14 +5,16 @@
 #include "constants.h"
 
 extern char map[MAP_SIZE_Y][MAP_SIZE_X]={' '};
-int readMap(struct Isaac *isaac,struct Enemy *enemy1)
+int readMap(struct Isaac *isaac,struct Enemy *enemy1,int map_counter)
 {
 	FILE* filePointer;
 	int lineLength = MAP_SIZE_X+3; //include \n\0
 	char line[lineLength]; /* not ISO 90 compatible */
 	int i=0,j=0;
 
-	filePointer = fopen("maps/mapa1.txt", "r");
+	sprintf(mapFileNames,"maps/map02%d.txt",map_counter);
+	filePointer = fopen(mapFileNames, "r");
+	//filePointer = fopen("maps/mapa1.txt", "r");
 
 	while(fgets(line, lineLength, filePointer)) {
 
