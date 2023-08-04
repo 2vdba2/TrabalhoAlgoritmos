@@ -11,9 +11,12 @@ int readMap(struct Isaac *isaac,struct Enemy *enemy1,int map_counter)
 	int lineLength = MAP_SIZE_X+3; //include \n\0
 	char line[lineLength]; /* not ISO 90 compatible */
 	int i=0,j=0;
+	char mapFileName[19];
 
-	sprintf(mapFileNames,"maps/map02%d.txt",map_counter);
-	filePointer = fopen(mapFileNames, "r");
+	sprintf(mapFileName,"./maps/map%02d.txt",map_counter+1);
+	//mapFileName={"maps/map01.txt"};
+	
+	filePointer = fopen(mapFileName, "r");
 	//filePointer = fopen("maps/mapa1.txt", "r");
 
 	while(fgets(line, lineLength, filePointer)) {
