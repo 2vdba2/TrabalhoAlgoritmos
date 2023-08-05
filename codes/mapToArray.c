@@ -5,10 +5,11 @@
 #include "constants.h"
 
 extern char map[MAP_SIZE_Y][MAP_SIZE_X]={' '};
-int readMap(struct Isaac *isaac,struct Enemy *enemy1,int map_counter)
+int readMap(struct Isaac *isaac,struct Enemy *enemy1,int map_counter, struct Enemy *enemies, int *nEnemies)
 {
 	FILE* filePointer;
 	int lineLength = MAP_SIZE_X+3; //include \n\0
+	int enemiesCounter=0;
 	char line[lineLength]; /* not ISO 90 compatible */
 	int i=0,j=0;
 	char mapFileName[19];
@@ -41,9 +42,16 @@ int readMap(struct Isaac *isaac,struct Enemy *enemy1,int map_counter)
 				(*enemy1).posY=i;
 				(*enemy1).posXpx=(*enemy1).posX*SQUARESIZE;
 				(*enemy1).posYpx=(*enemy1).posY*SQUARESIZE;
+				
+				enemies[enemiesCounter].posX=j;
+				enemies[enemiesCounter].posY=i;
+				enemies[enemiesCounter].posXpx=enemies[enemiesCounter].posX*SQUARESIZE;
+				enemies[enemiesCounter].posYpx=enemies[enemiesCounter].posY*SQUARESIZE;
+				enemiesCounter++;
 			}
 		}
 		i++;
+		
 	}
 
 	fclose(filePointer);
@@ -59,6 +67,6 @@ int readMap(struct Isaac *isaac,struct Enemy *enemy1,int map_counter)
 		}
 		printf("\n");
 	}
-
+	*nEnemies=enemiesCounter;
 	return 0;
 }

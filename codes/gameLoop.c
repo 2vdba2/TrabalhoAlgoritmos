@@ -15,20 +15,24 @@
 
 struct Bullet bullets[MAX_BULLLETS];
 struct Isaac isaac;
+struct Enemy enemies[15];
 struct Enemy enemy1;
 //struct Stopwatch stopwatch;
 
 void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationBarStrings *informationBarStrings)
 {
 	int i,j,missionComplete=0;
-
-	readMap(&isaac,&enemy1,map_counter);
+	int nEnemies;
+	readMap(&isaac,&enemy1,map_counter,enemies,&nEnemies);
 	
 	//Characters Variables
 	isaac.id='J';
 	enemy1.id='I';
 	isaac.nLifes=300;
-	
+	for(int i=0;i<MAX_ENEMIES;i++)
+	{
+		enemies[i].id='I';
+	}
 	//Time
 	//stopwatch->start_time= time(NULL);
 	//stopwatch->elapsed_time= time(NULL);
@@ -57,7 +61,8 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
     int dxdy[2];
 
 	//La¸co principal do jogo
-	int fframe=0;
+	int fframe=0; //counter to slows dows enemy. it moves each enemyMovesPeriod
+	int enemyMovesPeriod=20;
 	while (!WindowShouldClose()&&missionComplete==0) // Detect window close button or ESC key
 	{
 		// Trata entrada do usu´ario e atualiza estado do jogo
@@ -69,6 +74,7 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 		enemy1.id='I';
 		if(fframe==0)
 		{
+			/*
 			dijkstra(adjacencyMatrix, enemy1.vertex, V, isaac.vertex, dxdy);
 
 			enemy1.dx=dxdy[0];
@@ -77,12 +83,28 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 			moveAndVerifyEnemy(&enemy1,&isaac);
 			isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
 			enemy1.vertex=indexToVertex(enemy1.posY,enemy1.posX);
+			*/
+			/////////////
+			
+			for(int i=0;i<nEnemies;i++)
+			{
+				dijkstra(adjacencyMatrix, enemies[i].vertex, V, isaac.vertex, dxdy);
+
+				enemies[i].dx=dxdy[0];
+				enemies[i].dy=dxdy[1];
+				
+				moveAndVerifyEnemy(&enemies[i],&isaac);
+				isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
+				enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
+			}
+			
+			//////////////
 			fframe++;
 		}
 		else
 		{
 			fframe++;
-			if(fframe>=20)
+			if(fframe>=enemyMovesPeriod)
 			{
 				fframe=0;
 			}
@@ -93,7 +115,7 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 			//CloseWindow();
 		}
 		get_elapsed_time(stopwatchh);
-		drawWindow(stopwatchh->str_time,isaac, *stopwatchh, map_counter,informationBarStrings);
+		drawWindow(stopwatchh->str_time,isaac, *stopwatchh, map_counter,informationBarStrings,nEnemies);
 		printf("%d",fframe);
 
 	}

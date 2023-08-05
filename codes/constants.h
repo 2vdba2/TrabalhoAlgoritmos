@@ -12,5 +12,6 @@
 #define INFORMATION_BAR_Y_PX (MAP_SIZE_Y_PX / 4)
 #define V (MAP_SIZE_X * MAP_SIZE_Y)
 #define INF 999
+#define MAX_ENEMIES 15
 
 #endif
