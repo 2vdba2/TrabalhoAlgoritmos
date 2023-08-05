@@ -14,13 +14,14 @@
 
 
 struct Bullet bullets[MAX_BULLLETS];
+struct Isaac isaac;
+struct Enemy enemy1;
+//struct Stopwatch stopwatch;
 
-void gameLoop(int map_counter)
+void gameLoop(int map_counter,struct Stopwatchh *stopwatchh)
 {
 	int i,j,missionComplete=0;
-	int xpx,ypx;
-	struct Isaac isaac;
-	struct Enemy enemy1;
+
 	readMap(&isaac,&enemy1,map_counter);
 	
 	//Characters Variables
@@ -29,19 +30,9 @@ void gameLoop(int map_counter)
 	isaac.nLifes=300;
 	
 	//Time
-	int start_time= time(NULL);
-	int elapsed_time= time(NULL);
-	char str_time[9]={"00:00:00"};
-	
-	//TESTING START
-	
-
-	
-	//isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
-	//enemy1.vertex=indexToVertex(enemy1.posY,enemy1.posX);
-	
-	//printf("\nisaac vertex = %d",isaac.vertex);
-	//printf("\nenemy vertex = %d",enemy1.vertex);
+	//stopwatch->start_time= time(NULL);
+	//stopwatch->elapsed_time= time(NULL);
+	//stopwatch->str_time={"00:00:00"};
 	
 	static int graph[V][V];
 	static int dist[V][V];
@@ -64,20 +55,6 @@ void gameLoop(int map_counter)
         }
     }
     int dxdy[2];
-    
-    //isaac.vertex=indexToVertex(isaac.posY, isaac.posX);
-    //enemy1.vertex=indexToVertex(enemy1.posY, enemy1.posX);
-    
-    //dijkstra(adjacencyMatrix, enemy1.vertex, V, isaac.vertex, dxdy); // NAO SEI PQ PRECISA DESSA AJANCENT MATRIX< MAS COM GRAPH NAO FUNCIONA!!!!
-    //dijkstra(adjacencyMatrix, 153, V, 150, dxdy);
-    //printf("\nenemy x = %d, y = %d",enemy1.posX,enemy1.posY);
-    //enemyMove(isaac,&enemy1);
-    //printf("\nenemy x = %d, y = %d",enemy1.posX,enemy1.posY);
-	//printf("Go to %d!",dxdy[0]);
-	
-	
-	//TESTING END
-
 
 	//La¸co principal do jogo
 	int fframe=0;
@@ -93,11 +70,9 @@ void gameLoop(int map_counter)
 		if(fframe==0)
 		{
 			dijkstra(adjacencyMatrix, enemy1.vertex, V, isaac.vertex, dxdy);
-			//enemy1.dx=1;
-			//enemy1.dy=0;
+
 			enemy1.dx=dxdy[0];
 			enemy1.dy=dxdy[1];
-			
 			
 			moveAndVerifyEnemy(&enemy1,&isaac);
 			isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
@@ -117,8 +92,8 @@ void gameLoop(int map_counter)
 			missionComplete=1;
 			//CloseWindow();
 		}
-		get_elapsed_time(start_time,&elapsed_time, str_time);
-		drawWindow(str_time,isaac);
+		get_elapsed_time(stopwatchh);
+		drawWindow(stopwatchh->str_time,isaac);
 		printf("%d",fframe);
 
 	}

@@ -37,4 +37,11 @@ struct Enemy
     bool IsAlive;
 };
 
+struct Stopwatchh
+{
+	int start_time;
+	int elapsed_time;
+	char str_time[9];
+};
+
 #endif
