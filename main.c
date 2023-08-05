@@ -8,7 +8,10 @@ int main()
 	//struct Isaac isaac;
 	//struct Enemy enemy1;
 	int nMaps=numberOfMaps();
-	struct Stopwatchh *stopwatchh = malloc(sizeof *stopwatchh); ;
+	
+	struct Stopwatchh *stopwatchh = malloc(sizeof *stopwatchh);
+	struct InformationBarStrings *informationBarStrings = malloc(sizeof *informationBarStrings);
+	
 	stopwatchh->start_time= time(NULL);
 	stopwatchh->elapsed_time= time(NULL);
 	//stopwatchh->elapsed_time= time(NULL);
@@ -20,11 +23,11 @@ int main()
 	for(int i=0;i< nMaps;i++)
 	{
 	 	printf("\nmaps/map%02d.txt",i);
-		gameLoop(i,stopwatchh);
+		gameLoop(i,stopwatchh,informationBarStrings);
 	}
 	CloseWindow();// Fecha a janela e o contexto OpenGL
 	
 	free(stopwatchh);
-	
+	free(informationBarStrings);
 	return 0;
 }

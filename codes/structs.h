@@ -44,4 +44,12 @@ struct Stopwatchh
 	char str_time[9];
 };
 
+struct InformationBarStrings
+{
+	char timeText[25];
+	char lifeText[15];
+	char stageText[15];
+	char enemiesText[15];
+};
+
 #endif

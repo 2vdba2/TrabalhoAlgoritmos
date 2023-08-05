@@ -104,7 +104,7 @@ void dijkstra(int** adjacencyMatrix, int startVertex, int nVertices, int endVert
     int nextVertex = printFirstPath(startVertex, endVertex,parents, nVertices, distances);
     //int dxdy[2];
     nextVertexToDirection(startVertex,nextVertex, dxdy);
-    
+
     //return  dxdy[0];//next step
 
 

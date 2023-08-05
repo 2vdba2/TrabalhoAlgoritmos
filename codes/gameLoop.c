@@ -18,7 +18,7 @@ struct Isaac isaac;
 struct Enemy enemy1;
 //struct Stopwatch stopwatch;
 
-void gameLoop(int map_counter,struct Stopwatchh *stopwatchh)
+void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationBarStrings *informationBarStrings)
 {
 	int i,j,missionComplete=0;
 
@@ -93,9 +93,12 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh)
 			//CloseWindow();
 		}
 		get_elapsed_time(stopwatchh);
-		drawWindow(stopwatchh->str_time,isaac);
+		drawWindow(stopwatchh->str_time,isaac, *stopwatchh, map_counter,informationBarStrings);
 		printf("%d",fframe);
 
 	}
+    for(int i = 0; i < nVertices; i++)
+		free(adjacencyMatrix[i]);
+	free(adjacencyMatrix);
 	
 }
