@@ -71,18 +71,25 @@ void moveEnemy(struct Enemy *enemy)
 {
 	
 	
-	if(map[(*enemy).posY][(*enemy).posX]==(*enemy).id)
-		map[(*enemy).posY][(*enemy).posX]=' ';//replace previous position by ' ' empty if it was fire
-	(*enemy).posX  =(*enemy).posX   +(*enemy).dx;
-	(*enemy).posY  =(*enemy).posY   +(*enemy).dy;
-	(*enemy).posXpx=(*enemy).posX*SQUARESIZE;
-	(*enemy).posYpx=(*enemy).posY*SQUARESIZE;
-	
-	//se proxima posicao esta vazia, coloca J
-	if(map[(*enemy).posY][(*enemy).posX]==' ')
-	{
-		map[(*enemy).posY][(*enemy).posX]=(*enemy).id;//update position
-	}
+	if((*enemy).IsAlive){
+		if(map[(*enemy).posY][(*enemy).posX]==(*enemy).id)
+			map[(*enemy).posY][(*enemy).posX]=' ';//replace previous position by ' ' empty if it was fire
+
+		(*enemy).posX  =(*enemy).posX   +(*enemy).dx;
+		(*enemy).posY  =(*enemy).posY   +(*enemy).dy;
+		(*enemy).posXpx=(*enemy).posX*SQUARESIZE;
+		(*enemy).posYpx=(*enemy).posY*SQUARESIZE;
+		
+		//se proxima posicao esta vazia, coloca J
+		if(map[(*enemy).posY][(*enemy).posX]==' ')
+		{
+			map[(*enemy).posY][(*enemy).posX]=(*enemy).id;//update position
+		}
+		}else if(map[(*enemy).posY][(*enemy).posX] == (*enemy).id){
+			map[(*enemy).posY][(*enemy).posX]= ' ';
+			(*enemy).id = ' ';
+		}
+		
 }
 int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac)
 {

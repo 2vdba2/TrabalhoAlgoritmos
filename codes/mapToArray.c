@@ -47,6 +47,7 @@ int readMap(struct Isaac *isaac,struct Enemy *enemy1,int map_counter, struct Ene
 				enemies[enemiesCounter].posY=i;
 				enemies[enemiesCounter].posXpx=enemies[enemiesCounter].posX*SQUARESIZE;
 				enemies[enemiesCounter].posYpx=enemies[enemiesCounter].posY*SQUARESIZE;
+				enemies[enemiesCounter].IsAlive= true;
 				enemiesCounter++;
 			}
 		}

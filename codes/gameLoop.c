@@ -67,7 +67,7 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 	{
 		// Trata entrada do usu´ario e atualiza estado do jogo
 		//----------------------------------------------------------------------------------
-		AtualizarTiros(bullets, map);
+		AtualizarTiros(bullets, map, enemies, nEnemies);
 
 		readKeyboardMove(&isaac);
 		readKeyboardShoot(isaac,bullets);
@@ -88,14 +88,19 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 			
 			for(int i=0;i<nEnemies;i++)
 			{
-				dijkstra(adjacencyMatrix, enemies[i].vertex, V, isaac.vertex, dxdy);
+				// if enemy.isAlive is false and his id is 'I', it is the first time he has passed through this loop.
+				// The function moveAndVerifyEnemy will declare his id as ' '
+				if(enemies[i].IsAlive || enemies[i].id == 'I')
+				{
+					dijkstra(adjacencyMatrix, enemies[i].vertex, V, isaac.vertex, dxdy);
 
-				enemies[i].dx=dxdy[0];
-				enemies[i].dy=dxdy[1];
-				
-				moveAndVerifyEnemy(&enemies[i],&isaac);
-				isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
-				enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
+					enemies[i].dx=dxdy[0];
+					enemies[i].dy=dxdy[1];
+					
+					moveAndVerifyEnemy(&enemies[i],&isaac);
+					isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
+					enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
+				}
 			}
 			
 			//////////////
