@@ -90,4 +90,51 @@ void drawWindow(char str_time[],struct Isaac isaac,struct Stopwatchh stopwatchh,
 	informationBar(isaac,*informationBarStrings);
 	EndDrawing();//Finaliza o ambiente de desenho na tela
 }
+
+typedef enum { 
+    NOVO_JOGO,
+    CARREGAR_JOGO,
+    CONFIGURACOES,
+    SAIR
+ } MenuItem;
+
+MenuItem currentMenuItem = NOVO_JOGO;
+
+void DrawMenu() {
+    ClearBackground(RAYWHITE);
+
+    DrawText("The Binding of Isaac", MAP_SIZE_X_PX / 2 - MeasureText("The Binding of Isaac", 40) / 2, 80, 40, DARKGRAY);
+
+    switch (currentMenuItem) {
+        case NOVO_JOGO:
+            DrawText("> Novo Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Novo Jogo", 30) / 2, 200, 30, GRAY);
+            DrawText("Carregar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Carregar Jogo", 30) / 2, 250, 30, GRAY);
+            DrawText("Configurações", MAP_SIZE_X_PX / 2 - MeasureText("Configurações", 30) / 2, 300, 30, GRAY);
+            DrawText("Sair", MAP_SIZE_X_PX / 2 - MeasureText("Sair", 30) / 2, 350, 30, GRAY);
+            break;
+        case CARREGAR_JOGO:
+            DrawText("Novo Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Novo Jogo", 30) / 2, 200, 30, GRAY);
+            DrawText("> Carregar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Carregar Jogo", 30) / 2, 250, 30, GRAY);
+            DrawText("Configurações", MAP_SIZE_X_PX / 2 - MeasureText("Configurações", 30) / 2, 300, 30, GRAY);
+            DrawText("Sair", MAP_SIZE_X_PX / 2 - MeasureText("Sair", 30) / 2, 350, 30, GRAY);
+            break;
+        case CONFIGURACOES:
+            DrawText("Novo Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Novo Jogo", 30) / 2, 200, 30, GRAY);
+            DrawText("Carregar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Carregar Jogo", 30) / 2, 250, 30, GRAY);
+            DrawText("> Configurações", MAP_SIZE_X_PX / 2 - MeasureText("Configurações", 30) / 2, 300, 30, GRAY);
+            DrawText("Sair", MAP_SIZE_X_PX / 2 - MeasureText("Sair", 30) / 2, 350, 30, GRAY);
+            break;
+        case SAIR:
+            DrawText("Novo Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Novo Jogo", 30) / 2, 200, 30, GRAY);
+            DrawText("Carregar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Carregar Jogo", 30) / 2, 250, 30, GRAY);
+            DrawText("Configurações", MAP_SIZE_X_PX / 2 - MeasureText("Configurações", 30) / 2, 300, 30, GRAY);
+            DrawText("> Sair", MAP_SIZE_X_PX / 2 - MeasureText("Sair", 30) / 2, 350, 30, GRAY);
+            break;
+        default:
+            break;
+    }
+
+    DrawText("Use as setas para navegar e pressione enter para selecionar", 50, MAP_SIZE_Y_PX - 50, 20, DARKGRAY);
+}
+
 #endif

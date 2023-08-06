@@ -20,11 +20,40 @@ int main()
 	InitWindow(MAP_SIZE_X_PX, MAP_SIZE_Y_PX+INFORMATION_BAR_Y_PX, "The Binding of Isaac remastered");//Inicializa janela, com certo tamanho e t´ıtulo
 	SetTargetFPS(60);// Ajusta a execu¸c~ao do jogo para 60 frames por segundo
 	//--------------------------------------------------------------------------------------
-	for(int i=0;i< nMaps;i++)
-	{
-	 	printf("\nmaps/map%02d.txt",i);
-		gameLoop(i,stopwatchh,informationBarStrings);
-	}
+	while (!WindowShouldClose()) {
+        if (IsKeyPressed(KEY_DOWN)) {
+            currentMenuItem = (currentMenuItem + 1) % 4;
+        } else if (IsKeyPressed(KEY_UP)) {
+            currentMenuItem = (currentMenuItem - 1 + 4) % 4;
+        }
+
+        if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE)) {
+            switch (currentMenuItem) {
+                case NOVO_JOGO:
+                    for(int i=0;i< nMaps;i++)
+						{
+							printf("\nmaps/map%02d.txt",i);
+							gameLoop(i,stopwatchh,informationBarStrings);
+						}
+                    break;
+                case CARREGAR_JOGO:
+                    // Implement load game action
+                    break;
+                case CONFIGURACOES:
+                    // Implement settings action
+                    break;
+                case SAIR:
+                    // Close the window
+                    CloseWindow();
+                    break;
+            }
+        }
+
+        BeginDrawing();
+        DrawMenu();
+        EndDrawing();
+    }
+
 	CloseWindow();// Fecha a janela e o contexto OpenGL
 	
 	free(stopwatchh);
