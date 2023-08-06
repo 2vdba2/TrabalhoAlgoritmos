@@ -98,9 +98,12 @@ typedef enum {
     SAIR
  } MenuItem;
 
-MenuItem currentMenuItem = NOVO_JOGO;
+MenuItem currentMenuItem = NOVO_JOGO;;
 
 void DrawMenu() {
+
+	
+
     ClearBackground(RAYWHITE);
 
     DrawText("The Binding of Isaac", MAP_SIZE_X_PX / 2 - MeasureText("The Binding of Isaac", 40) / 2, 80, 40, DARKGRAY);
@@ -135,6 +138,38 @@ void DrawMenu() {
     }
 
     DrawText("Use as setas para navegar e pressione enter para selecionar", 50, MAP_SIZE_Y_PX - 50, 20, DARKGRAY);
+}
+
+
+void Menu(){
+	
+	 if (IsKeyPressed(KEY_DOWN)) {
+            currentMenuItem = (currentMenuItem + 1) % 4;
+        } else if (IsKeyPressed(KEY_UP)) {
+            currentMenuItem = (currentMenuItem - 1 + 4) % 4;
+        }
+
+        if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE)) {
+            switch (currentMenuItem) {
+                case NOVO_JOGO:
+                    NewGame();
+                    break;
+                case CARREGAR_JOGO:
+                    LoadGame();
+                    break;
+                case CONFIGURACOES:
+                    Config();
+                    break;
+                case SAIR:
+                    // Close the window
+                    CloseWindow();
+                    break;
+            }
+        }
+
+        BeginDrawing();
+        DrawMenu();
+        EndDrawing();
 }
 
 #endif

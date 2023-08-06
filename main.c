@@ -1,19 +1,15 @@
 #include "codes/gameLoop.c"
 #include "codes/manageFiles.h"
 #include "codes/structs.h"
+#include "codes/gameFunctions.c"
+
+
 int main()
 {
 	printf("n=%d",numberOfMaps());
 
 	//struct Isaac isaac;
 	//struct Enemy enemy1;
-	int nMaps=numberOfMaps();
-	
-	struct Stopwatchh *stopwatchh = malloc(sizeof *stopwatchh);
-	struct InformationBarStrings *informationBarStrings = malloc(sizeof *informationBarStrings);
-	
-	stopwatchh->start_time= time(NULL);
-	stopwatchh->elapsed_time= time(NULL);
 	//stopwatchh->elapsed_time= time(NULL);
 	//--------------------------------------------------------------------------------------
 	//Inicializa¸c~oes
@@ -21,42 +17,11 @@ int main()
 	SetTargetFPS(60);// Ajusta a execu¸c~ao do jogo para 60 frames por segundo
 	//--------------------------------------------------------------------------------------
 	while (!WindowShouldClose()) {
-        if (IsKeyPressed(KEY_DOWN)) {
-            currentMenuItem = (currentMenuItem + 1) % 4;
-        } else if (IsKeyPressed(KEY_UP)) {
-            currentMenuItem = (currentMenuItem - 1 + 4) % 4;
-        }
-
-        if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE)) {
-            switch (currentMenuItem) {
-                case NOVO_JOGO:
-                    for(int i=0;i< nMaps;i++)
-						{
-							printf("\nmaps/map%02d.txt",i);
-							gameLoop(i,stopwatchh,informationBarStrings);
-						}
-                    break;
-                case CARREGAR_JOGO:
-                    // Implement load game action
-                    break;
-                case CONFIGURACOES:
-                    // Implement settings action
-                    break;
-                case SAIR:
-                    // Close the window
-                    CloseWindow();
-                    break;
-            }
-        }
-
-        BeginDrawing();
-        DrawMenu();
-        EndDrawing();
+       Menu();
     }
 
 	CloseWindow();// Fecha a janela e o contexto OpenGL
 	
-	free(stopwatchh);
-	free(informationBarStrings);
+	
 	return 0;
 }
