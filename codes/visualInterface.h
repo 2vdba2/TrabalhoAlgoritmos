@@ -5,6 +5,25 @@
 #include "structs.h"
 #include <string.h>
 
+void DrawIsaac(int xpx, int ypx){
+
+	const char* currentDir = GetWorkingDirectory();
+    
+    
+    const char* spritePath = TextFormat("%s/Sprites/Character_Isaac_appearance.png", currentDir);
+
+    Image spriteImage = LoadImage(spritePath);
+
+    // Resize the sprite image
+    ImageResize(&spriteImage, 25, 25);
+
+    // Create a texture 
+    Texture2D spriteTexture = LoadTextureFromImage(spriteImage);
+
+
+	DrawTexture(spriteTexture, xpx, ypx, WHITE);
+}
+
 void drawMap()
 {
 	int xpx,ypx;
@@ -34,7 +53,7 @@ void drawMap()
 			//bullet
 			else if(map[i][j]=='J')
 			{
-				DrawRectangle(xpx,ypx,SQUARESIZE,SQUARESIZE,GREEN);
+				DrawIsaac(xpx, ypx);
 			}
 			//inactive Bomb
 			else if(map[i][j]=='B')
