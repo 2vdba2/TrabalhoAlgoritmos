@@ -81,6 +81,27 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 		// Trata entrada do usu´ario e atualiza estado do jogo
 		//----------------------------------------------------------------------------------
 
+		if(IsaacTookDamage){
+			for(int i = 0; i < MAX_BULLLETS; i++){
+				bullets[i].IsAlive = false;
+			}
+
+			int i,j,missionComplete=0;
+			int nEnemies;
+			readMap(&isaac,map_counter,enemies,&nEnemies);
+
+			//Characters Variables
+			isaac.id='J';
+			enemy1.id='I';
+			isaac.nLifes=300;
+			isaac.nBombs=0;
+			for(int i=0;i<MAX_ENEMIES;i++)
+			{
+				enemies[i].id='I';
+			}
+			IsaacTookDamage = false;
+		}
+
 		 if (IsKeyPressed(KEY_ESCAPE)) {
             // Toggle the game state between GAME and MENU
             if (gameState == GAME) {
