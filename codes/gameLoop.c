@@ -79,6 +79,7 @@ void gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBar
             if (gameState == GAME) {
                 gameState = MENU;
             } else if (gameState == MENU) {
+				restart_chronometer(stopwatch);
                 gameState = GAME;
             }
         }
@@ -116,6 +117,7 @@ void gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBar
 			printf("%d",enemiesSleepCount);
 
         } else if (gameState == MENU) {
+			
 			Menu();
         }
 	}

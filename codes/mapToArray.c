@@ -15,10 +15,8 @@ int readMap(struct Isaac *isaac,int map_counter, struct Enemy *enemies, int *nEn
 	char mapFileName[19];
 
 	sprintf(mapFileName,"./maps/map%02d.txt",map_counter+1);
-	//mapFileName={"maps/map01.txt"};
 	
 	filePointer = fopen(mapFileName, "r");
-	//filePointer = fopen("maps/mapa1.txt", "r");
 
 	while(fgets(line, lineLength, filePointer)) {
 

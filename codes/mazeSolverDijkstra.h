@@ -15,10 +15,10 @@ void printPath(int currentVertex, int* parents, int nVertices,int i) {
     }
     if(i==1)
     {
-    printf("\ni=%d, V=%d\n",i,currentVertex);
+    //printf("\ni=%d, V=%d\n",i,currentVertex);
 	}
     printPath(parents[currentVertex], parents, nVertices,i+1);
-    printf("%d ", currentVertex);
+    //printf("%d ", currentVertex);
 }
 int printFirstPath(int startVertex, int endVertex,int* parents, int nVertices, int* distances) {
     int path[nVertices];
@@ -42,23 +42,23 @@ int printFirstPath(int startVertex, int endVertex,int* parents, int nVertices, i
 
 	for(int i=0;i<=distance;i++)
 	{
-		printf("%d",path[i]);
+		//printf("%d",path[i]);
 		if(i!=distance)
 		{
-			printf("-->");
+			//printf("-->");
 		}
 	}
-	printf("\nNext vertex: %d",path[1]);
+	//printf("\nNext vertex: %d",path[1]);
 	return path[1]; 
 }
 
 void printSolution(int startVertex, int* distances, int* parents, int nVertices, int endVertex) {
-    printf("\nVertex\t Distance\tPath");
+    //printf("\nVertex\t Distance\tPath");
     for (int vertexIndex = 0; vertexIndex < nVertices; vertexIndex++) {
         if (vertexIndex != startVertex && vertexIndex==endVertex) {
-            printf("\n%d -> ", startVertex);
-            printf("%d \t\t ", vertexIndex);
-            printf("%d\t\t", distances[vertexIndex]);
+            //printf("\n%d -> ", startVertex);
+            //printf("%d \t\t ", vertexIndex);
+            //printf("%d\t\t", distances[vertexIndex]);
             printPath(vertexIndex, parents, nVertices,0);
         }
     }
@@ -172,6 +172,8 @@ void mapToMaze(int maze[][MAP_SIZE_X])
 			}
 		}
 	}
+	//PRINT MAZE
+	/*
 	printf("\n");
 	for(i=0;i<MAP_SIZE_Y;i++)
 	{
@@ -183,6 +185,7 @@ void mapToMaze(int maze[][MAP_SIZE_X])
 		printf("],");
 		printf("\n");
 	}
+	*/
 }
 
 void nextVertexToDirection(int startVertex,int nextVertex, int dxdy[])
@@ -195,8 +198,8 @@ void nextVertexToDirection(int startVertex,int nextVertex, int dxdy[])
 	dxdy[0]=cf-c0;
 	dxdy[1]=lf-l0;
 	
-	printf("\ndx=%d",dxdy[0]);
-	printf("\ndy=%d",dxdy[1]);
+	//printf("\ndx=%d",dxdy[0]);
+	//printf("\ndy=%d",dxdy[1]);
 	
 	
 }
