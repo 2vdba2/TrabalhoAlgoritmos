@@ -8,9 +8,6 @@ int main()
 {
 	printf("n=%d",numberOfMaps());
 
-	//struct Isaac isaac;
-	//struct Enemy enemy1;
-	//stopwatchh->elapsed_time= time(NULL);
 	//--------------------------------------------------------------------------------------
 	//Inicializa¸c~oes
 	InitWindow(MAP_SIZE_X_PX, MAP_SIZE_Y_PX+INFORMATION_BAR_Y_PX, "The Binding of Isaac remastered");//Inicializa janela, com certo tamanho e t´ıtulo

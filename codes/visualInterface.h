@@ -79,23 +79,23 @@ void informationBar(struct Isaac isaac,struct InformationBarStrings informationB
 	DrawText(informationBarStrings.bombsText  , xPxCol2,yPxLine2,30, BLACK);
 }
 
-void createInformationBarStrings(struct Stopwatchh stopwatchh, struct Isaac isaac, int map_counter, struct InformationBarStrings *informationBarStrings,int nEnemies)
+void createInformationBarStrings(struct Stopwatch stopwatch, struct Isaac isaac, int map_counter, struct InformationBarStrings *informationBarStrings,int nEnemies)
 {
 	//This function creates the information bar strings
 	sprintf(informationBarStrings->lifeText   , "Lifes: %d"     , isaac.nLifes);
-	sprintf(informationBarStrings->timeText   , "Time alive: %s", stopwatchh.str_time);
+	sprintf(informationBarStrings->timeText   , "Time alive: %s", stopwatch.str_time);
 	sprintf(informationBarStrings->stageText  , "Stage: %d"     , map_counter+1);
 	sprintf(informationBarStrings->enemiesText, "Enemies: %d"   , nEnemies);
 	sprintf(informationBarStrings->bombsText, "Bombs: %d"   , isaac.nBombs);
 }
 
-void drawWindow(char str_time[],struct Isaac isaac,struct Stopwatchh stopwatchh, int map_counter,  struct InformationBarStrings *informationBarStrings, int nEnemies)
+void drawWindow(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, int map_counter,  struct InformationBarStrings *informationBarStrings, int nEnemies)
 {
 	//This function draws the entire game window
 	BeginDrawing();//Inicia o ambiente de desenho na tela
 	ClearBackground(RAYWHITE);//Limpa a tela e define cor de fundo
 	drawMap();
-	createInformationBarStrings(stopwatchh,isaac, map_counter,informationBarStrings,nEnemies);
+	createInformationBarStrings(stopwatch,isaac, map_counter,informationBarStrings,nEnemies);
 	informationBar(isaac,*informationBarStrings);
 	EndDrawing();//Finaliza o ambiente de desenho na tela
 }

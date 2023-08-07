@@ -22,7 +22,7 @@ struct Enemy enemy1;
 typedef enum { GAME, MENU } GameState;
 
 
-void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationBarStrings *informationBarStrings)
+void gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings)
 {
 	int i,j,missionComplete=0;
 	int nEnemies;
@@ -111,8 +111,8 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 				missionComplete=1;
 				//CloseWindow();
 			}
-			get_elapsed_time(stopwatchh);
-			drawWindow(stopwatchh->str_time,isaac, *stopwatchh, map_counter,informationBarStrings,nEnemies);
+			get_elapsed_time(stopwatch);
+			drawWindow(stopwatch->str_time,isaac, *stopwatch, map_counter,informationBarStrings,nEnemies);
 			printf("%d",enemiesSleepCount);
 
         } else if (gameState == MENU) {
