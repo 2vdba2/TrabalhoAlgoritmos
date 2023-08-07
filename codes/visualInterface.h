@@ -104,7 +104,7 @@ void createInformationBarStrings(struct Stopwatch stopwatch, struct Isaac isaac,
 	sprintf(informationBarStrings->lifeText   , "Lifes: %d"     , isaac.nLifes);
 	sprintf(informationBarStrings->timeText   , "Time alive: %s", stopwatch.str_time);
 	sprintf(informationBarStrings->stageText  , "Stage: %d"     , map_counter+1);
-	sprintf(informationBarStrings->enemiesText, "Enemies: %d"   , nEnemies);
+	sprintf(informationBarStrings->enemiesText, "Enemies: %d"   , EnemiesAlive);
 	sprintf(informationBarStrings->bombsText, "Bombs: %d"   , isaac.nBombs);
 }
 

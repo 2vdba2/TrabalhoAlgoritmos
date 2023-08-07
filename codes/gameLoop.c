@@ -95,6 +95,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 			enemy1.id='I';
 			isaac.nLifes=300;
 			isaac.nBombs=0;
+			EnemiesAlive = nEnemies;
 			for(int i=0;i<MAX_ENEMIES;i++)
 			{
 				enemies[i].id='I';
@@ -135,7 +136,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 				}
 			}
 
-			if(map[isaac.posY][isaac.posX]=='P' && EnemiesAlive == 0)
+			if(map[isaac.posY][isaac.posX]=='P' && EnemiesAlive <= 0)
 			{
 				missionComplete=1;
 				return 0;
