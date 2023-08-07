@@ -5,28 +5,28 @@
 #include "structs.h"
 #include <stdbool.h>
 
-void move(int dx, int dy, struct Isaac *isaac)
+void move(struct Isaac *isaac)
 {
 	if(map[(*isaac).posY][(*isaac).posX]=='J')
 		map[(*isaac).posY][(*isaac).posX]=' ';//replace previous position by ' ' empty if it was fire
-	(*isaac).posX  =(*isaac).posX   +dx;
-	(*isaac).posY  =(*isaac).posY   +dy;
+	(*isaac).posX  =(*isaac).posX   +isaac->dx;
+	(*isaac).posY  =(*isaac).posY   +isaac->dy;
 	(*isaac).posXpx=(*isaac).posX*SQUARESIZE;
 	(*isaac).posYpx=(*isaac).posY*SQUARESIZE;
 	
 	//se proxima posicao esta vazia, coloca J
-	if(map[(*isaac).posY][(*isaac).posX]==' ')
+	if(map[(*isaac).posY][(*isaac).posX]==' '||map[(*isaac).posY][(*isaac).posX]=='B')
 	{
 		map[(*isaac).posY][(*isaac).posX]='J';//update position
 	}
 }
-int verifyMove(int dx, int dy, struct Isaac *isaac)
+int verifyMove(struct Isaac *isaac)
 {
 	int result=0;
 	int xNext, yNext;
 
-	xNext=(*isaac).posX   +dx;
-	yNext=(*isaac).posY   +dy;
+	xNext=(*isaac).posX   +isaac->dx;
+	yNext=(*isaac).posY   +isaac->dy;
 
 	if(map[yNext][xNext]==' ')
 	{
@@ -46,9 +46,13 @@ int verifyMove(int dx, int dy, struct Isaac *isaac)
 	{
 		result=0;
 	}
-	else if(map[yNext][xNext]=='B')
+	else if(map[yNext][xNext]=='B')//Inactive bomb
 	{
 		(*isaac).nBombs+=1;
+		result=1;
+	}
+	else if(map[yNext][xNext]=='b')//active bomb
+	{
 		result=0;
 	}
 	else if(map[yNext][xNext]=='P')//portal
@@ -58,11 +62,11 @@ int verifyMove(int dx, int dy, struct Isaac *isaac)
 	//printf("\n%d",result);
 	return result;
 }
-void moveAndVerify(int dx, int dy, struct Isaac *isaac)
+void moveAndVerify(struct Isaac *isaac)
 {
-	if(verifyMove(dx, dy, isaac))
+	if(verifyMove(isaac))
 	{
-		move(dx, dy, isaac);
+		move(isaac);
 	}
 }
 
@@ -80,15 +84,16 @@ void moveEnemy(struct Enemy *enemy)
 		(*enemy).posXpx=(*enemy).posX*SQUARESIZE;
 		(*enemy).posYpx=(*enemy).posY*SQUARESIZE;
 		
-		//se proxima posicao esta vazia, coloca J
+		//se proxima posicao esta vazia, coloca I
 		if(map[(*enemy).posY][(*enemy).posX]==' ')
 		{
 			map[(*enemy).posY][(*enemy).posX]=(*enemy).id;//update position
 		}
-		}else if(map[(*enemy).posY][(*enemy).posX] == (*enemy).id){
+	}
+	else if(map[(*enemy).posY][(*enemy).posX] == (*enemy).id){
 			map[(*enemy).posY][(*enemy).posX]= ' ';
 			(*enemy).id = ' ';
-		}
+	}
 		
 }
 int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac)
@@ -115,9 +120,10 @@ int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac)
 	{
 		result=0;
 	}
-	else if(map[yNext][xNext]=='B')
+	else if(map[yNext][xNext]=='b')
 	{
-		(*enemy).nLifes-=1;
+		(*enemy).IsAlive=false;
+		map[yNext][xNext]=' ';
 		result=1;
 	}
 	else if(map[yNext][xNext]=='P')//portal

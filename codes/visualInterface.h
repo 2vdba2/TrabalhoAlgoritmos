@@ -36,10 +36,15 @@ void drawMap()
 			{
 				DrawRectangle(xpx,ypx,SQUARESIZE,SQUARESIZE,GREEN);
 			}
-			//Bomb
+			//inactive Bomb
 			else if(map[i][j]=='B')
 			{
 				DrawRectangle(xpx,ypx,SQUARESIZE,SQUARESIZE,BROWN);
+			}
+			//active bomb
+			else if(map[i][j]=='b')
+			{
+				DrawRectangle(xpx,ypx,SQUARESIZE,SQUARESIZE,BLACK);
 			}
 			//Fire
 			else if(map[i][j]=='X')
@@ -58,17 +63,20 @@ void informationBar(struct Isaac isaac,struct InformationBarStrings informationB
 {
 	//This function draws the informationBar at the botton of the window
 	int xPxCol1  = INFORMATION_BAR_X_PX/30;
-	int xPxCol2  = xPxCol1+INFORMATION_BAR_X_PX/1.25;
+	int xPxCol2  = xPxCol1+INFORMATION_BAR_X_PX/2.6;
+	int xPxCol3  = xPxCol1+INFORMATION_BAR_X_PX/1.25;
 	int yPxLine1 = MAP_SIZE_Y_PX+INFORMATION_BAR_Y_PX/6;
-	int yPxLine2 = yPxLine1 + INFORMATION_BAR_Y_PX/2;
+	int yPxLine2 = yPxLine1 + INFORMATION_BAR_Y_PX/4;
+	int yPxLine3 = yPxLine1 + INFORMATION_BAR_Y_PX/2;
 
 	DrawRectangle(0,MAP_SIZE_Y_PX,INFORMATION_BAR_X_PX,INFORMATION_BAR_Y_PX,SKYBLUE); // draw background
 
 	//draw information bar strings
 	DrawText(informationBarStrings.timeText   , xPxCol1,yPxLine1,30, BLACK);
-	DrawText(informationBarStrings.lifeText   , xPxCol1,yPxLine2,30, BLACK);
-	DrawText(informationBarStrings.stageText  , xPxCol2,yPxLine1,30, BLACK);
-	DrawText(informationBarStrings.enemiesText, xPxCol2,yPxLine2,30, BLACK);
+	DrawText(informationBarStrings.lifeText   , xPxCol1,yPxLine3,30, BLACK);
+	DrawText(informationBarStrings.stageText  , xPxCol3,yPxLine1,30, BLACK);
+	DrawText(informationBarStrings.enemiesText, xPxCol3,yPxLine3,30, BLACK);
+	DrawText(informationBarStrings.bombsText  , xPxCol2,yPxLine2,30, BLACK);
 }
 
 void createInformationBarStrings(struct Stopwatchh stopwatchh, struct Isaac isaac, int map_counter, struct InformationBarStrings *informationBarStrings,int nEnemies)
@@ -78,6 +86,7 @@ void createInformationBarStrings(struct Stopwatchh stopwatchh, struct Isaac isaa
 	sprintf(informationBarStrings->timeText   , "Time alive: %s", stopwatchh.str_time);
 	sprintf(informationBarStrings->stageText  , "Stage: %d"     , map_counter+1);
 	sprintf(informationBarStrings->enemiesText, "Enemies: %d"   , nEnemies);
+	sprintf(informationBarStrings->bombsText, "Bombs: %d"   , isaac.nBombs);
 }
 
 void drawWindow(char str_time[],struct Isaac isaac,struct Stopwatchh stopwatchh, int map_counter,  struct InformationBarStrings *informationBarStrings, int nEnemies)

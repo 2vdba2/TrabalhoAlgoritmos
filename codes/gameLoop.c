@@ -32,6 +32,7 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 	isaac.id='J';
 	enemy1.id='I';
 	isaac.nLifes=300;
+	isaac.nBombs=0;
 	for(int i=0;i<MAX_ENEMIES;i++)
 	{
 		enemies[i].id='I';
@@ -104,9 +105,10 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 			}
 			readKeyboardShoot(isaac,bullets);
 			*/
-			readKeyboardMove(&isaac);
-			readKeyboardShoot(isaac,bullets);
-			enemy1.id='I';
+			readKeyboard(&isaac,bullets);
+			//readKeyboardMove(&isaac);
+			//readKeyboardShoot(isaac,bullets);
+			//enemy1.id='I';
 			for(int i=0;i<nEnemies;i++)
 			{
 				// if enemy.isAlive is false and his id is 'I', it is the first time he has passed through this loop.

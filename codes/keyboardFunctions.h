@@ -46,20 +46,47 @@ void readKeyboardMove(struct Isaac *isaac)
 {
 	if (IsKeyDown(KEY_D))
 	{
-		moveAndVerify(1, 0, isaac);
+		isaac->dx=1;
+		isaac->dy=0;
+		moveAndVerify(isaac);
 	}
 	if (IsKeyDown(KEY_A))
 	{
-		moveAndVerify(-1, 0, isaac);
+		isaac->dx=-1;
+		isaac->dy=0;
+		moveAndVerify(isaac);
 	}
 	if (IsKeyDown(KEY_W))
 	{
-		moveAndVerify(0, -1, isaac);
+		isaac->dx=0;
+		isaac->dy=-1;
+		moveAndVerify(isaac);
 	}
 	if (IsKeyDown(KEY_S))
 	{
-		moveAndVerify(0, 1, isaac);
+		isaac->dx=0;
+		isaac->dy=1;
+		moveAndVerify(isaac);
 	}
 }
-
+void readKeyboardLeaveBomb(struct Isaac *isaac)
+{
+	int lastX,lastY;
+	lastX=isaac->posX-isaac->dx;
+	lastY=isaac->posY-isaac->dy;
+	if (IsKeyDown(KEY_E)&&isaac->nBombs>0)
+	{
+		if(map[lastY][lastX]==' ')
+		{
+			map[lastY][lastX]='b';
+			isaac->nBombs-=1;
+		}
+	}
+}
+void readKeyboard(struct Isaac *isaac, struct Bullet bullets[])
+{
+	readKeyboardMove(isaac);
+	readKeyboardLeaveBomb(isaac);
+	readKeyboardShoot(*isaac,bullets);
+}
 #endif
