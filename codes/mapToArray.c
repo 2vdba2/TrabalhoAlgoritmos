@@ -5,7 +5,7 @@
 #include "constants.h"
 
 extern char map[MAP_SIZE_Y][MAP_SIZE_X]={' '};
-int readMap(struct Isaac *isaac,struct Enemy *enemy1,int map_counter, struct Enemy *enemies, int *nEnemies)
+int readMap(struct Isaac *isaac,int map_counter, struct Enemy *enemies, int *nEnemies)
 {
 	FILE* filePointer;
 	int lineLength = MAP_SIZE_X+3; //include \n\0
@@ -37,12 +37,6 @@ int readMap(struct Isaac *isaac,struct Enemy *enemy1,int map_counter, struct Ene
 			}
 			if(map[i][j]=='I')
 			{
-				//initial position
-				(*enemy1).posX=j;
-				(*enemy1).posY=i;
-				(*enemy1).posXpx=(*enemy1).posX*SQUARESIZE;
-				(*enemy1).posYpx=(*enemy1).posY*SQUARESIZE;
-				
 				enemies[enemiesCounter].posX=j;
 				enemies[enemiesCounter].posY=i;
 				enemies[enemiesCounter].posXpx=enemies[enemiesCounter].posX*SQUARESIZE;

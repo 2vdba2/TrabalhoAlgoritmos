@@ -26,7 +26,7 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 {
 	int i,j,missionComplete=0;
 	int nEnemies;
-	readMap(&isaac,&enemy1,map_counter,enemies,&nEnemies);
+	readMap(&isaac,map_counter,enemies,&nEnemies);
 	
 	//Characters Variables
 	isaac.id='J';
@@ -37,10 +37,6 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 	{
 		enemies[i].id='I';
 	}
-	//Time
-	//stopwatch->start_time= time(NULL);
-	//stopwatch->elapsed_time= time(NULL);
-	//stopwatch->str_time={"00:00:00"};
 	
 	static int graph[V][V];
 	static int dist[V][V];
@@ -90,25 +86,9 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 
 		if (gameState == GAME) {
 			AtualizarTiros(bullets, map, enemies, nEnemies);
-			/*
-			if(isaacSleepCount==0)
-			{
-				readKeyboardMove(&isaac);
-			}
-			else
-			{
-				isaacSleepCount++;
-				if(isaacSleepCount>=enemyMovesPeriod)
-				{
-					isaacSleepCount=0;
-				}
-			}
-			readKeyboardShoot(isaac,bullets);
-			*/
+
 			readKeyboard(&isaac,bullets);
-			//readKeyboardMove(&isaac);
-			//readKeyboardShoot(isaac,bullets);
-			//enemy1.id='I';
+
 			for(int i=0;i<nEnemies;i++)
 			{
 				// if enemy.isAlive is false and his id is 'I', it is the first time he has passed through this loop.
@@ -125,37 +105,7 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 					enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
 				}
 			}
-			/*
-			if(enemiesSleepCount==0)//it ma
-			{
 
-				for(int i=0;i<nEnemies;i++)
-				{
-					// if enemy.isAlive is false and his id is 'I', it is the first time he has passed through this loop.
-					// The function moveAndVerifyEnemy will declare his id as ' '
-					if(enemies[i].IsAlive || enemies[i].id == 'I')
-					{
-						dijkstra(adjacencyMatrix, enemies[i].vertex, V, isaac.vertex, dxdy);
-
-						enemies[i].dx=dxdy[0];
-						enemies[i].dy=dxdy[1];
-
-						moveAndVerifyEnemy(&enemies[i],&isaac);
-						isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
-						enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
-					}
-				}
-				enemiesSleepCount++;
-			}
-			else
-			{
-				enemiesSleepCount++;
-				if(enemiesSleepCount>=enemyMovesPeriod)
-				{
-					enemiesSleepCount=0;
-				}
-			}
-			* */
 			if(map[isaac.posY][isaac.posX]=='P')
 			{
 				missionComplete=1;
@@ -168,8 +118,6 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
         } else if (gameState == MENU) {
 			Menu();
         }
-
-		
 	}
     for(int i = 0; i < nVertices; i++)
 		free(adjacencyMatrix[i]);
