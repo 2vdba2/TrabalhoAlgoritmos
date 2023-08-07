@@ -22,6 +22,7 @@ struct Enemy enemy1;
 typedef enum { GAME, MENU } GameState;
 
 
+
 int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings)
 {
 
@@ -68,6 +69,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 	GameState gameState = GAME;
 	//set default state
 
+	EnemiesAlive = nEnemies;
 	//La¸co principal do jogo
 	int enemiesSleepCount=0; //counter to slows dows enemy. it moves each enemyMovesPeriod
 	int isaacSleepCount=0; //counter to slows dows Isaac. it moves each isaacMovesPeriod
@@ -112,7 +114,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 				}
 			}
 
-			if(map[isaac.posY][isaac.posX]=='P')
+			if(map[isaac.posY][isaac.posX]=='P' && EnemiesAlive == 0)
 			{
 				missionComplete=1;
 				return 0;

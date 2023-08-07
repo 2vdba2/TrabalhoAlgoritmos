@@ -93,6 +93,7 @@ void moveEnemy(struct Enemy *enemy)
 	else if(map[(*enemy).posY][(*enemy).posX] == (*enemy).id){
 			map[(*enemy).posY][(*enemy).posX]= ' ';
 			(*enemy).id = ' ';
+			EnemiesAlive--;
 	}
 		
 }

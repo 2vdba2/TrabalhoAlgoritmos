@@ -14,4 +14,6 @@
 #define INF 999
 #define MAX_ENEMIES 15
 
+extern int EnemiesAlive = 0;
+
 #endif
