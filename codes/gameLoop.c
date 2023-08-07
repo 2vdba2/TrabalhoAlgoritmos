@@ -67,14 +67,15 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 	//set default state
 
 	//La¸co principal do jogo
-	int fframe=0; //counter to slows dows enemy. it moves each enemyMovesPeriod
+	int enemiesSleepCount=0; //counter to slows dows enemy. it moves each enemyMovesPeriod
+	int isaacSleepCount=0; //counter to slows dows Isaac. it moves each isaacMovesPeriod
 	int enemyMovesPeriod=20;
+	int isaacMovesPeriod=500;
 	SetExitKey(0);// the function WindowShouldClose will close when ESC is press, this will Set the configuration flag to ignore the ESC key press
 	while (!WindowShouldClose()&&missionComplete==0) // Detect window close button or ESC key
 	{
 		// Trata entrada do usu´ario e atualiza estado do jogo
 		//----------------------------------------------------------------------------------
-
 
 		 if (IsKeyPressed(KEY_ESCAPE)) {
             // Toggle the game state between GAME and MENU
@@ -88,23 +89,43 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 
 		if (gameState == GAME) {
 			AtualizarTiros(bullets, map, enemies, nEnemies);
-
+			/*
+			if(isaacSleepCount==0)
+			{
+				readKeyboardMove(&isaac);
+			}
+			else
+			{
+				isaacSleepCount++;
+				if(isaacSleepCount>=enemyMovesPeriod)
+				{
+					isaacSleepCount=0;
+				}
+			}
+			readKeyboardShoot(isaac,bullets);
+			*/
 			readKeyboardMove(&isaac);
 			readKeyboardShoot(isaac,bullets);
 			enemy1.id='I';
-			if(fframe==0)
+			for(int i=0;i<nEnemies;i++)
 			{
-				/*
-				dijkstra(adjacencyMatrix, enemy1.vertex, V, isaac.vertex, dxdy);
+				// if enemy.isAlive is false and his id is 'I', it is the first time he has passed through this loop.
+				// The function moveAndVerifyEnemy will declare his id as ' '
+				if(enemies[i].IsAlive || enemies[i].id == 'I')
+				{
+					dijkstra(adjacencyMatrix, enemies[i].vertex, V, isaac.vertex, dxdy);
 
-				enemy1.dx=dxdy[0];
-				enemy1.dy=dxdy[1];
+					enemies[i].dx=dxdy[0];
+					enemies[i].dy=dxdy[1];
 
-				moveAndVerifyEnemy(&enemy1,&isaac);
-				isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
-				enemy1.vertex=indexToVertex(enemy1.posY,enemy1.posX);
-				*/
-				/////////////
+					moveAndVerifyEnemy(&enemies[i],&isaac);
+					isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
+					enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
+				}
+			}
+			/*
+			if(enemiesSleepCount==0)//it ma
+			{
 
 				for(int i=0;i<nEnemies;i++)
 				{
@@ -122,18 +143,17 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 						enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
 					}
 				}
-
-				//////////////
-				fframe++;
+				enemiesSleepCount++;
 			}
 			else
 			{
-				fframe++;
-				if(fframe>=enemyMovesPeriod)
+				enemiesSleepCount++;
+				if(enemiesSleepCount>=enemyMovesPeriod)
 				{
-					fframe=0;
+					enemiesSleepCount=0;
 				}
 			}
+			* */
 			if(map[isaac.posY][isaac.posX]=='P')
 			{
 				missionComplete=1;
@@ -141,7 +161,7 @@ void gameLoop(int map_counter,struct Stopwatchh *stopwatchh, struct InformationB
 			}
 			get_elapsed_time(stopwatchh);
 			drawWindow(stopwatchh->str_time,isaac, *stopwatchh, map_counter,informationBarStrings,nEnemies);
-			printf("%d",fframe);
+			printf("%d",enemiesSleepCount);
 
         } else if (gameState == MENU) {
 			Menu();

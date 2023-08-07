@@ -10,7 +10,7 @@ void readKeyboardShoot(struct Isaac isaac,struct Bullet bullets[])
 	int i,j;
 	i=isaac.posY;
 	j=isaac.posX;
-	if (IsKeyPressed(KEY_W))
+	if (IsKeyDown(KEY_UP))
 	{
 		if(map[i - 1][j] == ' ')
 		{
@@ -18,7 +18,7 @@ void readKeyboardShoot(struct Isaac isaac,struct Bullet bullets[])
 		}
 	}
 
-	if (IsKeyPressed(KEY_S))
+	if (IsKeyDown(KEY_DOWN))
 	{
 		if(map[i + 1][j] == ' ')
 		{
@@ -26,7 +26,7 @@ void readKeyboardShoot(struct Isaac isaac,struct Bullet bullets[])
 		}
 	}
 
-	if (IsKeyPressed(KEY_A))
+	if (IsKeyDown(KEY_LEFT))
 	{
 		if(map[i][j - 1] == ' ')
 		{
@@ -34,7 +34,7 @@ void readKeyboardShoot(struct Isaac isaac,struct Bullet bullets[])
 		}
 	}
 
-	if (IsKeyPressed(KEY_D))
+	if (IsKeyDown(KEY_RIGHT))
 	{
 		if(map[i][j + 1] == ' ')
 		{
@@ -44,19 +44,19 @@ void readKeyboardShoot(struct Isaac isaac,struct Bullet bullets[])
 }
 void readKeyboardMove(struct Isaac *isaac)
 {
-	if (IsKeyPressed(KEY_RIGHT))
+	if (IsKeyDown(KEY_D))
 	{
 		moveAndVerify(1, 0, isaac);
 	}
-	if (IsKeyPressed(KEY_LEFT))
+	if (IsKeyDown(KEY_A))
 	{
 		moveAndVerify(-1, 0, isaac);
 	}
-	if (IsKeyPressed(KEY_UP))
+	if (IsKeyDown(KEY_W))
 	{
 		moveAndVerify(0, -1, isaac);
 	}
-	if (IsKeyPressed(KEY_DOWN))
+	if (IsKeyDown(KEY_S))
 	{
 		moveAndVerify(0, 1, isaac);
 	}

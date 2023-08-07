@@ -143,9 +143,9 @@ void DrawMenu() {
 
 void Menu(){
 	
-	 if (IsKeyPressed(KEY_DOWN)) {
+	 if (IsKeyPressed(KEY_DOWN)||IsKeyPressed(KEY_S)) {
             currentMenuItem = (currentMenuItem + 1) % 4;
-        } else if (IsKeyPressed(KEY_UP)) {
+        } else if (IsKeyPressed(KEY_UP)||IsKeyPressed(KEY_W)) {
             currentMenuItem = (currentMenuItem - 1 + 4) % 4;
         }
 
