@@ -24,10 +24,15 @@ typedef enum { GAME, MENU } GameState;
 
 int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings)
 {
+
+	for(int i = 0; i < MAX_BULLLETS; i++){
+		bullets[i].IsAlive = false;
+	}
+
 	int i,j,missionComplete=0;
 	int nEnemies;
 	readMap(&isaac,map_counter,enemies,&nEnemies);
-	
+
 	//Characters Variables
 	isaac.id='J';
 	enemy1.id='I';
@@ -37,7 +42,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 	{
 		enemies[i].id='I';
 	}
-	
+
 	static int graph[V][V];
 	static int dist[V][V];
 	static int Next[V][V];
@@ -83,7 +88,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
                 gameState = GAME;
             }
         }
-		
+
 
 		if (gameState == GAME) {
 			AtualizarTiros(bullets, map, enemies, nEnemies);
@@ -118,7 +123,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 			printf("%d",enemiesSleepCount);
 
         } else if (gameState == MENU) {
-			
+
 			Menu();
         }
 	}
