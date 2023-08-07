@@ -1,5 +1,4 @@
 void NewGame() {
-	printf("new game");
 	int nMaps=numberOfMaps();
 
 	struct Stopwatch *stopwatch = malloc(sizeof *stopwatch);
@@ -8,11 +7,16 @@ void NewGame() {
 	stopwatch->start_time= time(NULL);
 	stopwatch->elapsed_time= time(NULL);
 
+	bool ShouldGameClose = false;
+
 	for(int i=0; i< nMaps; i++)
 	{
-		printf("\nmaps/map%02d.txt",i);
-		gameLoop(i,stopwatch,informationBarStrings);
+		if(!ShouldGameClose){
+			printf("\nmaps/map%02d.txt",i);
+			ShouldGameClose = gameLoop(i,stopwatch,informationBarStrings);
+		}
 	}
+	CloseWindow();
 	free(stopwatch);
 	free(informationBarStrings);
 };
@@ -22,5 +26,9 @@ void LoadGame() {
 }
 
 void Config() {
+
+}
+
+void SaveGame(){
 
 }

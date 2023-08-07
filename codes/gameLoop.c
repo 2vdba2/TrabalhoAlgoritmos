@@ -22,7 +22,7 @@ struct Enemy enemy1;
 typedef enum { GAME, MENU } GameState;
 
 
-void gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings)
+int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings)
 {
 	int i,j,missionComplete=0;
 	int nEnemies;
@@ -110,6 +110,7 @@ void gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBar
 			if(map[isaac.posY][isaac.posX]=='P')
 			{
 				missionComplete=1;
+				return 0;
 				//CloseWindow();
 			}
 			get_elapsed_time(stopwatch);
@@ -124,5 +125,5 @@ void gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBar
     for(int i = 0; i < nVertices; i++)
 		free(adjacencyMatrix[i]);
 	free(adjacencyMatrix);
-
+	return 1;
 }
