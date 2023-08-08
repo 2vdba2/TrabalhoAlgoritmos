@@ -71,6 +71,8 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 	//set default state
 
 	EnemiesAlive = nEnemies;
+	int fframe=0;
+	int enemyMovesPeriod=2;
 	//La¸co principal do jogo
 	//int enemiesSleepCount=0; //counter to slows dows enemy. it moves each enemyMovesPeriod
 	//int isaacSleepCount=0; //counter to slows dows Isaac. it moves each isaacMovesPeriod
@@ -100,6 +102,60 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 
 			readKeyboard(&isaac,bullets);
 
+
+
+
+		if(fframe==0)
+		{
+			/*
+			dijkstra(adjacencyMatrix, enemy1.vertex, V, isaac.vertex, dxdy);
+
+			enemy1.dx=dxdy[0];
+			enemy1.dy=dxdy[1];
+			
+			moveAndVerifyEnemy(&enemy1,&isaac);
+			isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
+			enemy1.vertex=indexToVertex(enemy1.posY,enemy1.posX);
+			*/
+			/////////////
+			
+			for(int i=0;i<nEnemies;i++)
+			{
+				// if enemy.isAlive is false and his id is 'I', it is the first time he has passed through this loop.
+				// The function moveAndVerifyEnemy will declare his id as ' '
+				if(enemies[i].IsAlive || enemies[i].id == 'I')
+				{
+					dijkstra(adjacencyMatrix, enemies[i].vertex, V, isaac.vertex, dxdy);
+
+					enemies[i].dx=dxdy[0];
+					enemies[i].dy=dxdy[1];
+					
+					moveAndVerifyEnemy(&enemies[i],&isaac);
+					isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
+					enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
+				}
+			}
+			
+			//////////////
+			fframe++;
+		}
+		else
+		{
+			fframe++;
+			if(fframe>=enemyMovesPeriod)
+			{
+				fframe=0;
+			}
+		}
+
+
+
+
+
+
+/*
+
+
 			for(int i=0;i<nEnemies;i++)
 			{
 				// if enemy.isAlive is false and his id is 'I', it is the first time he has passed through this loop.
@@ -116,7 +172,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 					enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
 				}
 			}
-
+*/
 			if(map[isaac.posY][isaac.posX]=='P' && EnemiesAlive <= 0)
 			{
 				isaac.missionComplete=1;

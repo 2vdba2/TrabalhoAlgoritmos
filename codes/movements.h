@@ -156,6 +156,12 @@ int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac)
 		map[yNext][xNext]=' ';
 		result=1;
 	}
+	else if(map[yNext][xNext]=='o')
+	{
+		(*enemy).IsAlive=false;
+		map[yNext][xNext]=' ';
+		result=1;
+	}
 	else if(map[yNext][xNext]=='P')//portal
 	{
 		result=0;
