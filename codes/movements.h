@@ -21,10 +21,6 @@ void move(struct Isaac *isaac)
 	}
 }
 
-void DamageInIsaac(struct Isaac *isaac){
-	(*isaac).nLifes-=1;
-	IsaacTookDamage = true;
-}
 
 int verifyMove(struct Isaac *isaac)
 {
@@ -40,12 +36,12 @@ int verifyMove(struct Isaac *isaac)
 	}
 	else if(map[yNext][xNext]=='X')//fogueira (X)
 	{
-		DamageInIsaac(isaac);
+		(*isaac).nLifes-=1;(isaac);
 		result=1;
 	}
 	else if(map[yNext][xNext]=='I')//inimigo(I)
 	{
-		DamageInIsaac(isaac);
+		(*isaac).nLifes-=1;(isaac);
 		result=0;
 	}
 	else if(map[yNext][xNext]=='#')// parede (#) ou bomba (B)
@@ -139,7 +135,7 @@ int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac)
 	}
 	else if(map[yNext][xNext]=='J')//Isaac
 	{
-		DamageInIsaac(isaac);
+		(*isaac).nLifes-=1;(isaac);
 		result=0;
 	}
 	//printf("\n%d",result);

@@ -15,6 +15,6 @@
 #define MAX_ENEMIES 15
 
 extern int EnemiesAlive = 0;
-extern bool IsaacTookDamage = false;
+
 
 #endif
