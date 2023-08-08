@@ -36,6 +36,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 
 	//Characters Variables
 	isaac.id='J';
+	isaac.missionComplete=0;
 	enemy1.id='I';
 	isaac.nLifes=300;
 	isaac.nBombs=0;
@@ -71,12 +72,12 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 
 	EnemiesAlive = nEnemies;
 	//La¸co principal do jogo
-	int enemiesSleepCount=0; //counter to slows dows enemy. it moves each enemyMovesPeriod
-	int isaacSleepCount=0; //counter to slows dows Isaac. it moves each isaacMovesPeriod
-	int enemyMovesPeriod=20;
-	int isaacMovesPeriod=500;
+	//int enemiesSleepCount=0; //counter to slows dows enemy. it moves each enemyMovesPeriod
+	//int isaacSleepCount=0; //counter to slows dows Isaac. it moves each isaacMovesPeriod
+	//int enemyMovesPeriod=20;
+	//int isaacMovesPeriod=500;
 	SetExitKey(0);// the function WindowShouldClose will close when ESC is press, this will Set the configuration flag to ignore the ESC key press
-	while (!WindowShouldClose()&&missionComplete==0) // Detect window close button or ESC key
+	while (!WindowShouldClose()&&isaac.missionComplete==0) // Detect window close button or ESC key
 	{
 		// Trata entrada do usu´ario e atualiza estado do jogo
 		//----------------------------------------------------------------------------------
@@ -118,13 +119,13 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 
 			if(map[isaac.posY][isaac.posX]=='P' && EnemiesAlive <= 0)
 			{
-				missionComplete=1;
+				isaac.missionComplete=1;
 				return 0;
 				//CloseWindow();
 			}
 			get_elapsed_time(stopwatch);
-			drawWindow(stopwatch->str_time,isaac, *stopwatch, map_counter,informationBarStrings,nEnemies);
-			printf("%d",enemiesSleepCount);
+			drawWindow(stopwatch->str_time,isaac, *stopwatch, map_counter,informationBarStrings,EnemiesAlive);
+			//printf("%d",enemiesSleepCount);
 
         } else if (gameState == MENU) {
 

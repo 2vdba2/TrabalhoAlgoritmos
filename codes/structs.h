@@ -22,6 +22,8 @@ struct Isaac
     int nLifes;
     int vertex;
     char id;
+    int missionComplete;
+    int enemiesAlive;
     bool IsAlive;
 };
 
