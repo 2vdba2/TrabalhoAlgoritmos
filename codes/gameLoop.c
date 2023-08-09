@@ -11,6 +11,7 @@
 #include "stopwatch.h"
 #include <time.h>       // for time()
 #include <unistd.h>     // for sleep()
+#include "mazeSolverFloydWarshall.h"
 
 
 struct Bullet bullets[MAX_BULLLETS];
@@ -53,7 +54,8 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 	static int maze[MAP_SIZE_Y][MAP_SIZE_X];
 	mapToMaze(maze);
 	mazeToGraph(maze,graph);
-
+	static char nextMoveMatrix[V][V];
+	calculateEnemyMovesIfNeeded(map_counter,graph,dist,Next,nextMoveMatrix);
 
     int** adjacencyMatrix = (int**)malloc(nVertices * sizeof(int*));
     for (int i = 0; i < nVertices; i++) {
@@ -125,8 +127,8 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 				// The function moveAndVerifyEnemy will declare his id as ' '
 				if(enemies[i].IsAlive || enemies[i].id == 'I')
 				{
-					dijkstra(adjacencyMatrix, enemies[i].vertex, V, isaac.vertex, dxdy);
-
+					//dijkstra(adjacencyMatrix, enemies[i].vertex, V, isaac.vertex, dxdy);
+					getDxdyFromNextMoveMatrix(dxdy,nextMoveMatrix[enemies[i].vertex][isaac.vertex]);
 					enemies[i].dx=dxdy[0];
 					enemies[i].dy=dxdy[1];
 					
