@@ -4,24 +4,76 @@
 #include "constants.h"
 #include "structs.h"
 #include <string.h>
+#include <raylib.h>
+
+#define MAX_CACHED_TEXTURES 2
+
+// struct to cached textures
+typedef struct {
+    const char* path;
+    Texture2D texture;
+} CachedTexture;
+
+CachedTexture textureCache[MAX_CACHED_TEXTURES] = { 0 }; // Initialize the cache
+//textureCache[0] == Isaac Texture
+//textureCache[1] == Wall Texture
 
 void DrawIsaac(int xpx, int ypx){
+	//remove logs
+    SetTraceLogLevel(LOG_ERROR);
 
-	const char* currentDir = GetWorkingDirectory();
-    
-    
+    char* currentDir = GetWorkingDirectory();
+
     const char* spritePath = TextFormat("%s/Sprites/Character_Isaac_appearance.png", currentDir);
 
+    // Check if the texture is already in the cache
+
+    if (textureCache[0].path && strcmp(textureCache[0].path, spritePath) == 0) {
+        DrawTexture(textureCache[0].texture, xpx, ypx, WHITE);
+        return;
+    }
+
+    // If not in the cache, load and cache the texture
     Image spriteImage = LoadImage(spritePath);
-
-    // Resize the sprite image
     ImageResize(&spriteImage, 25, 25);
-
-    // Create a texture 
     Texture2D spriteTexture = LoadTextureFromImage(spriteImage);
 
+    // Store the texture in the cache
+    textureCache[0].path = spritePath;
+    textureCache[0].texture = spriteTexture;
 
-	DrawTexture(spriteTexture, xpx, ypx, WHITE);
+    // Draw the texture
+    DrawTexture(spriteTexture, xpx, ypx, WHITE);
+
+}
+
+
+void DrawWall(int xpx, int ypx) {
+	//remove logs
+    SetTraceLogLevel(LOG_ERROR);
+
+    char* currentDir = GetWorkingDirectory();
+
+    const char* WallSpritePath = TextFormat("%s/Sprites/Wall.png", currentDir);
+
+    // Check if the texture is already in the cache
+
+    if (textureCache[1].path && strcmp(textureCache[1].path, WallSpritePath) == 0) {
+        DrawTexture(textureCache[1].texture, xpx, ypx, WHITE);
+        return;
+    }
+
+    // If not in the cache, load and cache the texture
+    Image WallImage = LoadImage(WallSpritePath);
+    ImageResize(&WallImage, 20, 20);
+    Texture2D WallTexture = LoadTextureFromImage(WallImage);
+
+    // Store the texture in the cache
+    textureCache[1].path = WallSpritePath;
+    textureCache[1].texture = WallTexture;
+
+    // Draw the texture
+    DrawTexture(WallTexture, xpx, ypx, WHITE);
 }
 
 void drawMap()
@@ -38,7 +90,7 @@ void drawMap()
 			//walls
 			if(map[i][j]=='#')
 			{
-				DrawRectangle(xpx,ypx,SQUARESIZE,SQUARESIZE,RED);
+				DrawWall(xpx,ypx);
 			}
 			//portal
 			else if(map[i][j]=='P')
@@ -119,7 +171,7 @@ void drawWindow(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, i
 	EndDrawing();//Finaliza o ambiente de desenho na tela
 }
 
-typedef enum { 
+typedef enum {
     NOVO_JOGO,
     CARREGAR_JOGO,
     CONFIGURACOES,
@@ -130,7 +182,7 @@ MenuItem currentMenuItem = NOVO_JOGO;;
 
 void DrawMenu() {
 
-	
+
 
     ClearBackground(RAYWHITE);
 
@@ -170,7 +222,7 @@ void DrawMenu() {
 
 
 void Menu(){
-	
+
 	 if (IsKeyPressed(KEY_DOWN)||IsKeyPressed(KEY_S)) {
             currentMenuItem = (currentMenuItem + 1) % 4;
         } else if (IsKeyPressed(KEY_UP)||IsKeyPressed(KEY_W)) {
