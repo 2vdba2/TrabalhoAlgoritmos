@@ -13,6 +13,7 @@
 #define V (MAP_SIZE_X * MAP_SIZE_Y)
 #define INF 999
 #define MAX_ENEMIES 15
+#define N_MAP_ELEMENTS 9 // #,I,J,o,X,b,B,P,' '
 
 extern int EnemiesAlive = 0;
 

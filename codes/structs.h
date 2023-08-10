@@ -1,5 +1,6 @@
 #ifndef STRUCTS_H
 #define STRUCTS_H
+#include "raylib.h"
 #include <stdbool.h> 
 struct Bullet
 {
@@ -57,4 +58,15 @@ struct InformationBarStrings
 	char enemiesText[15];
 };
 
+struct MapElement
+{
+	char id;
+	Texture2D sprite;
+	bool canIsaacMove;
+	bool canEnemyMove;
+	bool isItInactiveBomb;
+	bool doesItDamageIsaac;
+	bool doesItDamageEnemy;
+	char spritePath[30];
+};
 #endif

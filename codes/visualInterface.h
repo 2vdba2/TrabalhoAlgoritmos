@@ -5,6 +5,8 @@
 #include "structs.h"
 #include <string.h>
 #include <raylib.h>
+#include "initializeVariables.h"
+
 
 #define MAX_CACHED_TEXTURES 2
 
@@ -76,17 +78,29 @@ void DrawWall(int xpx, int ypx) {
     DrawTexture(WallTexture, xpx, ypx, WHITE);
 }
 
-void drawMap()
+void drawMap(struct MapElement mapElements[N_MAP_ELEMENTS])
 {
 	int xpx,ypx;
-	DrawRectangle(0,0,MAP_SIZE_X_PX,MAP_SIZE_Y_PX,BEIGE);
+	//DrawRectangle(0,0,MAP_SIZE_X_PX,MAP_SIZE_Y_PX,BEIGE);
 	//Draw matrixMap
+	for(int k=0;k<N_MAP_ELEMENTS;k++)
+			{
 	for(int i=0; i<MAP_SIZE_Y; i++)
 	{
 		for(int j=0; j<MAP_SIZE_X; j++)
 		{
 			xpx=j*SQUARESIZE;
 			ypx=i*SQUARESIZE;
+			
+
+				if(map[i][j]==mapElements[k].id)
+				{
+					DrawTexture(mapElements[0].sprite ,xpx, ypx, WHITE);
+					DrawTexture(mapElements[k].sprite ,xpx, ypx, WHITE);
+				}
+	}
+			/*
+			
 			//walls
 			if(map[i][j]=='#')
 			{
@@ -103,9 +117,10 @@ void drawMap()
 				DrawRectangle(xpx + SQUARESIZE/4,ypx + SQUARESIZE/4,BULLETSIZE,BULLETSIZE,BLACK);
 			}
 			//bullet
-			else if(map[i][j]=='J')
+			else if(map[i][j]==mapElements[1].id)
 			{
-				DrawIsaac(xpx, ypx);
+				DrawTexture(mapElements[1].sprite ,xpx, ypx, WHITE);
+				//DrawIsaac(xpx, ypx);
 			}
 			//inactive Bomb
 			else if(map[i][j]=='B')
@@ -127,6 +142,8 @@ void drawMap()
 			{
 				DrawRectangle(xpx,ypx,SQUARESIZE,SQUARESIZE,PURPLE);
 			}
+			*/
+			
 		}
 	}
 }
@@ -160,12 +177,12 @@ void createInformationBarStrings(struct Stopwatch stopwatch, struct Isaac isaac,
 	sprintf(informationBarStrings->bombsText, "Bombs: %d"   , isaac.nBombs);
 }
 
-void drawWindow(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, int map_counter,  struct InformationBarStrings *informationBarStrings, int EnemiesAlive)
+void drawWindow(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, int map_counter,  struct InformationBarStrings *informationBarStrings, int EnemiesAlive,struct MapElement mapElements[N_MAP_ELEMENTS])
 {
 	//This function draws the entire game window
 	BeginDrawing();//Inicia o ambiente de desenho na tela
-	ClearBackground(RAYWHITE);//Limpa a tela e define cor de fundo
-	drawMap();
+	//ClearBackground(RAYWHITE);//Limpa a tela e define cor de fundo
+	drawMap(mapElements);
 	createInformationBarStrings(stopwatch,isaac, map_counter,informationBarStrings,EnemiesAlive);
 	informationBar(isaac,*informationBarStrings);
 	EndDrawing();//Finaliza o ambiente de desenho na tela

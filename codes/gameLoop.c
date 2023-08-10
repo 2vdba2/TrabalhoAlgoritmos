@@ -12,9 +12,11 @@
 #include <time.h>       // for time()
 #include <unistd.h>     // for sleep()
 #include "mazeSolverFloydWarshall.h"
+#include "constants.h"
 
 
 struct Bullet bullets[MAX_BULLLETS];
+
 struct Isaac isaac;
 struct Enemy enemies[15];
 struct Enemy enemy1;
@@ -26,7 +28,9 @@ typedef enum { GAME, MENU } GameState;
 
 int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings)
 {
-
+	struct MapElement mapElements[N_MAP_ELEMENTS];
+	
+	initializeMapElement(mapElements);
 	for(int i = 0; i < MAX_BULLLETS; i++){
 		bullets[i].IsAlive = false;
 	}
@@ -182,7 +186,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 				//CloseWindow();
 			}
 			get_elapsed_time(stopwatch);
-			drawWindow(stopwatch->str_time,isaac, *stopwatch, map_counter,informationBarStrings,EnemiesAlive);
+			drawWindow(stopwatch->str_time,isaac, *stopwatch, map_counter,informationBarStrings,EnemiesAlive,mapElements);
 			//printf("%d",enemiesSleepCount);
 
         } else if (gameState == MENU) {
