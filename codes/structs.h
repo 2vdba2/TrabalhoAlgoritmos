@@ -26,6 +26,7 @@ struct Isaac
     int missionComplete;
     int enemiesAlive;
     bool IsAlive;
+    bool isGod;
 };
 
 struct Enemy
