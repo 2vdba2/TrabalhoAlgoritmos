@@ -8,7 +8,10 @@
 #include "structs.h"
 #include <sys/stat.h>   // stat
 
-void mapToMazex(int maze[][MAP_SIZE_X])
+#define NO_PARENT -1
+#define NROWS 30
+#define NCOLS 60
+void mapToMaze(int maze[][MAP_SIZE_X])
 {
 	int i,j;
 
@@ -41,7 +44,7 @@ void mapToMazex(int maze[][MAP_SIZE_X])
 	}
 	*/
 }
-void mazeToGraphx(int maze[][NCOLS],int graph[][V])
+void mazeToGraph(int maze[][NCOLS],int graph[][V])
 {
 	int lGraph, cGraph;
 	int jAdj, iAdj;
@@ -242,7 +245,7 @@ void buildNextMoveMatrix(int Next[V][V],char nextMoveMatrix[V][V])
 		}
 	}
 }
-int indexToVertexx(int l, int c)
+int indexToVertex(int l, int c)
 {
 	return l*NCOLS+c;
 }

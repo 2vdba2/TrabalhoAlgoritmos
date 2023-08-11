@@ -7,7 +7,7 @@
 #include "keyboardFunctions.h"
 #include "visualInterface.h"
 //include "mazeSolver2.h"
-#include "mazeSolverDijkstra.h"
+//#include "mazeSolverDijkstra.h"
 #include "stopwatch.h"
 #include <time.h>       // for time()
 #include <unistd.h>     // for sleep()
@@ -60,7 +60,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 	mazeToGraph(maze,graph);
 	static char nextMoveMatrix[V][V];
 	calculateEnemyMovesIfNeeded(map_counter,graph,dist,Next,nextMoveMatrix);
-
+	/*
     int** adjacencyMatrix = (int**)malloc(nVertices * sizeof(int*));
     for (int i = 0; i < nVertices; i++) {
         adjacencyMatrix[i] = (int*)malloc(nVertices * sizeof(int));
@@ -71,6 +71,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
             adjacencyMatrix[i][j]=graph[i][j];
         }
     }
+    * */
     int dxdy[2];
 
 	GameState gameState = GAME;
@@ -194,8 +195,10 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 			Menu();
         }
 	}
+	/*
     for(int i = 0; i < nVertices; i++)
 		free(adjacencyMatrix[i]);
 	free(adjacencyMatrix);
+	* */
 	return 1;
 }

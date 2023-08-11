@@ -7,7 +7,7 @@
 #define NO_PARENT -1
 #define NROWS 30
 #define NCOLS 60
-
+/*
 void printPath(int currentVertex, int* parents, int nVertices,int i) {
     if (currentVertex == NO_PARENT) {
 		
@@ -109,84 +109,7 @@ void dijkstra(int** adjacencyMatrix, int startVertex, int nVertices, int endVert
 
 
 }
-void mazeToGraph(int maze[][NCOLS],int graph[][V])
-{
-	int lGraph, cGraph;
-	int jAdj, iAdj;
-	int i,j,di,dj;
-	// INITIALIZE GRAPH
-	for (i=0; i<V; i++)
-	{
-		for(j=0; j<V; j++)
-		{
-			graph[i][j]=INF;
-		}
-	}
 
-	// Convert Maze to Graph
-	//loop in maze values (0 = void, 1 = wall)
-	for (i = 0; i < NROWS; i++) {
-		for (j = 0; j < NCOLS; j++) {
-			lGraph = i * NCOLS + j;
-			//verify adjacent positions (vertically and horizontally)
-			for (di = -1; di<2; di++) {
-				for (dj = -1; dj<2; dj++) {
-					//if ((di * dj) == 0) { //this avoids diagonal
-						iAdj = i + di;
-
-						jAdj = j + dj;
-						cGraph = iAdj * NCOLS + jAdj;
-						//verify if adjacent position is valid
-						if (iAdj < NROWS && iAdj >= 0 && jAdj >= 0 && jAdj < NCOLS && maze[iAdj][jAdj] == 0 ) {//removed maze[i][j] == 0 then can start from wall=character
-							//verify if start and end vertices are the same
-							if (i==iAdj&&j==jAdj) {
-								graph[lGraph][cGraph] = 0;
-								//finally, include 1 in graph matrix if adjacent position is empty
-							} else {
-								graph[lGraph][cGraph] = 1;
-							}
-						}
-
-					//}
-				}
-			}
-		}
-	}
-
-}
-void mapToMaze(int maze[][MAP_SIZE_X])
-{
-	int i,j;
-
-	for(i=0; i<MAP_SIZE_Y; i++)
-	{
-		for(j=0; j<MAP_SIZE_X; j++)
-		{
-			if(map[i][j]!='#')
-			{
-				maze[i][j]=0;
-			}
-			else
-			{
-				maze[i][j]=1;
-			}
-		}
-	}
-	//PRINT MAZE
-	/*
-	printf("\n");
-	for(i=0;i<MAP_SIZE_Y;i++)
-	{
-		printf("[");
-		for(j=0;j<MAP_SIZE_X;j++)
-		{
-			printf("%d,",maze[i][j]);
-		}
-		printf("],");
-		printf("\n");
-	}
-	*/
-}
 
 void nextVertexToDirection(int startVertex,int nextVertex, int dxdy[])
 {
@@ -240,3 +163,4 @@ void enemyMove(struct Isaac isaac, struct Enemy *enemy)
 	(*enemy).dx=dxdy[0];
 	(*enemy).dy=dxdy[1];
 }
+*/
