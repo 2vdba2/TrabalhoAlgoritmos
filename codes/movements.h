@@ -5,7 +5,7 @@
 #include "structs.h"
 #include <stdbool.h>
 
-void move(struct Isaac *isaac)
+void moveIsaac(struct Isaac *isaac)
 {
 	if(map[(*isaac).posY][(*isaac).posX]=='J')
 		map[(*isaac).posY][(*isaac).posX]=' ';//replace previous position by ' ' empty if it was fire
@@ -22,7 +22,7 @@ void move(struct Isaac *isaac)
 }
 
 
-int verifyMove(struct Isaac *isaac)
+int verifyMoveIsaac(struct Isaac *isaac)
 {
 	int result=0;
 	int xNext, yNext;
@@ -87,11 +87,11 @@ int verifyMove(struct Isaac *isaac)
 	//printf("\n%d",result);
 	return result;
 }
-void moveAndVerify(struct Isaac *isaac)
+void moveAndVerifyIsaac(struct Isaac *isaac)
 {
-	if(verifyMove(isaac))
+	if(verifyMoveIsaac(isaac))
 	{
-		move(isaac);
+		moveIsaac(isaac);
 	}
 }
 

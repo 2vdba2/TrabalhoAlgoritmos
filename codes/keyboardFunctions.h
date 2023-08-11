@@ -48,25 +48,25 @@ void readKeyboardMove(struct Isaac *isaac)
 	{
 		isaac->dx=1;
 		isaac->dy=0;
-		moveAndVerify(isaac);
+		moveAndVerifyIsaac(isaac);
 	}
 	if (IsKeyDown(KEY_A))
 	{
 		isaac->dx=-1;
 		isaac->dy=0;
-		moveAndVerify(isaac);
+		moveAndVerifyIsaac(isaac);
 	}
 	if (IsKeyDown(KEY_W))
 	{
 		isaac->dx=0;
 		isaac->dy=-1;
-		moveAndVerify(isaac);
+		moveAndVerifyIsaac(isaac);
 	}
 	if (IsKeyDown(KEY_S))
 	{
 		isaac->dx=0;
 		isaac->dy=1;
-		moveAndVerify(isaac);
+		moveAndVerifyIsaac(isaac);
 	}
 }
 void readKeyboardLeaveBomb(struct Isaac *isaac)
