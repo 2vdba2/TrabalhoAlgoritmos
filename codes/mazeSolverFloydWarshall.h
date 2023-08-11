@@ -8,13 +8,14 @@
 #include "structs.h"
 #include <sys/stat.h>   // stat
 
-#define NO_PARENT -1
-#define NROWS 30
-#define NCOLS 60
 void mapToMaze(int maze[][MAP_SIZE_X])
 {
+	//this function converts the map into a matrix of 0 and 1, named maze
+	// 1 means walls
+	// 0 means floor or No wall
 	int i,j;
-
+	
+	//Loop for all map positions
 	for(i=0; i<MAP_SIZE_Y; i++)
 	{
 		for(j=0; j<MAP_SIZE_X; j++)
@@ -44,12 +45,24 @@ void mapToMaze(int maze[][MAP_SIZE_X])
 	}
 	*/
 }
-void mazeToGraph(int maze[][NCOLS],int graph[][V])
+void mazeToGraph(int maze[][MAP_SIZE_X],int graph[][V])
 {
-	int lGraph, cGraph;
+	//This function calculates the graph from maze
+	//The graph is a matrix of costs from one position in the maze to another position
+	
+	//graph[nVertices][nVertices], where the line is start position and the column the end position
+
+	// for going from vertex A to B
+	// cost = 0, means A=B
+	// cost = 1, means B is adjacent vertex of A
+	// cost = 999 means it is impossible that an enemy can go from A to B in just one move
+	//that means B is not adjacent of A, or B is a wall
+
+	int lGraph; // line of graph, means start position
+	int cGraph; // column of graph, means end position
 	int jAdj, iAdj;
 	int i,j,di,dj;
-	// INITIALIZE GRAPH
+	// INITIALIZE GRAPH WITH INFINITE (999) cost
 	for (i=0; i<V; i++)
 	{
 		for(j=0; j<V; j++)
@@ -59,30 +72,34 @@ void mazeToGraph(int maze[][NCOLS],int graph[][V])
 	}
 
 	// Convert Maze to Graph
-	//loop in maze values (0 = void, 1 = wall)
-	for (i = 0; i < NROWS; i++) {
-		for (j = 0; j < NCOLS; j++) {
-			lGraph = i * NCOLS + j;
-			//verify adjacent positions (vertically and horizontally)
+	//loop in maze values (0 = floor, 1 = wall)
+	for (i = 0; i < MAP_SIZE_Y; i++) {
+		for (j = 0; j < MAP_SIZE_X; j++) {
+			lGraph = indexToVertex(i,  j);//convert line and column to vertex
+
+			//loop for all adjacent positions
 			for (di = -1; di<2; di++) {
 				for (dj = -1; dj<2; dj++) {
 					//if ((di * dj) == 0) { //this avoids diagonal
 						iAdj = i + di;
-
 						jAdj = j + dj;
-						cGraph = iAdj * NCOLS + jAdj;
+						cGraph = indexToVertex(iAdj, jAdj); //convert line and column to vertex
 						//verify if adjacent position is valid
-						if (iAdj < NROWS && iAdj >= 0 && jAdj >= 0 && jAdj < NCOLS && maze[iAdj][jAdj] == 0 ) {//removed maze[i][j] == 0 then can start from wall=character
+						if (iAdj < MAP_SIZE_Y && iAdj >= 0 && jAdj >= 0 && jAdj < MAP_SIZE_X && maze[iAdj][jAdj] == 0 ) 
+						{
 							//verify if start and end vertices are the same
-							if (i==iAdj&&j==jAdj) {
+							if (i==iAdj&&j==jAdj)
+							{
 								graph[lGraph][cGraph] = 0;
-								//finally, include 1 in graph matrix if adjacent position is empty
-							} else {
+							}
+							//include 1 (cost to go to next vertex) in graph matrix 
+							else
+							{
 								graph[lGraph][cGraph] = 1;
 							}
 						}
 
-					//}
+					//}//this would avoid diagonal
 				}
 			}
 		}
@@ -91,6 +108,14 @@ void mazeToGraph(int maze[][NCOLS],int graph[][V])
 }
 void floydWarshall(int graph[][V], int dist[][V], int Next[][V])
 {
+	//using floydWarshal routine, This function calculates the matrix of
+	// next moves and the matrix of distances
+	
+	//Example: for going from vertex A to B
+	// next move matrix: for any A (line) to any B(column) what is the
+	// next vertex to achieve B with the lowest cost
+	//distance matrix: matrix of total cost from A to B. In our case, it
+	//means the number os "steps" the enemy will take to go from A to B  
 	int i, j, k;
 	//Initialize dist and Next
 	for (int i=0; i<V; i++)
@@ -100,38 +125,37 @@ void floydWarshall(int graph[][V], int dist[][V], int Next[][V])
 		{
 			//printf("%d\t",graph[i][j]);
 			dist[i][j]=graph[i][j]; //copy graph to dist
+			
+			
 			if (graph[i][j] == INF)
 			{
+				//-1 means it is impossible to go from vertex i to j in
+				//in one move
 				Next[i][j] = -1;
 			}
 			else
 			{
+				//in our case, this condition means i and j are adjacent
+				// or equal
 				Next[i][j] = j;
 			}
 		}
 	}
 
-	/* Add all vertices one by one to
-	  the set of intermediate vertices.
-	  ---> Before start of an iteration, we
-	  have shortest distances between all
-	  pairs of vertices such that the shortest
-	  distances consider only the
-	  vertices in set {0, 1, 2, .. k-1} as
-	  intermediate vertices.
-	  ----> After the end of an iteration,
-	  vertex no. k is added to the set of
-	  intermediate vertices and the set
-	  becomes {0, 1, 2, .. k} */
+	// For going from vertex i to j, there is a distance dist[i][j]
+	// verify if there is an intermediate vertex k that lower 
+	// the distance from i to j
+	// then update distance (dist) and next vertex to go (Next)
+	
+	//loop for all intermediate vertices
 	for (k = 0; k < V; k++) {
-		// Pick all vertices as source one by one
+		// loop for all start vertices
 		for (i = 0; i < V; i++) {
-			// Pick all vertices as destination for the
-			// above picked source
+			//loop for all end vertices
 			for (j = 0; j < V; j++) {
 				// If vertex k is on the shortest path from
 				// i to j, then update the value of
-				// dist[i][j]
+				// dist[i][j] and Next[i][j]
 
 				if (dist[i][k] + dist[k][j] < dist[i][j])
 				{
@@ -145,12 +169,12 @@ void floydWarshall(int graph[][V], int dist[][V], int Next[][V])
 	// Print the shortest distance matrix
 
 }
-char nextVertexToDirectionx(int startVertex,int nextVertex)
+char nextVertexToDirection(int startVertex,int nextVertex)
 {
-	int l0=startVertex/NCOLS;
-	int c0=startVertex%NCOLS;
-	int lf=nextVertex/NCOLS;
-	int cf=nextVertex%NCOLS;
+	int l0=startVertex/MAP_SIZE_X;
+	int c0=startVertex%MAP_SIZE_X;
+	int lf=nextVertex/MAP_SIZE_X;
+	int cf=nextVertex%MAP_SIZE_X;
 	char nextMove;
 	int dx,dy;
 	int k;
@@ -172,25 +196,6 @@ char nextVertexToDirectionx(int startVertex,int nextVertex)
 	{
 		nextMove='0';
 	}
-	/*
-	else
-	{
-		//maps the next move according to dx and dy
-		k=1;
-		for(int j=-1;j<2;j++)
-		{
-			for(int i=-1;i<2;i++)
-			{
-				if(dx==i&&dy==j)
-				{
-					nextMove=k+'0';//convert int to char (if 0<=int<10)
-				}
-				k++;
-			}
-			
-		}
-	}
-	*/
 	else if(dx==-1&&dy==-1)
 	{
 		nextMove='1';
@@ -241,13 +246,13 @@ void buildNextMoveMatrix(int Next[V][V],char nextMoveMatrix[V][V])
 	{
 		for(int j=0; j<V; j++)
 		{
-			nextMoveMatrix[i][j]=nextVertexToDirectionx(i,Next[i][j]);
+			nextMoveMatrix[i][j]=nextVertexToDirection(i,Next[i][j]);
 		}
 	}
 }
 int indexToVertex(int l, int c)
 {
-	return l*NCOLS+c;
+	return l*MAP_SIZE_X+c;
 }
 /* A utility function to print solution */
 void printNextMove(char nextMoveMatrix[V][V])
@@ -303,6 +308,12 @@ void loadNextMoveMatrix(char nextMoveMatrix[V][V],int map_counter)
 
 void getDxdyFromNextMoveMatrix(int dxdy[2],char nextMove)
 {
+	//this function converts back next move matrix to dxdy
+	///////////////////        (dx, dy)
+	// 1 -- 2 -- 3           (-1,-1) -- (0,-1) -- (1,-1)
+	// 4 -- 5 -- 6    --->   (-1,0)  -- (0,0)  -- (1,0)
+	// 7 -- 8 -- 9           (-1,1)  -- (0,1)  -- (1,1) 
+	///////////////////
 	int dx,dy;
 	switch (nextMove)
 	{
@@ -438,6 +449,10 @@ int checkIfMapHasChanged(int map_counter)
 }
 int areEnemyMovesPreCalculated(int map_counter)
 {
+	// For a given map, this function verifies if enemy moves are already calculated by
+	// by seeing if the there is copy of the map in chase folder and
+	// if the map has changed
+	
 	int result=0;
 	if(checkIfFileExists(map_counter)==1&&checkIfMapHasChanged(map_counter)==0)
 	{
@@ -447,31 +462,11 @@ int areEnemyMovesPreCalculated(int map_counter)
 	{
 		result=0;
 	}
-	/*
-	if(checkIfFileExists(map_counter)==1)
-	{
-		if(checkIfMapHasChanged(map_counter)!=1)
-		{
-			printf("\nMAP HAS CHANGED");
-			result=1;
-		}
-		else
-		{
-			printf("\nMAPDIDNT CHANGe");
-		}
-	}
-	else
-	{
-		printf("\nFile DOESNT EXISTI");
-	}
-	*/
 	return result;
 }
 void calculateEnemyMovesIfNeeded(int map_counter,int graph[][V], int dist[][V], int Next[][V],char nextMoveMatrix[V][V])
 {
-	//printf("\nFile exist= %d",checkIfFileExists(map_counter));
-	//printf("\nMap has changed= %d",checkIfMapHasChanged(map_counter));
-	//printf("\nenemy moves pre calculated= %d",areEnemyMovesPreCalculated(map_counter));
+	//this function calculates enemy moves if they arent calculated already for a given map
 	if(areEnemyMovesPreCalculated(map_counter)==0)
 	{
 		printf("\nareEnemyMovesPreCalculated==0\n");
@@ -486,15 +481,11 @@ void calculateEnemyMovesIfNeeded(int map_counter,int graph[][V], int dist[][V], 
 	{
 		printf("\nareEnemyMovesPreCalculated==1\n");
 		loadNextMoveMatrix(nextMoveMatrix,map_counter);
-
-
-
 	}
 }
 void saveState(int map_counter,char fileName[30])
-
+//This function saves the state of the game (variable map) into a file
 {
-	//sprintf(fileName,"stateMap%02d.txt",map_counter+1);
 	FILE *f = fopen(fileName, "wb");
 	if((f = fopen(fileName, "w")) == NULL)
 	{
@@ -510,6 +501,5 @@ void saveState(int map_counter,char fileName[30])
 		fprintf(f,"\n\0");
 	}
 	fclose(f);
-
 }
 #endif
