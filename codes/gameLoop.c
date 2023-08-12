@@ -18,7 +18,6 @@ struct Isaac isaac;
 struct Enemy enemies[MAX_ENEMIES];
 //struct Stopwatch stopwatch;
 
-typedef enum { GAME, MENU } GameState;
 
 int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings)
 {
@@ -39,7 +38,6 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 
 	int dxdy[2];
 
-	GameState gameState = GAME;
 	//set default state
 
 	EnemiesAlive = nEnemies;
@@ -142,7 +140,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 
 		} else if (gameState == MENU) {
 
-			Menu();
+			InGameMenu();
 		}
 	}
 

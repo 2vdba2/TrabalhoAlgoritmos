@@ -71,4 +71,10 @@ struct MapElement
 	bool isItFire;
 	char spritePath[30];
 };
+
+typedef enum { 
+    GAME,
+    MENU 
+} GameState;
+
 #endif

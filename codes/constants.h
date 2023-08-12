@@ -19,6 +19,6 @@
 extern int EnemiesAlive = 0;
 extern int orderToSaveGame = 0;
 extern int orderToLoadGame = 0;
-
+extern GameState gameState = GAME;
 
 #endif

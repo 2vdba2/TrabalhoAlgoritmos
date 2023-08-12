@@ -195,7 +195,9 @@ typedef enum {
     SAIR
  } MenuItem;
 
-MenuItem currentMenuItem = NOVO_JOGO;;
+
+
+MenuItem currentMenuItem = NOVO_JOGO;
 
 void DrawMenu() {
 
@@ -266,6 +268,119 @@ void Menu(){
 
         BeginDrawing();
         DrawMenu();
+        EndDrawing();
+}
+
+
+typedef enum {
+    INGAME_NOVO_JOGO,
+    INGAME_SALVAR_JOGO,
+    INGAME_CARREGAR_JOGO,
+    INGAME_CONFIGURACOES,
+    INGAME_VOLTAR,
+    INGAME_SAIR,
+} InGameMenuItem;
+
+InGameMenuItem currentInGameMenuItem = NOVO_JOGO;
+
+void DrawMenuInGame() {
+
+
+
+    ClearBackground(RAYWHITE);
+
+    DrawText("The Binding of Isaac", MAP_SIZE_X_PX / 2 - MeasureText("The Binding of Isaac", 40) / 2, 80, 40, DARKGRAY);
+
+    switch (currentInGameMenuItem) {
+        case INGAME_NOVO_JOGO:
+            DrawText("> Novo Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Novo Jogo", 30) / 2, 200, 30, GRAY);
+            DrawText("Salvar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Salvar Jogo", 30) / 2, 250, 30, GRAY);
+            DrawText("Carregar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Carregar Jogo", 30) / 2, 300, 30, GRAY);
+            DrawText("Configurações", MAP_SIZE_X_PX / 2 - MeasureText("Configurações", 30) / 2, 350, 30, GRAY);
+            DrawText("Voltar", MAP_SIZE_X_PX / 2 - MeasureText("Voltar", 30) / 2, 400, 30, GRAY);
+            DrawText("Sair", MAP_SIZE_X_PX / 2 - MeasureText("Sair", 30) / 2, 450, 30, GRAY);
+            break;
+        case INGAME_SALVAR_JOGO:
+            DrawText("Novo Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Novo Jogo", 30) / 2, 200, 30, GRAY);
+            DrawText("> Salvar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Salvar Jogo", 30) / 2, 250, 30, GRAY);
+            DrawText("Carregar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Carregar Jogo", 30) / 2, 300, 30, GRAY);
+            DrawText("Configurações", MAP_SIZE_X_PX / 2 - MeasureText("Configurações", 30) / 2, 350, 30, GRAY);
+            DrawText("Voltar", MAP_SIZE_X_PX / 2 - MeasureText("Voltar", 30) / 2, 400, 30, GRAY);
+            DrawText("Sair", MAP_SIZE_X_PX / 2 - MeasureText("Sair", 30) / 2, 450, 30, GRAY);
+            break;
+        case INGAME_CARREGAR_JOGO:
+            DrawText("Novo Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Novo Jogo", 30) / 2, 200, 30, GRAY);
+            DrawText("Salvar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Salvar Jogo", 30) / 2, 250, 30, GRAY);
+            DrawText("> Carregar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Carregar Jogo", 30) / 2, 300, 30, GRAY);
+            DrawText("Configurações", MAP_SIZE_X_PX / 2 - MeasureText("Configurações", 30) / 2, 350, 30, GRAY);
+            DrawText("Voltar", MAP_SIZE_X_PX / 2 - MeasureText("Voltar", 30) / 2, 400, 30, GRAY);
+            DrawText("Sair", MAP_SIZE_X_PX / 2 - MeasureText("Sair", 30) / 2, 450, 30, GRAY);
+            break;
+        case INGAME_CONFIGURACOES:
+            DrawText("Novo Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Novo Jogo", 30) / 2, 200, 30, GRAY);
+            DrawText("Salvar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Salvar Jogo", 30) / 2, 250, 30, GRAY);
+            DrawText("Carregar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Carregar Jogo", 30) / 2, 300, 30, GRAY);
+            DrawText("> Configurações", MAP_SIZE_X_PX / 2 - MeasureText("Configurações", 30) / 2, 350, 30, GRAY);
+            DrawText("Voltar", MAP_SIZE_X_PX / 2 - MeasureText("Voltar", 30) / 2, 400, 30, GRAY);
+            DrawText("Sair", MAP_SIZE_X_PX / 2 - MeasureText("Sair", 30) / 2, 450, 30, GRAY);
+            break;
+        case INGAME_VOLTAR:
+            DrawText("Novo Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Novo Jogo", 30) / 2, 200, 30, GRAY);
+            DrawText("Salvar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Salvar Jogo", 30) / 2, 250, 30, GRAY);
+            DrawText("Carregar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Carregar Jogo", 30) / 2, 300, 30, GRAY);
+            DrawText("Configurações", MAP_SIZE_X_PX / 2 - MeasureText("Configurações", 30) / 2, 350, 30, GRAY);
+            DrawText("> Voltar", MAP_SIZE_X_PX / 2 - MeasureText("Voltar", 30) / 2, 400, 30, GRAY);
+            DrawText("Sair", MAP_SIZE_X_PX / 2 - MeasureText("Sair", 30) / 2, 450, 30, GRAY);
+            break;
+        case INGAME_SAIR:
+            DrawText("Novo Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Novo Jogo", 30) / 2, 200, 30, GRAY);
+            DrawText("Salvar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Salvar Jogo", 30) / 2, 250, 30, GRAY);
+            DrawText("Carregar Jogo", MAP_SIZE_X_PX / 2 - MeasureText("Carregar Jogo", 30) / 2, 300, 30, GRAY);
+            DrawText("Configurações", MAP_SIZE_X_PX / 2 - MeasureText("Configurações", 30) / 2, 350, 30, GRAY);
+            DrawText("Voltar", MAP_SIZE_X_PX / 2 - MeasureText("Voltar", 30) / 2, 400, 30, GRAY);
+            DrawText("> Sair", MAP_SIZE_X_PX / 2 - MeasureText("Sair", 30) / 2, 450, 30, GRAY);
+            break;
+        default:
+            break;
+    }
+
+    DrawText("Use as setas para navegar e pressione enter para selecionar", 50, MAP_SIZE_Y_PX - 50, 20, DARKGRAY);
+}
+
+
+void InGameMenu(){
+
+	 if (IsKeyPressed(KEY_DOWN)||IsKeyPressed(KEY_S)) {
+            currentInGameMenuItem = (currentInGameMenuItem + 1) % 6;
+        } else if (IsKeyPressed(KEY_UP)||IsKeyPressed(KEY_W)) {
+            currentInGameMenuItem = (currentInGameMenuItem - 1 + 6) % 6;
+        }
+
+        if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE)) {
+            switch (currentInGameMenuItem) {
+                case INGAME_NOVO_JOGO:
+                    NewGame();
+                    break;
+                case INGAME_SALVAR_JOGO:
+                    break;
+                case INGAME_CARREGAR_JOGO:
+                    LoadGame();
+                    break;
+                case INGAME_CONFIGURACOES:
+                    Config();
+                    break;
+                case INGAME_SAIR:
+                    // Close the window
+                    CloseWindow();
+                    break;
+                case INGAME_VOLTAR:
+                    gameState = GAME;
+                    break;
+            }
+        }
+
+        BeginDrawing();
+        DrawMenuInGame();
         EndDrawing();
 }
 
