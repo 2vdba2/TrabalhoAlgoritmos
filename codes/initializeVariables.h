@@ -53,7 +53,7 @@ void initializeMapElement(struct MapElement mapElements[N_MAP_ELEMENTS])
 
 
 	//Fire
-	i=2;
+	i=MAP_ELEMENT_FIRE_NUMBER;//2
 	mapElements[i].id='X';
 	sprintf(mapElements[i].spritePath,"./Sprites/fire.png");
 	mapElements[i].canIsaacMove=1;
@@ -92,7 +92,7 @@ void initializeMapElement(struct MapElement mapElements[N_MAP_ELEMENTS])
 	mapElements[i].doesItDamageIsaac=0;
 	mapElements[i].doesItDamageEnemy=0;
 	//Enemy
-	i=6;
+	i=MAP_ELEMENT_ENEMY_NUMBER;//6
 	mapElements[i].id='I';
 	sprintf(mapElements[i].spritePath,"./Sprites/enemy.png");
 	mapElements[i].canIsaacMove=0;
@@ -112,7 +112,7 @@ void initializeMapElement(struct MapElement mapElements[N_MAP_ELEMENTS])
 
 
 	//Isaac
-	i=8;
+	i=MAP_ELEMENT_ISAAC_NUMBER;//8
 	mapElements[i].id='J';
 	sprintf(mapElements[i].spritePath,"./Sprites/isaac.png");
 	mapElements[i].canIsaacMove=1;
@@ -127,6 +127,8 @@ void initializeMapElement(struct MapElement mapElements[N_MAP_ELEMENTS])
 		//ImageResize(&spriteImage, 25, 25);
 		mapElements[i].sprite = LoadTextureFromImage(spriteImage);
 	}
+	
+	godMode=0;
 
 }
 

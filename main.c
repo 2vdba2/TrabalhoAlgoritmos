@@ -9,7 +9,7 @@ int main()
 	printf("n=%d",numberOfMaps());
 
 	//--------------------------------------------------------------------------------------
-	//Inicializa¸c~oes
+	//Inicializa¸c~oesdd
 	InitWindow(MAP_SIZE_X_PX, MAP_SIZE_Y_PX+INFORMATION_BAR_Y_PX, "The Binding of Isaac remastered");//Inicializa janela, com certo tamanho e t´ıtulo
 	SetTargetFPS(10);// Ajusta a execu¸c~ao do jogo para 60 frames por segundo
 	//--------------------------------------------------------------------------------------

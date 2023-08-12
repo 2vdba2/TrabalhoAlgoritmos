@@ -165,6 +165,11 @@ void informationBar(struct Isaac isaac,struct InformationBarStrings informationB
 	DrawText(informationBarStrings.stageText  , xPxCol3,yPxLine1,30, BLACK);
 	DrawText(informationBarStrings.enemiesText, xPxCol3,yPxLine3,30, BLACK);
 	DrawText(informationBarStrings.bombsText  , xPxCol2,yPxLine2,30, BLACK);
+	
+	if(godMode==1)
+	{
+		DrawText("GOD MODE ON", xPxCol2,yPxLine3,30, RED);
+	}
 }
 
 void createInformationBarStrings(struct Stopwatch stopwatch, struct Isaac isaac, int map_counter, struct InformationBarStrings *informationBarStrings,int EnemiesAlive)

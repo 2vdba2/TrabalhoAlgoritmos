@@ -40,7 +40,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 
 	//set default state
 
-	EnemiesAlive = nEnemies;
+	//EnemiesAlive = nEnemies;
 	int fframe=0;
 	int enemyMovesPeriod=2;
 	initializeMapElement(mapElements);

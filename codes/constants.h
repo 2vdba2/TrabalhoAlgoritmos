@@ -14,11 +14,16 @@
 #define INF 999
 #define MAX_ENEMIES 15
 #define N_MAP_ELEMENTS 9 // #,I,J,o,X,b,B,P,' '
+#define MAP_ELEMENT_FIRE_NUMBER 2
 #define MAP_ELEMENT_PORTAL_NUMBER 5
+#define MAP_ELEMENT_ENEMY_NUMBER 6
+#define MAP_ELEMENT_ISAAC_NUMBER 8
+
 
 extern int EnemiesAlive = 0;
 extern int orderToSaveGame = 0;
 extern int orderToLoadGame = 0;
+extern int godMode = 0;
 extern GameState gameState = GAME;
 
 #endif

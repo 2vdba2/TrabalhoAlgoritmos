@@ -67,14 +67,40 @@ void readKeyboardMove(struct Isaac *isaac,struct MapElement mapElements[N_MAP_EL
 		isaac->dx=0;
 		isaac->dy=1;
 		moveAndVerifyIsaac(isaac,mapElements);
+		printf("aaaaaaaaaa");
 	}
+	//Load Game
 	if (IsKeyDown(KEY_L))
 	{
 		orderToLoadGame=1;
 	}
+	//Save game
 	if (IsKeyDown(KEY_O))
 	{
 		orderToSaveGame=1;
+	}
+	if (IsKeyPressed(KEY_G))
+	{
+		printf("god mode on");
+		if(godMode==1)
+		{
+			godMode=0;
+			mapElements[MAP_ELEMENT_ENEMY_NUMBER].doesItDamageIsaac=1;
+			mapElements[MAP_ELEMENT_ISAAC_NUMBER].doesItDamageEnemy=0;
+			mapElements[MAP_ELEMENT_ISAAC_NUMBER].canEnemyMove=0;
+			mapElements[MAP_ELEMENT_FIRE_NUMBER].doesItDamageIsaac=1;
+			
+			printf("god mode off");
+		}
+		else if(godMode==0)
+		{
+			mapElements[MAP_ELEMENT_ENEMY_NUMBER].doesItDamageIsaac=0;
+			mapElements[MAP_ELEMENT_ISAAC_NUMBER].doesItDamageEnemy=1;
+			mapElements[MAP_ELEMENT_ISAAC_NUMBER].canEnemyMove=1;
+			mapElements[MAP_ELEMENT_FIRE_NUMBER].doesItDamageIsaac=0;
+			godMode=1;
+			printf("god mode on");
+		}
 	}
 }
 void readKeyboardLeaveBomb(struct Isaac *isaac)
