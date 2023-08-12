@@ -67,7 +67,7 @@ int saveGame()
     return file_count;
 }
 */
-int saveGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],struct Isaac isaac,struct Stopwatch *stopwatch)
+int saveGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],struct Isaac isaac,struct Stopwatch *stopwatch, int EnemiesAlive,struct Bullet bullets[MAX_BULLLETS])
 {
 	int saved=1;
 	char name[30]={"./savedGame/savedGame.bin"};
@@ -92,13 +92,48 @@ int saveGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],
 	{
 		printf("isaac writing error");
 		saved=0;
+		return saved;
 	}
-	
+	// SAVE Enemies
+	//enemies
+	for(int i=0;i<MAX_ENEMIES;i++)
+	{
+		if (fwrite(&enemies[i], sizeof(struct Enemy), 1, arq) != 1)
+		{
+			printf("enemy writing error");
+			saved=0;
+			return saved;
+		}
+	}
+	//stopwatch
+	if (fwrite(stopwatch, sizeof(struct Stopwatch), 1, arq) != 1)
+	{
+		printf("stopwatch writing error");
+		saved=0;
+		return saved;
+	}
+	//EnemiesAlive
+	if (fwrite(&EnemiesAlive, sizeof(int), 1, arq) != 1)
+	{
+		printf("Enemies Alive writting error");
+		saved=0;
+		return saved;
+	}
+	//Bullets
+	for(int i=0;i<MAX_BULLLETS;i++)
+	{
+		if (fwrite(&bullets[i], sizeof(struct Bullet), 1, arq) != 1)
+		{
+			printf("bullet writing error");
+			saved=0;
+			return saved;
+		}
+	}
 	fclose(arq);
 	return saved;
 }
 
-int loadGame(char map[MAP_SIZE_Y][MAP_SIZE_X])
+int loadGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],struct Isaac *isaac,struct Stopwatch *stopwatch,int *EnemiesAlive,struct Bullet bullets[MAX_BULLLETS])
 {
 	int saved=1;
 	char name[30]={"./savedGame/savedGame.bin"};
@@ -126,7 +161,41 @@ int loadGame(char map[MAP_SIZE_Y][MAP_SIZE_X])
 		}
 	}
 	//isaac
-	
+	if(fread(isaac, sizeof(struct Isaac), 1, arq) != 1)
+	{
+		printf("Error reading Isaac");
+		return 0;
+	}
+	//enemies
+	for(int i=0;i<MAX_ENEMIES;i++)
+	{
+		if(fread(&enemies[i], sizeof(struct Enemy), 1, arq) != 1)
+		{
+			printf("Error reading Enemy[%d]",i);
+			return 0;
+		}
+	}
+	//Stopwatch
+	if(fread(stopwatch, sizeof(struct Stopwatch), 1, arq) != 1)
+	{
+		printf("Error reading stopwatch");
+		return 0;
+	}
+	//Enemies Alive
+	if(fread(EnemiesAlive, sizeof(int), 1, arq) != 1)
+	{
+		printf("Error reading EnemiesAlive");
+		return 0;
+	}
+	//bulletes
+	for(int i=0;i<MAX_BULLLETS;i++)
+	{
+		if(fread(&bullets[i], sizeof(struct Bullet), 1, arq) != 1)
+		{
+			printf("Error reading bullet[%d]",i);
+			return 0;
+		}
+	}
 	fclose(arq);
 	return read;
 }

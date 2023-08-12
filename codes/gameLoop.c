@@ -73,8 +73,13 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 		//----------------------------------------------------------------------------------
 		if(orderToSaveGame==1)
 		{
-			saveGame(map,enemies,isaac,stopwatch);
+			saveGame(map,enemies,isaac,stopwatch,EnemiesAlive,bullets);
 			orderToSaveGame=0;
+		}
+		if(orderToLoadGame==1)
+		{
+			//loadGame(map,enemies,isaac,stopwatch,EnemiesAlive,bullets);
+			orderToLoadGame=0;
 		}
 		 if (IsKeyPressed(KEY_ESCAPE)) {
             // Toggle the game state between GAME and MENU
