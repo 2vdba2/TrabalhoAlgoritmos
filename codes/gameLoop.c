@@ -21,18 +21,45 @@ struct Enemy enemy1;
 
 typedef enum { GAME, MENU } GameState;
 
-int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings)
+int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings)
 {
 	struct MapElement mapElements[N_MAP_ELEMENTS];
+	int i,j,missionComplete=0;
+	int nEnemies;
 
+
+	static int graph[V][V];
+	static int dist[V][V];
+	static int Next[V][V];
+	static int path[V];
+	int nVertices=V;
+	static int maze[MAP_SIZE_Y][MAP_SIZE_X];
+	mapToMaze(maze);
+	mazeToGraph(maze,graph);
+	static char nextMoveMatrix[V][V];
+	
+
+	int dxdy[2];
+
+	GameState gameState = GAME;
+	//set default state
+
+	EnemiesAlive = nEnemies;
+	int fframe=0;
+	int enemyMovesPeriod=2;
+	
+	
+	////////////
+	// INITIALIZATIONS
+	///////////
+	readMap(&isaac,*map_counter,enemies,&nEnemies);
 	initializeMapElement(mapElements);
 	for(int i = 0; i < MAX_BULLLETS; i++) {
 		bullets[i].IsAlive = false;
 	}
 
-	int i,j,missionComplete=0;
-	int nEnemies;
-	readMap(&isaac,map_counter,enemies,&nEnemies);
+
+	readMap(&isaac,*map_counter,enemies,&nEnemies);
 
 	//Characters Variables
 	isaac.id='J';
@@ -44,26 +71,17 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 	{
 		enemies[i].id='I';
 	}
-
-	static int graph[V][V];
-	static int dist[V][V];
-	static int Next[V][V];
-	static int path[V];
-	int nVertices=V;
-	static int maze[MAP_SIZE_Y][MAP_SIZE_X];
-	mapToMaze(maze);
-	mazeToGraph(maze,graph);
-	static char nextMoveMatrix[V][V];
-	calculateEnemyMovesIfNeeded(map_counter,graph,dist,Next,nextMoveMatrix);
-
-	int dxdy[2];
-
-	GameState gameState = GAME;
-	//set default state
-
 	EnemiesAlive = nEnemies;
-	int fframe=0;
-	int enemyMovesPeriod=2;
+	if(orderToLoadGame==1)
+	{
+		loadGame(map,enemies,&isaac,stopwatch,&EnemiesAlive,bullets,map_counter,&nEnemies);
+		restart_chronometer(stopwatch);
+		//calculateEnemyMovesIfNeeded(*map_counter,graph,dist,Next,nextMoveMatrix);
+		orderToLoadGame=0;
+	}
+
+	calculateEnemyMovesIfNeeded(*map_counter,graph,dist,Next,nextMoveMatrix);
+
 
 	SetExitKey(0);// the function WindowShouldClose will close when ESC is press, this will Set the configuration flag to ignore the ESC key press
 	while (!WindowShouldClose()&&isaac.missionComplete==0) // Detect window close button or ESC key
@@ -72,14 +90,19 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 		//----------------------------------------------------------------------------------
 		if(orderToSaveGame==1)
 		{
-			saveGame(map,enemies,isaac,stopwatch,EnemiesAlive,bullets,map_counter);
+			saveGame(map,enemies,isaac,stopwatch,EnemiesAlive,bullets,*map_counter,nEnemies);
 			orderToSaveGame=0;
 		}
 		if(orderToLoadGame==1)
 		{
-			loadGame(map,enemies,&isaac,stopwatch,&EnemiesAlive,bullets,&map_counter);
-			restart_chronometer(stopwatch);
-			orderToLoadGame=0;
+			
+			//loadGame(map,enemies,&isaac,stopwatch,&EnemiesAlive,bullets,map_counter);
+			//restart_chronometer(stopwatch);
+			//calculateEnemyMovesIfNeeded(*map_counter,graph,dist,Next,nextMoveMatrix);
+			*map_counter-=1;
+			return 0;
+			//calculateEnemyMovesIfNeeded(*map_counter,graph,dist,Next,nextMoveMatrix);
+			//orderToLoadGame=0;
 		}
 		if (IsKeyPressed(KEY_ESCAPE)) {
 			// Toggle the game state between GAME and MENU
@@ -138,7 +161,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 				//CloseWindow();
 			}
 			get_elapsed_time(stopwatch);
-			drawWindow(stopwatch->str_time,isaac, *stopwatch, map_counter,informationBarStrings,EnemiesAlive,mapElements);
+			drawWindow(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements);
 			//printf("%d",enemiesSleepCount);
 
 		} else if (gameState == MENU) {

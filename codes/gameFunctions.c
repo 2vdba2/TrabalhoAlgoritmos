@@ -2,7 +2,7 @@
 
 void NewGame() {
 	int nMaps=numberOfMaps();
-
+	int map_counter;
 	struct Stopwatch *stopwatch = malloc(sizeof *stopwatch);
 	struct InformationBarStrings *informationBarStrings = malloc(sizeof *informationBarStrings);
 
@@ -11,11 +11,11 @@ void NewGame() {
 
 	bool ShouldGameClose = false;
 
-	for(int i=0; i< nMaps; i++)
+	for(map_counter=0; map_counter< nMaps; map_counter++)
 	{
 		if(!ShouldGameClose){
-			printf("\nmaps/map%02d.txt",i);
-			ShouldGameClose = gameLoop(i,stopwatch,informationBarStrings);
+			printf("\nmaps/map%02d.txt",map_counter);
+			ShouldGameClose = gameLoop(&map_counter,stopwatch,informationBarStrings);
 		}
 	}
 	CloseWindow();
@@ -25,7 +25,7 @@ void NewGame() {
 
 void LoadGame() {
 	//orderToLoadGame=1;
-	orderToSaveGame=1; // como n tem funcao visual de salvar jogo ta aqui a gambiarra
+	orderToLoadGame=1; // como n tem funcao visual de salvar jogo ta aqui a gambiarra
 }
 
 void Config() {

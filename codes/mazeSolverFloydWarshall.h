@@ -405,15 +405,33 @@ int checkIfFileExists(int map_counter)
 int checkIfMapHasChanged(int map_counter)
 {
 	//check if map has changed
-	char copyMap[ MAP_SIZE_Y ][ MAP_SIZE_X ];
+	
+	//Original map
+	char originalMap[ MAP_SIZE_Y ][ MAP_SIZE_X ];
 	char fileName1[30];
-	sprintf(fileName1,"./chase/copyMap%02d.txt",map_counter+1);
-
+	sprintf(fileName1,"./maps/map%02d.txt",map_counter+1);
 	FILE* filePointer1;
 	int lineLength = 60+3; //include \n\0
 	char line[lineLength];
 	filePointer1 = fopen(fileName1, "r");
 	int i=0;
+	while(fgets(line, lineLength, filePointer1))
+	{
+		for(int j=0;j<60;j++)
+		{
+			originalMap[i][j]=line[j];
+		}
+		i++;
+	}
+	printf("\n");
+	fclose(filePointer1);
+
+
+	//Copy of Map
+	char copyMap[ MAP_SIZE_Y ][ MAP_SIZE_X ];
+	sprintf(fileName1,"./chase/copyMap%02d.txt",map_counter+1);
+	filePointer1 = fopen(fileName1, "r");
+	i=0;
 	while(fgets(line, lineLength, filePointer1))
 	{
 		for(int j=0;j<60;j++)
@@ -437,7 +455,7 @@ int checkIfMapHasChanged(int map_counter)
 	{
 		for(int j=0;j<MAP_SIZE_X&&mapHasChanged==0;j++)
 		{
-			if(map[i][j]!=copyMap[i][j])
+			if(originalMap[i][j]!=copyMap[i][j])
 			{
 				mapHasChanged=1;
 				printf("\nMAP HAS CHANGED");
