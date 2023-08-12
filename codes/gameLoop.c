@@ -16,7 +16,6 @@ struct Bullet bullets[MAX_BULLLETS];
 
 struct Isaac isaac;
 struct Enemy enemies[MAX_ENEMIES];
-struct Enemy enemy1;
 //struct Stopwatch stopwatch;
 
 typedef enum { GAME, MENU } GameState;
@@ -26,7 +25,6 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 	struct MapElement mapElements[N_MAP_ELEMENTS];
 	int i,j,missionComplete=0;
 	int nEnemies;
-
 
 	static int graph[V][V];
 	static int dist[V][V];
@@ -49,13 +47,11 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 	int enemyMovesPeriod=2;
 	initializeMapElement(mapElements);
 
-	
 
 	if(orderToLoadGame==1)
 	{
 		loadGame(map,enemies,&isaac,stopwatch,&EnemiesAlive,bullets,map_counter,&nEnemies);
 		restart_chronometer(stopwatch);
-		//calculateEnemyMovesIfNeeded(*map_counter,graph,dist,Next,nextMoveMatrix);
 		orderToLoadGame=0;
 	}
 	else
@@ -64,24 +60,22 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 		// INITIALIZATIONS
 		///////////
 		readMap(&isaac,*map_counter,enemies,&nEnemies);
-		
+		initializeIsaacEnemiesBullets(enemies,&isaac,bullets);
+		/*
 		for(int i = 0; i < MAX_BULLLETS; i++) {
 			bullets[i].IsAlive = false;
 		}
 
-
-		readMap(&isaac,*map_counter,enemies,&nEnemies);
-
 		//Characters Variables
 		isaac.id='J';
 		isaac.missionComplete=0;
-		enemy1.id='I';
 		isaac.nLifes=300;
 		isaac.nBombs=0;
 		for(int i=0; i<MAX_ENEMIES; i++)
 		{
 			enemies[i].id='I';
 		}
+		* */
 		EnemiesAlive = nEnemies;
 	}
 	calculateEnemyMovesIfNeeded(*map_counter,graph,dist,Next,nextMoveMatrix);
@@ -99,14 +93,8 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 		}
 		if(orderToLoadGame==1)
 		{
-			
-			//loadGame(map,enemies,&isaac,stopwatch,&EnemiesAlive,bullets,map_counter);
-			//restart_chronometer(stopwatch);
-			//calculateEnemyMovesIfNeeded(*map_counter,graph,dist,Next,nextMoveMatrix);
 			*map_counter-=1;
 			return 0;
-			//calculateEnemyMovesIfNeeded(*map_counter,graph,dist,Next,nextMoveMatrix);
-			//orderToLoadGame=0;
 		}
 		if (IsKeyPressed(KEY_ESCAPE)) {
 			// Toggle the game state between GAME and MENU
@@ -132,7 +120,6 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 					// The function moveAndVerifyEnemy will declare his id as ' '
 					if(enemies[i].IsAlive || enemies[i].id == 'I')
 					{
-						//dijkstra(adjacencyMatrix, enemies[i].vertex, V, isaac.vertex, dxdy);
 						getDxdyFromNextMoveMatrix(dxdy,nextMoveMatrix[enemies[i].vertex][isaac.vertex]);
 						enemies[i].dx=dxdy[0];
 						enemies[i].dy=dxdy[1];
