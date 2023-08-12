@@ -67,7 +67,7 @@ int saveGame()
     return file_count;
 }
 */
-int saveGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],struct Isaac isaac,struct Stopwatch *stopwatch, int EnemiesAlive,struct Bullet bullets[MAX_BULLLETS])
+int saveGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],struct Isaac isaac,struct Stopwatch *stopwatch, int EnemiesAlive,struct Bullet bullets[MAX_BULLLETS],int map_counter)
 {
 	int saved=1;
 	char name[30]={"./savedGame/savedGame.bin"};
@@ -129,11 +129,18 @@ int saveGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],
 			return saved;
 		}
 	}
+	// map counter
+	if (fwrite(&map_counter, sizeof(int), 1, arq) != 1)
+	{
+		printf("map_counter writing error");
+		saved=0;
+		return saved;
+	}
 	fclose(arq);
 	return saved;
 }
 
-int loadGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],struct Isaac *isaac,struct Stopwatch *stopwatch,int *EnemiesAlive,struct Bullet bullets[MAX_BULLLETS])
+int loadGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],struct Isaac *isaac,struct Stopwatch *stopwatch,int *EnemiesAlive,struct Bullet bullets[MAX_BULLLETS], int *map_counter)
 {
 	int saved=1;
 	char name[30]={"./savedGame/savedGame.bin"};
@@ -187,7 +194,7 @@ int loadGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],
 		printf("Error reading EnemiesAlive");
 		return 0;
 	}
-	//bulletes
+	//bullets
 	for(int i=0;i<MAX_BULLLETS;i++)
 	{
 		if(fread(&bullets[i], sizeof(struct Bullet), 1, arq) != 1)
@@ -195,6 +202,12 @@ int loadGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],
 			printf("Error reading bullet[%d]",i);
 			return 0;
 		}
+	}
+	//map_counter
+	if(fread(map_counter, sizeof(int), 1, arq) != 1)
+	{
+		printf("Error reading map_counter");
+		return 0;
 	}
 	fclose(arq);
 	return read;

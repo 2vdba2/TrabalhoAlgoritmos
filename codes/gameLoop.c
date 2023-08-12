@@ -12,7 +12,6 @@
 #include "mazeSolverFloydWarshall.h"
 #include "constants.h"
 
-
 struct Bullet bullets[MAX_BULLLETS];
 
 struct Isaac isaac;
@@ -25,9 +24,9 @@ typedef enum { GAME, MENU } GameState;
 int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings)
 {
 	struct MapElement mapElements[N_MAP_ELEMENTS];
-	
+
 	initializeMapElement(mapElements);
-	for(int i = 0; i < MAX_BULLLETS; i++){
+	for(int i = 0; i < MAX_BULLLETS; i++) {
 		bullets[i].IsAlive = false;
 	}
 
@@ -41,7 +40,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 	enemy1.id='I';
 	isaac.nLifes=300;
 	isaac.nBombs=0;
-	for(int i=0;i<MAX_ENEMIES;i++)
+	for(int i=0; i<MAX_ENEMIES; i++)
 	{
 		enemies[i].id='I';
 	}
@@ -57,7 +56,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 	static char nextMoveMatrix[V][V];
 	calculateEnemyMovesIfNeeded(map_counter,graph,dist,Next,nextMoveMatrix);
 
-    int dxdy[2];
+	int dxdy[2];
 
 	GameState gameState = GAME;
 	//set default state
@@ -73,66 +72,65 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 		//----------------------------------------------------------------------------------
 		if(orderToSaveGame==1)
 		{
-			saveGame(map,enemies,isaac,stopwatch,EnemiesAlive,bullets);
+			saveGame(map,enemies,isaac,stopwatch,EnemiesAlive,bullets,map_counter);
 			orderToSaveGame=0;
 		}
 		if(orderToLoadGame==1)
 		{
-			//loadGame(map,enemies,isaac,stopwatch,EnemiesAlive,bullets);
+			loadGame(map,enemies,&isaac,stopwatch,&EnemiesAlive,bullets,&map_counter);
+			restart_chronometer(stopwatch);
 			orderToLoadGame=0;
 		}
-		 if (IsKeyPressed(KEY_ESCAPE)) {
-            // Toggle the game state between GAME and MENU
-            if (gameState == GAME) {
-                gameState = MENU;
-            } else if (gameState == MENU) {
+		if (IsKeyPressed(KEY_ESCAPE)) {
+			// Toggle the game state between GAME and MENU
+			if (gameState == GAME) {
+				gameState = MENU;
+			} else if (gameState == MENU) {
 				restart_chronometer(stopwatch);
-                gameState = GAME;
-            }
-        }
+				gameState = GAME;
+			}
+		}
 
 		if (gameState == GAME) {
 			AtualizarTiros(bullets, map, enemies, nEnemies);
 
 			readKeyboard(&isaac,bullets,mapElements);
 
-		if(fframe==0)
-		{
-
-			
-			for(int i=0;i<nEnemies;i++)
+			if(fframe==0)
 			{
-				// if enemy.isAlive is false and his id is 'I', it is the first time he has passed through this loop.
-				// The function moveAndVerifyEnemy will declare his id as ' '
-				if(enemies[i].IsAlive || enemies[i].id == 'I')
+
+				for(int i=0; i<nEnemies; i++)
 				{
-					//dijkstra(adjacencyMatrix, enemies[i].vertex, V, isaac.vertex, dxdy);
-					getDxdyFromNextMoveMatrix(dxdy,nextMoveMatrix[enemies[i].vertex][isaac.vertex]);
-					enemies[i].dx=dxdy[0];
-					enemies[i].dy=dxdy[1];
-					
-					moveAndVerifyEnemy(&enemies[i],&isaac,mapElements);
-					isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
-					enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
+					// if enemy.isAlive is false and his id is 'I', it is the first time he has passed through this loop.
+					// The function moveAndVerifyEnemy will declare his id as ' '
+					if(enemies[i].IsAlive || enemies[i].id == 'I')
+					{
+						//dijkstra(adjacencyMatrix, enemies[i].vertex, V, isaac.vertex, dxdy);
+						getDxdyFromNextMoveMatrix(dxdy,nextMoveMatrix[enemies[i].vertex][isaac.vertex]);
+						enemies[i].dx=dxdy[0];
+						enemies[i].dy=dxdy[1];
+
+						moveAndVerifyEnemy(&enemies[i],&isaac,mapElements);
+						isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
+						enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
+					}
+				}
+				fframe++;
+			}
+			else
+			{
+				fframe++;
+				if(fframe>=enemyMovesPeriod)
+				{
+					fframe=0;
 				}
 			}
-			fframe++;
-		}
-		else
-		{
-			fframe++;
-			if(fframe>=enemyMovesPeriod)
-			{
-				fframe=0;
-			}
-		}
 
 			if(EnemiesAlive<=0)
 			{
 				mapElements[MAP_ELEMENT_PORTAL_NUMBER].canIsaacMove=1;
 			}
 
-			
 			if(map[isaac.posY][isaac.posX]=='P' && EnemiesAlive <= 0)
 			{
 				isaac.missionComplete=1;
@@ -143,10 +141,10 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 			drawWindow(stopwatch->str_time,isaac, *stopwatch, map_counter,informationBarStrings,EnemiesAlive,mapElements);
 			//printf("%d",enemiesSleepCount);
 
-        } else if (gameState == MENU) {
+		} else if (gameState == MENU) {
 
 			Menu();
-        }
+		}
 	}
 
 	return 1;

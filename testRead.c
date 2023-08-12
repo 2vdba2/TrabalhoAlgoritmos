@@ -13,8 +13,9 @@ int main()
 	struct Stopwatch *stopwatch = malloc(sizeof *stopwatch);
 	int EnemiesAlive;
 	struct Bullet bullets[MAX_BULLLETS];
+	int map_counter;
 	
-	loadGame(map,enemies,&isaac,stopwatch,&EnemiesAlive,bullets);
+	loadGame(map,enemies,&isaac,stopwatch,&EnemiesAlive,bullets,&map_counter);
 	for(int i=0;i<MAP_SIZE_Y;i++)
 	{
 		for(int j=0;j<MAP_SIZE_X;j++)

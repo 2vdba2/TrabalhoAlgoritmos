@@ -68,6 +68,14 @@ void readKeyboardMove(struct Isaac *isaac,struct MapElement mapElements[N_MAP_EL
 		isaac->dy=1;
 		moveAndVerifyIsaac(isaac,mapElements);
 	}
+	if (IsKeyDown(KEY_L))
+	{
+		orderToLoadGame=1;
+	}
+	if (IsKeyDown(KEY_O))
+	{
+		orderToSaveGame=1;
+	}
 }
 void readKeyboardLeaveBomb(struct Isaac *isaac)
 {
