@@ -107,7 +107,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 		if (gameState == GAME) {
 			AtualizarTiros(bullets, map, enemies, nEnemies);
 
-			readKeyboard(&isaac,bullets);
+			readKeyboard(&isaac,bullets,mapElements);
 
 
 

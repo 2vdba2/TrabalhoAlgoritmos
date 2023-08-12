@@ -25,7 +25,7 @@ void moveIsaac(struct Isaac *isaac)
 }
 
 
-int verifyMoveIsaac(struct Isaac *isaac)
+int verifyMoveIsaac(struct Isaac *isaac,struct MapElement mapElements[N_MAP_ELEMENTS])
 {
 	int result=0;
 	int xNext, yNext;
@@ -33,46 +33,21 @@ int verifyMoveIsaac(struct Isaac *isaac)
 	xNext=(*isaac).posX   +isaac->dx;
 	yNext=(*isaac).posY   +isaac->dy;
 	
-	
-	
-	if(map[yNext][xNext]==' ')
+	for(int i=0;i<N_MAP_ELEMENTS;i++)
 	{
-		result=1;
+		if(map[yNext][xNext]==mapElements[i].id)
+		{
+			result=mapElements[i].canIsaacMove;
+			(*isaac).nLifes-=mapElements[i].doesItDamageIsaac;
+			(*isaac).nBombs+=mapElements[i].isItInactiveBomb;
+			jumpFire(isaac,mapElements[i].id);
+		}
 	}
-	else if(map[yNext][xNext]=='X')//fogueira (X)
-	{
-		(*isaac).nLifes-=1;
-		result=1;
-		jumpFire(isaac);
-	}
-	else if(map[yNext][xNext]=='I')//inimigo(I)
-	{
-		(*isaac).nLifes-=1;(isaac);
-		result=0;
-	}
-	else if(map[yNext][xNext]=='#')// parede (#) ou bomba (B)
-	{
-		result=0;
-	}
-	else if(map[yNext][xNext]=='B')//Inactive bomb
-	{
-		(*isaac).nBombs+=1;
-		result=1;
-	}
-	else if(map[yNext][xNext]=='b')//active bomb
-	{
-		result=0;
-	}
-	else if(map[yNext][xNext]=='P'&&EnemiesAlive==0)//portal
-	{
-		result=1;
-	}
-	//printf("\n%d",result);
 	return result;
 }
-void moveAndVerifyIsaac(struct Isaac *isaac)
+void moveAndVerifyIsaac(struct Isaac *isaac,struct MapElement mapElements[N_MAP_ELEMENTS])
 {
-	if(verifyMoveIsaac(isaac))
+	if(verifyMoveIsaac(isaac,mapElements))
 	{
 		moveIsaac(isaac);
 	}
@@ -112,6 +87,7 @@ int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac)
 
 	xNext=(*enemy).posX   +(*enemy).dx;
 	yNext=(*enemy).posY   +(*enemy).dy;
+
 
 	if(map[yNext][xNext]==' ')
 	{
@@ -165,13 +141,14 @@ void moveAndVerifyEnemy(struct Enemy *enemy,struct Isaac *isaac)
 		moveEnemy(enemy);
 	}
 }
-void jumpFire(struct Isaac *isaac, int *result)
+void jumpFire(struct Isaac *isaac, int *result, char id)
 {
 	//This function avoids isaac to be inside the fire (it would crash a save
 	// in god mode if isaac is inside fire)
 	// when it moves to a fireplace, it goes to the next position, keeping
 	// the direction, or find an adjacent empty position
-	
+	if(id!='X')
+		return;
 	int xNext,yNext; //next x and y position of isaac
 	
 	xNext=isaac->posX   +isaac->dx;

@@ -15,7 +15,7 @@ void initializeMapElement(struct MapElement mapElements[N_MAP_ELEMENTS])
 	i=0;
 	mapElements[i].id=' ';
 	sprintf(mapElements[i].spritePath,"./Sprites/background.png");
-	mapElements[i].canIsaacMove=0;
+	mapElements[i].canIsaacMove=1;
 	mapElements[i].canEnemyMove=0;
 	mapElements[i].isItInactiveBomb=0;
 	mapElements[i].doesItDamageIsaac=0;
@@ -87,7 +87,7 @@ void initializeMapElement(struct MapElement mapElements[N_MAP_ELEMENTS])
 	i=7;
 	mapElements[i].id='o';
 	sprintf(mapElements[i].spritePath,"./Sprites/bullet.png");
-	mapElements[i].canIsaacMove=1;
+	mapElements[i].canIsaacMove=0;
 	mapElements[i].canEnemyMove=1;
 	mapElements[i].isItInactiveBomb=0;
 	mapElements[i].doesItDamageIsaac=0;

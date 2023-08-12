@@ -68,6 +68,7 @@ struct MapElement
 	bool isItInactiveBomb;
 	bool doesItDamageIsaac;
 	bool doesItDamageEnemy;
+	bool isItFire;
 	char spritePath[30];
 };
 #endif
