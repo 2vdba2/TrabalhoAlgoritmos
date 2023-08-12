@@ -47,31 +47,10 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 	EnemiesAlive = nEnemies;
 	int fframe=0;
 	int enemyMovesPeriod=2;
-	
-	
-	////////////
-	// INITIALIZATIONS
-	///////////
-	readMap(&isaac,*map_counter,enemies,&nEnemies);
 	initializeMapElement(mapElements);
-	for(int i = 0; i < MAX_BULLLETS; i++) {
-		bullets[i].IsAlive = false;
-	}
 
+	
 
-	readMap(&isaac,*map_counter,enemies,&nEnemies);
-
-	//Characters Variables
-	isaac.id='J';
-	isaac.missionComplete=0;
-	enemy1.id='I';
-	isaac.nLifes=300;
-	isaac.nBombs=0;
-	for(int i=0; i<MAX_ENEMIES; i++)
-	{
-		enemies[i].id='I';
-	}
-	EnemiesAlive = nEnemies;
 	if(orderToLoadGame==1)
 	{
 		loadGame(map,enemies,&isaac,stopwatch,&EnemiesAlive,bullets,map_counter,&nEnemies);
@@ -79,7 +58,32 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 		//calculateEnemyMovesIfNeeded(*map_counter,graph,dist,Next,nextMoveMatrix);
 		orderToLoadGame=0;
 	}
+	else
+	{
+		////////////
+		// INITIALIZATIONS
+		///////////
+		readMap(&isaac,*map_counter,enemies,&nEnemies);
+		
+		for(int i = 0; i < MAX_BULLLETS; i++) {
+			bullets[i].IsAlive = false;
+		}
 
+
+		readMap(&isaac,*map_counter,enemies,&nEnemies);
+
+		//Characters Variables
+		isaac.id='J';
+		isaac.missionComplete=0;
+		enemy1.id='I';
+		isaac.nLifes=300;
+		isaac.nBombs=0;
+		for(int i=0; i<MAX_ENEMIES; i++)
+		{
+			enemies[i].id='I';
+		}
+		EnemiesAlive = nEnemies;
+	}
 	calculateEnemyMovesIfNeeded(*map_counter,graph,dist,Next,nextMoveMatrix);
 
 
