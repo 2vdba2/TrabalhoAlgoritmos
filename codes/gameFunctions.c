@@ -24,7 +24,8 @@ void NewGame() {
 };
 
 void LoadGame() {
-	saveGame(map);
+	//orderToLoadGame=1;
+	orderToSaveGame=1; // como n tem funcao visual de salvar jogo ta aqui a gambiarra
 }
 
 void Config() {
@@ -32,5 +33,6 @@ void Config() {
 }
 
 void SaveGame(){
+	orderToSaveGame=1;
 
 }

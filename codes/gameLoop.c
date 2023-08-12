@@ -16,7 +16,7 @@
 struct Bullet bullets[MAX_BULLLETS];
 
 struct Isaac isaac;
-struct Enemy enemies[15];
+struct Enemy enemies[MAX_ENEMIES];
 struct Enemy enemy1;
 //struct Stopwatch stopwatch;
 
@@ -71,7 +71,11 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 	{
 		// Trata entrada do usu´ario e atualiza estado do jogo
 		//----------------------------------------------------------------------------------
-
+		if(orderToSaveGame==1)
+		{
+			saveGame(map,enemies,isaac,stopwatch);
+			orderToSaveGame=0;
+		}
 		 if (IsKeyPressed(KEY_ESCAPE)) {
             // Toggle the game state between GAME and MENU
             if (gameState == GAME) {

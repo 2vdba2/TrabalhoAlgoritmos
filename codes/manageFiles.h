@@ -67,7 +67,7 @@ int saveGame()
     return file_count;
 }
 */
-int saveGame(char map[MAP_SIZE_Y][MAP_SIZE_X])
+int saveGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],struct Isaac isaac,struct Stopwatch *stopwatch)
 {
 	int saved=1;
 	char name[30]={"./savedGame/savedGame.bin"};
@@ -81,20 +81,19 @@ int saveGame(char map[MAP_SIZE_Y][MAP_SIZE_X])
 		{
 			if (fwrite(&map[i][j], sizeof(char), 1, arq) != 1)
 			{
-				printf("Erro na escrita do mapa");
+				printf("Map writting error");
 				saved=0;
 				return saved;
 			}
 		}
 	}
 	// SAVE ISAAC
-	/*
 	if (fwrite(&isaac, sizeof(struct Isaac), 1, arq) != 1)
 	{
-		printf("Erro na escrita");
-		salvou=0;
+		printf("isaac writing error");
+		saved=0;
 	}
-	*/
+	
 	fclose(arq);
 	return saved;
 }
@@ -126,7 +125,8 @@ int loadGame(char map[MAP_SIZE_Y][MAP_SIZE_X])
 			}
 		}
 	}
-
+	//isaac
+	
 	fclose(arq);
 	return read;
 }

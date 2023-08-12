@@ -17,6 +17,8 @@
 #define MAP_ELEMENT_PORTAL_NUMBER 5
 
 extern int EnemiesAlive = 0;
+extern int orderToSaveGame = 0;
+extern int orderToLoadGame = 0;
 
 
 #endif
