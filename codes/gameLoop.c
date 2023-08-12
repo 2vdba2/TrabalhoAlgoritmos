@@ -102,7 +102,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 					enemies[i].dx=dxdy[0];
 					enemies[i].dy=dxdy[1];
 					
-					moveAndVerifyEnemy(&enemies[i],&isaac);
+					moveAndVerifyEnemy(&enemies[i],&isaac,mapElements);
 					isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
 					enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
 				}

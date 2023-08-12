@@ -40,7 +40,8 @@ int verifyMoveIsaac(struct Isaac *isaac,struct MapElement mapElements[N_MAP_ELEM
 			result=mapElements[i].canIsaacMove;
 			(*isaac).nLifes-=mapElements[i].doesItDamageIsaac;
 			(*isaac).nBombs+=mapElements[i].isItInactiveBomb;
-			jumpFireIsaac(isaac,mapElements[i].id);
+			jumpFireIsaac(isaac,&result,mapElements[i].id);
+
 		}
 	}
 	return result;
@@ -56,8 +57,6 @@ void moveAndVerifyIsaac(struct Isaac *isaac,struct MapElement mapElements[N_MAP_
 
 void moveEnemy(struct Enemy *enemy)
 {
-	
-	
 	if((*enemy).IsAlive){
 		if(map[(*enemy).posY][(*enemy).posX]==(*enemy).id)
 			map[(*enemy).posY][(*enemy).posX]=' ';//replace previous position by ' ' empty if it was fire
@@ -80,7 +79,7 @@ void moveEnemy(struct Enemy *enemy)
 	}
 		
 }
-int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac)
+int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac,struct MapElement mapElements[N_MAP_ELEMENTS])
 {
 	int result=0;
 	int xNext, yNext;
@@ -89,54 +88,21 @@ int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac)
 	yNext=(*enemy).posY   +(*enemy).dy;
 
 
-	if(map[yNext][xNext]==' ')
+	for(int i=0;i<N_MAP_ELEMENTS;i++)
 	{
-		result=1;
+		if(map[yNext][xNext]==mapElements[i].id)
+		{
+			result=mapElements[i].canEnemyMove;
+			(*enemy).IsAlive=!mapElements[i].doesItDamageEnemy;
+			jumpFireAndBombEnemy(enemy,&result,mapElements[i].id);
+		}
 	}
-	else if(map[yNext][xNext]=='X')//fogueira (X)
-	{
-		result=1;
-	}
-	else if(map[yNext][xNext]=='I')//inimigo(I)
-	{
-		result=0;
-	}
-	else if(map[yNext][xNext]=='#')// parede (#) 
-	{
-		result=0;
-	}
-	else if(map[yNext][xNext]=='B')// Inactive Bomb
-	{
-		result=1;
-	}
-	else if(map[yNext][xNext]=='b')
-	{
-		(*enemy).IsAlive=false;
-		map[yNext][xNext]=' ';
-		result=1;
-	}
-	else if(map[yNext][xNext]=='o')
-	{
-		(*enemy).IsAlive=false;
-		map[yNext][xNext]=' ';
-		result=1;
-	}
-	else if(map[yNext][xNext]=='P')//portal
-	{
-		result=0;
-	}
-	else if(map[yNext][xNext]=='J')//Isaac
-	{
-		(*isaac).nLifes-=1;(isaac);
-		result=0;
-	}
-	//printf("\n%d",result);
 	return result;
 }
 
-void moveAndVerifyEnemy(struct Enemy *enemy,struct Isaac *isaac)
+void moveAndVerifyEnemy(struct Enemy *enemy,struct Isaac *isaac,struct MapElement mapElements[N_MAP_ELEMENTS])
 {
-	if(verifyMoveEnemy(enemy,isaac))
+	if(verifyMoveEnemy(enemy,isaac,mapElements))
 	{
 		moveEnemy(enemy);
 	}
@@ -153,12 +119,13 @@ void jumpFireIsaac(struct Isaac *isaac, int *result, char id)
 	
 	xNext=isaac->posX   +isaac->dx;
 	yNext=isaac->posY   +isaac->dy;
-
+	*result=0;
 	//keeping dx dy direction, if position after fire is empty, Isaac goes there
 	if(map[yNext+isaac->dy][xNext+isaac->dx]==' ')
 	{
 		isaac->dy*=2;
 		isaac->dx*=2;
+		*result=1;
 	}
 	//Otherwise loop to find an empty position adjacent to fire
 	else
@@ -173,6 +140,47 @@ void jumpFireIsaac(struct Isaac *isaac, int *result, char id)
 					{
 						isaac->dy+=i;
 						isaac->dx+=j;
+						*result=1;
+					}
+				}
+			}
+		}
+	}
+}
+
+void jumpFireAndBombEnemy(struct Enemy *enemy, int *result, char id)
+{
+	//This function avoids enemy to be inside the fire and inactive bomb (it would crash a save
+	// when enemy next move is fire or inactive bomb, it goes to the next position, keeping
+	// the direction, or find an adjacent empty position
+	if(id!='X'||id!='B')
+		return;
+	int xNext,yNext; //next x and y position of isaac
+	
+	xNext=enemy->posX   +enemy->dx;
+	yNext=enemy->posY   +enemy->dy;
+	*result=0;
+	//keeping dx dy direction, if position after fire/inactivebomb is empty, enemy goes there
+	if(map[yNext+enemy->dy][xNext+enemy->dx]==' ')
+	{
+		enemy->dy*=2;
+		enemy->dx*=2;
+		*result=1;
+	}
+	//Otherwise loop to find an empty position adjacent to fire/inactive bomb
+	else
+	{
+		for(int i=-1;i<2||result==1;i++)
+		{
+			for(int j=-1;j<2||result==1;j++)
+			{
+				if(i!=0&&j!=0)
+				{
+					if(map[yNext+i][xNext+j]==' ')
+					{
+						enemy->dy+=i;
+						enemy->dx+=j;
+						*result=1;
 					}
 				}
 			}
