@@ -40,7 +40,7 @@ int verifyMoveIsaac(struct Isaac *isaac,struct MapElement mapElements[N_MAP_ELEM
 			result=mapElements[i].canIsaacMove;
 			(*isaac).nLifes-=mapElements[i].doesItDamageIsaac;
 			(*isaac).nBombs+=mapElements[i].isItInactiveBomb;
-			jumpFire(isaac,mapElements[i].id);
+			jumpFireIsaac(isaac,mapElements[i].id);
 		}
 	}
 	return result;
@@ -141,7 +141,7 @@ void moveAndVerifyEnemy(struct Enemy *enemy,struct Isaac *isaac)
 		moveEnemy(enemy);
 	}
 }
-void jumpFire(struct Isaac *isaac, int *result, char id)
+void jumpFireIsaac(struct Isaac *isaac, int *result, char id)
 {
 	//This function avoids isaac to be inside the fire (it would crash a save
 	// in god mode if isaac is inside fire)

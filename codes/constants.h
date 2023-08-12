@@ -14,6 +14,7 @@
 #define INF 999
 #define MAX_ENEMIES 15
 #define N_MAP_ELEMENTS 9 // #,I,J,o,X,b,B,P,' '
+#define MAP_ELEMENT_PORTAL_NUMBER 6
 
 extern int EnemiesAlive = 0;
 

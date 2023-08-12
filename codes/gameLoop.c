@@ -6,8 +6,6 @@
 #include "constants.h"
 #include "keyboardFunctions.h"
 #include "visualInterface.h"
-//include "mazeSolver2.h"
-//#include "mazeSolverDijkstra.h"
 #include "stopwatch.h"
 #include <time.h>       // for time()
 #include <unistd.h>     // for sleep()
@@ -23,8 +21,6 @@ struct Enemy enemy1;
 //struct Stopwatch stopwatch;
 
 typedef enum { GAME, MENU } GameState;
-
-
 
 int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings)
 {
@@ -60,18 +56,7 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 	mazeToGraph(maze,graph);
 	static char nextMoveMatrix[V][V];
 	calculateEnemyMovesIfNeeded(map_counter,graph,dist,Next,nextMoveMatrix);
-	/*
-    int** adjacencyMatrix = (int**)malloc(nVertices * sizeof(int*));
-    for (int i = 0; i < nVertices; i++) {
-        adjacencyMatrix[i] = (int*)malloc(nVertices * sizeof(int));
-    }
 
-    for (int i = 0; i < nVertices; i++) {
-        for (int j = 0; j < nVertices; j++) {
-            adjacencyMatrix[i][j]=graph[i][j];
-        }
-    }
-    * */
     int dxdy[2];
 
 	GameState gameState = GAME;
@@ -80,18 +65,12 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 	EnemiesAlive = nEnemies;
 	int fframe=0;
 	int enemyMovesPeriod=2;
-	//La¸co principal do jogo
-	//int enemiesSleepCount=0; //counter to slows dows enemy. it moves each enemyMovesPeriod
-	//int isaacSleepCount=0; //counter to slows dows Isaac. it moves each isaacMovesPeriod
-	//int enemyMovesPeriod=20;
-	//int isaacMovesPeriod=500;
+
 	SetExitKey(0);// the function WindowShouldClose will close when ESC is press, this will Set the configuration flag to ignore the ESC key press
 	while (!WindowShouldClose()&&isaac.missionComplete==0) // Detect window close button or ESC key
 	{
 		// Trata entrada do usu´ario e atualiza estado do jogo
 		//----------------------------------------------------------------------------------
-
-		
 
 		 if (IsKeyPressed(KEY_ESCAPE)) {
             // Toggle the game state between GAME and MENU
@@ -103,28 +82,14 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
             }
         }
 
-
 		if (gameState == GAME) {
 			AtualizarTiros(bullets, map, enemies, nEnemies);
 
 			readKeyboard(&isaac,bullets,mapElements);
 
-
-
-
 		if(fframe==0)
 		{
-			/*
-			dijkstra(adjacencyMatrix, enemy1.vertex, V, isaac.vertex, dxdy);
 
-			enemy1.dx=dxdy[0];
-			enemy1.dy=dxdy[1];
-			
-			moveAndVerifyEnemy(&enemy1,&isaac);
-			isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
-			enemy1.vertex=indexToVertex(enemy1.posY,enemy1.posX);
-			*/
-			/////////////
 			
 			for(int i=0;i<nEnemies;i++)
 			{
@@ -142,8 +107,6 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 					enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
 				}
 			}
-			
-			//////////////
 			fframe++;
 		}
 		else
@@ -155,31 +118,12 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 			}
 		}
 
-
-
-
-
-
-/*
-
-
-			for(int i=0;i<nEnemies;i++)
+			if(EnemiesAlive<=0)
 			{
-				// if enemy.isAlive is false and his id is 'I', it is the first time he has passed through this loop.
-				// The function moveAndVerifyEnemy will declare his id as ' '
-				if(enemies[i].IsAlive || enemies[i].id == 'I')
-				{
-					dijkstra(adjacencyMatrix, enemies[i].vertex, V, isaac.vertex, dxdy);
-
-					enemies[i].dx=dxdy[0];
-					enemies[i].dy=dxdy[1];
-
-					moveAndVerifyEnemy(&enemies[i],&isaac);
-					isaac.vertex=indexToVertex(isaac.posY,isaac.posX);
-					enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
-				}
+				mapElements[MAP_ELEMENT_PORTAL_NUMBER].canIsaacMove=1;
 			}
-*/
+
+			
 			if(map[isaac.posY][isaac.posX]=='P' && EnemiesAlive <= 0)
 			{
 				isaac.missionComplete=1;
@@ -195,10 +139,6 @@ int gameLoop(int map_counter,struct Stopwatch *stopwatch, struct InformationBarS
 			Menu();
         }
 	}
-	/*
-    for(int i = 0; i < nVertices; i++)
-		free(adjacencyMatrix[i]);
-	free(adjacencyMatrix);
-	* */
+
 	return 1;
 }

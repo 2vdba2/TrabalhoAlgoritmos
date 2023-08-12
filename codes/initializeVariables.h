@@ -74,7 +74,7 @@ void initializeMapElement(struct MapElement mapElements[N_MAP_ELEMENTS])
 	mapElements[i].doesItDamageEnemy=1;
 
 	//Portal
-	i=6;
+	i=MAP_ELEMENT_PORTAL_NUMBER; // 6
 	mapElements[i].id='P';
 	sprintf(mapElements[i].spritePath,"./Sprites/portal.png");
 	mapElements[i].canIsaacMove=0;
