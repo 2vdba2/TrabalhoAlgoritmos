@@ -18,7 +18,6 @@ int main()
     }
 
 	CloseWindow();// Fecha a janela e o contexto OpenGL
-	
-	
+
 	return 0;
 }
