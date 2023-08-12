@@ -1,3 +1,5 @@
+#include "manageFiles.h"
+
 void NewGame() {
 	int nMaps=numberOfMaps();
 
@@ -22,7 +24,7 @@ void NewGame() {
 };
 
 void LoadGame() {
-
+	saveGame(map);
 }
 
 void Config() {
