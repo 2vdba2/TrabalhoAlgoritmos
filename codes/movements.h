@@ -73,12 +73,7 @@ void moveEnemy(struct Enemy *enemy)
 			map[(*enemy).posY][(*enemy).posX]=(*enemy).id;//update position
 		}
 	}
-	else if(map[(*enemy).posY][(*enemy).posX] == (*enemy).id){
-			map[(*enemy).posY][(*enemy).posX]= ' ';
-			(*enemy).id = ' ';
-			EnemiesAlive--;
-	}
-		
+
 }
 int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac,struct MapElement mapElements[N_MAP_ELEMENTS])
 {
@@ -88,19 +83,28 @@ int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac,struct MapElement ma
 	xNext=(*enemy).posX   +(*enemy).dx;
 	yNext=(*enemy).posY   +(*enemy).dy;
 
-
-	for(int i=0;i<N_MAP_ELEMENTS;i++)
+	if(enemy->IsAlive)
 	{
-		if(map[yNext][xNext]==mapElements[i].id)
+
+		for(int i=0;i<N_MAP_ELEMENTS;i++)
 		{
-			result=mapElements[i].canEnemyMove;
-			(*enemy).IsAlive=!mapElements[i].doesItDamageEnemy;
-			jumpFireAndBombEnemy(enemy,&result,mapElements[i].id);
-			if(mapElements[i].id==mapElements[MAP_ELEMENT_ISAAC_NUMBER].id)
+			if(map[yNext][xNext]==mapElements[i].id)
 			{
-				(*isaac).nLifes-=mapElements[MAP_ELEMENT_ENEMY_NUMBER].doesItDamageIsaac;
+				result=mapElements[i].canEnemyMove;
+				(*enemy).IsAlive=!mapElements[i].doesItDamageEnemy;
+				jumpFireAndBombEnemy(enemy,&result,mapElements[i].id);
+				if(mapElements[i].id==mapElements[MAP_ELEMENT_ISAAC_NUMBER].id)
+				{
+					(*isaac).nLifes-=mapElements[MAP_ELEMENT_ENEMY_NUMBER].doesItDamageIsaac;
+				}
 			}
 		}
+	}
+	else if(map[(*enemy).posY][(*enemy).posX] == (*enemy).id)
+	{
+			map[(*enemy).posY][(*enemy).posX]= ' ';
+			(*enemy).id = ' ';
+			EnemiesAlive--;
 	}
 	return result;
 }

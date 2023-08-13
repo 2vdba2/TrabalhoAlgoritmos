@@ -29,6 +29,7 @@ void AtualizarTiros(struct Bullet Bullets[], char map[][MAP_SIZE_X], struct Enem
 				Bullets[i].posY += Bullets[i].VelocityY;
 			} else if(map[Bullets[i].posY + Bullets[i].VelocityY][Bullets[i].posX + Bullets[i].VelocityX] == 'I'){
 				Bullets[i].IsAlive = false;
+				
 				DamageEnemy((Bullets[i].posX + Bullets[i].VelocityX),(Bullets[i].posY + Bullets[i].VelocityY), enemies, nEnemies);
 			} else {
 				Bullets[i].IsAlive = false;
@@ -38,12 +39,19 @@ void AtualizarTiros(struct Bullet Bullets[], char map[][MAP_SIZE_X], struct Enem
 }
 void DamageEnemy(int x, int y,struct Enemy enemies[], int nEnemies){
 	for (int i = 0; i < nEnemies; i++) {
-			if (enemies[i].posX == x && enemies[i].posY == y) {
+			if (enemies[i].posX == x && enemies[i].posY == y && enemies[i].IsAlive) {
+					enemies[i].IsAlive = false;
+					if(map[enemies[i].posY][enemies[i].posX] == enemies[i].id)
+					{
+						map[enemies[i].posY][enemies[i].posX]= ' ';
+						enemies[i].id = ' ';
+						EnemiesAlive--;
+					}
 					enemies[i].nLifes--;
 					if(enemies[i].nLifes <= 0){
 						enemies[i].IsAlive = false;
 					}
-				break;
+				//break;
 			}
 		}
 }
