@@ -18,7 +18,7 @@
 #define MAP_ELEMENT_PORTAL_NUMBER 5
 #define MAP_ELEMENT_ENEMY_NUMBER 6
 #define MAP_ELEMENT_ISAAC_NUMBER 8
-
+#define ENEMY_FRAMES_PER_MOVE 2
 
 extern int EnemiesAlive = 0;
 extern int orderToSaveGame = 0;

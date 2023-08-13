@@ -3,6 +3,7 @@
 
 #include "constants.h"
 #include "structs.h"
+#include "mazeSolverFloydWarshall.h"
 #include <stdbool.h>
 
 void moveIsaac(struct Isaac *isaac)
@@ -111,6 +112,38 @@ void moveAndVerifyEnemy(struct Enemy *enemy,struct Isaac *isaac,struct MapElemen
 		moveEnemy(enemy);
 	}
 }
+
+void moveAndVerifyAllEnemies(struct Enemy enemies[MAX_ENEMIES],struct Isaac *isaac,struct MapElement mapElements[N_MAP_ELEMENTS], int *frame, int nEnemies, char nextMoveMatrix[V][V])
+{
+	int dxdy[2];//variable to store enemy next move
+	if(*frame==0)
+	{
+		for(int i=0; i<nEnemies; i++)
+		{
+			// if enemy.isAlive is false and his id is 'I', it is the first time he has passed through this loop.
+			// The function moveAndVerifyEnemy will declare his id as ' '
+			if(enemies[i].IsAlive || enemies[i].id == 'I')
+			{
+				getDxdyFromNextMoveMatrix(dxdy,nextMoveMatrix[enemies[i].vertex][isaac->vertex]);
+				enemies[i].dx=dxdy[0];
+				enemies[i].dy=dxdy[1];
+				moveAndVerifyEnemy(&enemies[i],isaac,mapElements);
+				isaac->vertex=indexToVertex(isaac->posY,isaac->posX);
+				enemies[i].vertex=indexToVertex(enemies[i].posY,enemies[i].posX);
+			}
+		}
+		(*frame)++;
+	}
+	else
+	{
+		(*frame)++;
+		if(*frame>=ENEMY_FRAMES_PER_MOVE)
+		{
+			*frame=0;
+		}
+	}
+}
+
 void jumpFireIsaac(struct Isaac *isaac, int *result, char id)
 {
 	//This function avoids isaac to be inside the fire (it would crash a save

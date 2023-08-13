@@ -67,8 +67,11 @@ void readKeyboardMove(struct Isaac *isaac,struct MapElement mapElements[N_MAP_EL
 		isaac->dx=0;
 		isaac->dy=1;
 		moveAndVerifyIsaac(isaac,mapElements);
-		printf("aaaaaaaaaa");
 	}
+
+}
+void readKeyboardSpecialKeys(struct MapElement mapElements[N_MAP_ELEMENTS],struct Stopwatch *stopwatch)
+{
 	//Load Game
 	if (IsKeyDown(KEY_L))
 	{
@@ -79,6 +82,7 @@ void readKeyboardMove(struct Isaac *isaac,struct MapElement mapElements[N_MAP_EL
 	{
 		orderToSaveGame=1;
 	}
+	//God mode
 	if (IsKeyPressed(KEY_G))
 	{
 		printf("god mode on");
@@ -102,7 +106,22 @@ void readKeyboardMove(struct Isaac *isaac,struct MapElement mapElements[N_MAP_EL
 			printf("god mode on");
 		}
 	}
+	//Go to Menu
+	if (IsKeyPressed(KEY_ESCAPE))
+	{
+		// Toggle the game state between GAME and MENU
+		if (gameState == GAME)
+		{
+			gameState = MENU;
+		}
+		else if (gameState == MENU)
+		{
+			restart_chronometer(stopwatch);
+			gameState = GAME;
+		}
+	}
 }
+
 void readKeyboardLeaveBomb(struct Isaac *isaac)
 {
 	int lastX,lastY;
@@ -117,10 +136,11 @@ void readKeyboardLeaveBomb(struct Isaac *isaac)
 		}
 	}
 }
-void readKeyboard(struct Isaac *isaac, struct Bullet bullets[],struct MapElement mapElements[N_MAP_ELEMENTS])
+void readKeyboard(struct Isaac *isaac, struct Bullet bullets[],struct MapElement mapElements[N_MAP_ELEMENTS],struct Stopwatch *stopwatch)
 {
 	readKeyboardMove(isaac,mapElements);
 	readKeyboardLeaveBomb(isaac);
 	readKeyboardShoot(*isaac,bullets);
+	readKeyboardSpecialKeys(mapElements,stopwatch);
 }
 #endif

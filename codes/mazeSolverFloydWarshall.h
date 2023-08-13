@@ -482,11 +482,19 @@ int areEnemyMovesPreCalculated(int map_counter)
 	}
 	return result;
 }
-void calculateEnemyMovesIfNeeded(int map_counter,int graph[][V], int dist[][V], int Next[][V],char nextMoveMatrix[V][V])
+
+void calculateEnemyMovesIfNeeded(int map_counter,char nextMoveMatrix[V][V])
 {
+	static int graph[V][V];
+	static int dist[V][V];
+	static int Next[V][V];
+	static int path[V];
+	static int maze[MAP_SIZE_Y][MAP_SIZE_X];
 	//this function calculates enemy moves if they arent calculated already for a given map
 	if(areEnemyMovesPreCalculated(map_counter)==0)
 	{
+		mapToMaze(maze);
+		mazeToGraph(maze,graph);
 		printf("\nareEnemyMovesPreCalculated==0\n");
 		floydWarshall(graph,dist,Next);
 		buildNextMoveMatrix(Next,nextMoveMatrix);
