@@ -70,7 +70,7 @@ void readKeyboardMove(struct Isaac *isaac,struct MapElement mapElements[N_MAP_EL
 	}
 
 }
-void readKeyboardSpecialKeys(struct MapElement mapElements[N_MAP_ELEMENTS],struct Stopwatch *stopwatch)
+void readKeyboardSpecialKeys(struct MapElement mapElements[N_MAP_ELEMENTS],struct Stopwatch *stopwatch, GameState *gameState)
 {
 	//Load Game
 	if (IsKeyDown(KEY_L))
@@ -107,19 +107,22 @@ void readKeyboardSpecialKeys(struct MapElement mapElements[N_MAP_ELEMENTS],struc
 		}
 	}
 	//Go to Menu
+	
 	if (IsKeyPressed(KEY_ESCAPE))
 	{
 		// Toggle the game state between GAME and MENU
-		if (gameState == GAME)
+		if (*gameState == GAME)
 		{
-			gameState = MENU;
+			*gameState = MENU;
 		}
-		else if (gameState == MENU)
+		else if (*gameState == MENU)
 		{
 			restart_chronometer(stopwatch);
-			gameState = GAME;
+			*gameState = GAME;
 		}
 	}
+	
+	
 }
 
 void readKeyboardLeaveBomb(struct Isaac *isaac)
@@ -141,6 +144,6 @@ void readKeyboard(struct Isaac *isaac, struct Bullet bullets[],struct MapElement
 	readKeyboardMove(isaac,mapElements);
 	readKeyboardLeaveBomb(isaac);
 	readKeyboardShoot(*isaac,bullets);
-	readKeyboardSpecialKeys(mapElements,stopwatch);
+	//readKeyboardSpecialKeys(mapElements,stopwatch);
 }
 #endif

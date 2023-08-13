@@ -24,6 +24,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 	int dxdy[2];//next enemy move
 	int frame=0;
 	int enemyMovesPeriod=2;
+	GameState gameState = GAME;
 
 	initializeMapElement(mapElements);
 
@@ -57,6 +58,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 			return 0;
 		}
 
+		readKeyboardSpecialKeys(mapElements,stopwatch,&gameState);
 		if (gameState == GAME)
 		{
 			AtualizarTiros(bullets, map, enemies, nEnemies);
