@@ -353,7 +353,7 @@ void DrawMenuInGame() {
 }
 
 
-void InGameMenu(){
+void InGameMenu(GameState *gameState ){
 
 	 if (IsKeyPressed(KEY_DOWN)||IsKeyPressed(KEY_S)) {
             currentInGameMenuItem = (currentInGameMenuItem + 1) % 6;
@@ -367,6 +367,7 @@ void InGameMenu(){
                     NewGame();
                     break;
                 case INGAME_SALVAR_JOGO:
+					SaveGame();
                     break;
                 case INGAME_CARREGAR_JOGO:
                     LoadGame();
@@ -379,7 +380,7 @@ void InGameMenu(){
                     CloseWindow();
                     break;
                 case INGAME_VOLTAR:
-                    gameState = GAME;
+                    *gameState = GAME;
                     break;
             }
         }

@@ -82,7 +82,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 		//check if gameState was changed from GAME to MENU by shortcut ESC 
 		else if (gameState == MENU)
 		{
-			InGameMenu();
+			InGameMenu(&gameState );
 		}
 	}
 
