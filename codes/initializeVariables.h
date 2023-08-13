@@ -29,7 +29,7 @@ void initializeMapElement(struct MapElement mapElements[N_MAP_ELEMENTS])
 	int i;
 	printf("initalize variables function");
 	//BackGround
-	i=0;
+	i=MAP_ELEMENT_BACKGROUND_NUMBER;//0
 	mapElements[i].id=' ';
 	sprintf(mapElements[i].spritePath,"./Sprites/background.png");
 	mapElements[i].canIsaacMove=1;
