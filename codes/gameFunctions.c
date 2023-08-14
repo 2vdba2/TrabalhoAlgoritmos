@@ -18,7 +18,7 @@ void NewGame() {
 			ShouldGameClose = gameLoop(&map_counter,stopwatch,informationBarStrings);
 		}
 	}
-	CloseWindow();
+	//CloseWindow();
 	free(stopwatch);
 	free(informationBarStrings);
 };
