@@ -138,7 +138,8 @@ void Menu() {
 			NewGame();
 			break;
 		case CARREGAR_JOGO:
-			LoadGame();
+			orderToLoadGame=1;
+			NewGame();
 			break;
 		case CONFIGURACOES:
 			Config();
@@ -245,7 +246,8 @@ void InGameMenu(GameState *gameState ) {
 			SaveGame();
 			break;
 		case INGAME_CARREGAR_JOGO:
-			LoadGame();
+			orderToLoadGame=1;
+			NewGame();
 			break;
 		case INGAME_CONFIGURACOES:
 			Config();

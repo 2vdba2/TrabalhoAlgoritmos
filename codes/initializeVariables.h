@@ -14,7 +14,7 @@ void initializeIsaacEnemiesBullets(struct Enemy enemies[MAX_ENEMIES],struct Isaa
 		//Characters Variables
 		isaac->id='J';
 		isaac->missionComplete=0;
-		isaac->nLifes=300;
+		isaac->nLifes=3;
 		isaac->nBombs=0;
 		for(int i=0; i<MAX_ENEMIES; i++)
 		{

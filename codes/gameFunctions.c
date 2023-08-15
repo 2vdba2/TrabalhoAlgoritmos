@@ -15,10 +15,13 @@ void NewGame() {
 	{
 		if(!ShouldGameClose){
 			printf("\nmaps/map%02d.txt",map_counter);
-			ShouldGameClose = gameLoop(&map_counter,stopwatch,informationBarStrings);
+			ShouldGameClose = gameLoop(&map_counter,stopwatch,informationBarStrings,nMaps);
 		}
 	}
-	//CloseWindow();
+	if(closeGame==1)
+	{
+		CloseWindow();
+	}
 	free(stopwatch);
 	free(informationBarStrings);
 };

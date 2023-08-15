@@ -15,7 +15,7 @@ struct Bullet bullets[MAX_BULLLETS];
 struct Isaac isaac;
 struct Enemy enemies[MAX_ENEMIES];
 
-int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings)
+int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings,int nMaps)
 {
 	struct MapElement mapElements[N_MAP_ELEMENTS];
 	int missionComplete=0;
@@ -24,6 +24,8 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 	int dxdy[2];//next enemy move
 	int frame=0;
 	int enemyMovesPeriod=2;
+	int backUpIsaacNlifes;
+
 	GameState gameState = GAME;
 
 	initializeMapElement(mapElements);
@@ -43,7 +45,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 	calculateEnemyMovesIfNeeded(*map_counter,nextMoveMatrix);
 
 	SetExitKey(0);// the function WindowShouldClose will close when ESC is press, this will Set the configuration flag to ignore the ESC key press
-	while (!WindowShouldClose()&&isaac.missionComplete==0) // Detect window close button or ESC key
+	while (closeGame==0&&isaac.missionComplete==0) // Detect window close button or ESC key
 	{
 		// Trata entrada do usu´ario e atualiza estado do jogo
 		//----------------------------------------------------------------------------------
@@ -61,6 +63,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 		readKeyboardSpecialKeys(mapElements,stopwatch,&gameState);
 		if (gameState == GAME)
 		{
+			backUpIsaacNlifes=isaac.nLifes;
 			AtualizarTiros(bullets, map, enemies, nEnemies);
 			readKeyboard(&isaac,bullets,mapElements,stopwatch);//read isaac movements, shoots and special functions
 			moveAndVerifyAllEnemies(enemies,&isaac,mapElements,&frame,nEnemies,nextMoveMatrix);
@@ -74,8 +77,27 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 			if(map[isaac.posY][isaac.posX]=='P' && EnemiesAlive <= 0)
 			{
 				isaac.missionComplete=1;
+				//if isaac passed through all maps, come back to initial menu
+				if(map_counter==nMaps-1)
+				{
+					Menu();
+				}
 				return 0;
 			}
+			if(isaac.nLifes<backUpIsaacNlifes&&isaac.nLifes>0)
+			{
+				readMap(&isaac,*map_counter,enemies,&nEnemies);
+				initializeIsaacEnemiesBullets(enemies,&isaac,bullets);
+				EnemiesAlive = nEnemies;
+				isaac.nLifes=backUpIsaacNlifes-1;
+			}
+			
+			if(isaac.nLifes<=0)
+			{
+				*map_counter=nMaps;//force leave maps loop
+				return 0;
+			}
+			
 			get_elapsed_time(stopwatch);//update stopwatch
 			drawWindow(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements); // draw visual interface
 		}
@@ -83,6 +105,10 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 		else if (gameState == MENU)
 		{
 			InGameMenu(&gameState );
+		}
+		if(WindowShouldClose())
+		{
+			closeGame=1;
 		}
 	}
 
