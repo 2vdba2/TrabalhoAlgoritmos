@@ -32,7 +32,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 
 	if(orderToLoadGame==1)
 	{
-		loadGame(map,enemies,&isaac,stopwatch,&EnemiesAlive,bullets,map_counter,&nEnemies);
+		loadGame(map,enemies,&isaac,stopwatch,&EnemiesAlive,bullets,map_counter,&nEnemies, "QuickSave.bin");
 		restart_chronometer(stopwatch);
 		orderToLoadGame=0;
 	}
@@ -51,7 +51,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 		//----------------------------------------------------------------------------------
 		if(orderToSaveGame==1)
 		{
-			saveGame(map,enemies,isaac,stopwatch,EnemiesAlive,bullets,*map_counter,nEnemies);
+			saveGame(map,enemies,isaac,stopwatch,EnemiesAlive,bullets,*map_counter,nEnemies, "QuickSave.bin");
 			orderToSaveGame=0;
 		}
 		if(orderToLoadGame==1)

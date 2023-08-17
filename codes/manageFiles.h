@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include "constants.h"
 #include "structs.h"
+#include <time.h>
 
 int numberOfMaps()
 {
@@ -21,7 +22,7 @@ int numberOfMaps()
     }
 
     while ((entry = readdir(dirp)) != NULL) {
-        char filepath[256]; 
+        char filepath[256];
         snprintf(filepath, sizeof(filepath), "%s/%s", "./maps", entry->d_name); // Create the full file path
 
         if (stat(filepath, &file_info) == -1) {
@@ -51,7 +52,7 @@ int saveGame()
     }
 
     while ((entry = readdir(dirp)) != NULL) {
-        char filepath[256]; 
+        char filepath[256];
         snprintf(filepath, sizeof(filepath), "%s/%s", "./maps", entry->d_name); // Create the full file path
 
         if (stat(filepath, &file_info) == -1) {
@@ -67,13 +68,31 @@ int saveGame()
     return file_count;
 }
 */
-int saveGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],struct Isaac isaac,struct Stopwatch *stopwatch, int EnemiesAlive,struct Bullet bullets[MAX_BULLLETS],int map_counter, int nEnemies)
+
+void CreateRandomSaveFileName(char FileName[20]){
+	srand(time(NULL));
+	snprintf(FileName, 20, "%d", rand());
+}
+
+
+int saveGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],struct Isaac isaac,struct Stopwatch *stopwatch, int EnemiesAlive,struct Bullet bullets[MAX_BULLLETS],int map_counter, int nEnemies, char SaveName[20])
 {
+
+	//The Save file have a random name, but in the end of the file you have the name you put when you save game
 	int saved=1;
-	char name[30]={"./savedGame/savedGame.bin"};
+	char SaveFileName[20];
+	char path[30]={"./savedGame/"};
+	if (strcmp(SaveName, "QuickSave.bin") == 0) {
+        strcpy(SaveFileName, "QuickSave.bin");
+    } else {
+        CreateRandomSaveFileName(SaveFileName);
+    }
+	strcat(path, SaveFileName);
+	puts(path);
+
 	FILE *arq;
-	arq = fopen(name,"wb"); // w for write, b for binary
-	
+	arq = fopen(path,"wb"); // w for write, b for binary
+
 	//SAVE MAP
 	for(int i=0;i<MAP_SIZE_Y;i++)
 	{
@@ -143,24 +162,31 @@ int saveGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],
 		saved=0;
 		return saved;
 	}
+	if(fwrite(SaveName, sizeof(SaveName), 1, arq) != 1)
+	{
+		printf("Error reading nome");
+		return 0;
+	}
 	fclose(arq);
 	return saved;
 }
 
-int loadGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],struct Isaac *isaac,struct Stopwatch *stopwatch,int *EnemiesAlive,struct Bullet bullets[MAX_BULLLETS], int *map_counter,int *nEnemies)
+int loadGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],struct Isaac *isaac,struct Stopwatch *stopwatch,int *EnemiesAlive,struct Bullet bullets[MAX_BULLLETS], int *map_counter,int *nEnemies, char SaveFileName[20])
 {
 	int saved=1;
-	char name[30]={"./savedGame/savedGame.bin"};
+	char path[30]={"./savedGame/"};
+	strcat(path, SaveFileName);
+	puts(path);
 	int read=0;
 	FILE *arq;
-	arq = fopen(name,"rb"); // w for write, b for binary
+	arq = fopen(path,"rb"); // w for write, b for binary
 	if(arq==NULL)
 	{
 		saved=0;
 		return saved;
 
 	}
-	
+
 	//MAP
 	for(int i=0;i<MAP_SIZE_Y;i++)
 	{
@@ -170,7 +196,7 @@ int loadGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],
 			{
 				printf("Erro na leitura do mapa");
 				read=0;
-				return read; 
+				return read;
 			}
 		}
 	}
