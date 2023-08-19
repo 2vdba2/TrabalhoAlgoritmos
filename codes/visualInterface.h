@@ -178,7 +178,7 @@ void InGameMenu(GameState *gameState ) {
 			NewGame();
 			break;
 		case INGAME_SALVAR_JOGO:
-			SaveGame();
+			QuickSaveGame();
 			break;
 		case INGAME_CARREGAR_JOGO:
 			orderToLoadGame=1;
@@ -196,9 +196,41 @@ void InGameMenu(GameState *gameState ) {
 			break;
 		}
 	}
-
 	BeginDrawing();
 	DrawMenu(InGameMenuItemStrings, InGameMenuItemStrings[currentInGameMenuItem] ,6);
+	EndDrawing();
+}
+
+int AreYouSureMenuIndex = 0;
+
+int AreYouSureMenu(){
+	if (IsKeyPressed(KEY_DOWN)||IsKeyPressed(KEY_S) || IsKeyPressed(KEY_UP)||IsKeyPressed(KEY_W)) {
+		AreYouSureMenuIndex = (AreYouSureMenuIndex + 1) % 2;
+	}
+
+
+	if (IsKeyPressed(KEY_ENTER)){
+		if(AreYouSureMenuIndex == 1){
+			return 1;
+		}
+		if(AreYouSureMenuIndex == 0){
+			return 0;
+		}
+	}
+
+	Color YesColor = AreYouSureMenuIndex == 1 ? DARKGRAY : LIGHTGRAY;
+	Color NoColor = AreYouSureMenuIndex == 0 ? DARKGRAY : LIGHTGRAY;
+
+	BeginDrawing();
+	ClearBackground(RAYWHITE);
+	DrawText("Você tem certeza que quer recomeçar o jogo?", MAP_SIZE_X_PX / 2 - MeasureText("Você tem certeza que quer recomeçar o jogo?", 40) / 2, 200, 40, GRAY);
+
+	DrawRectangle(MAP_SIZE_X_PX / 2 - 60, 250, 120, 40, YesColor); 
+	DrawRectangle(MAP_SIZE_X_PX / 2 - 60, 300, 120, 40, NoColor); 
+
+	DrawText("Sim", MAP_SIZE_X_PX / 2 - MeasureText("Sim", 30) / 2, 255, 30, RAYWHITE);
+	DrawText("Não", MAP_SIZE_X_PX / 2 - MeasureText("Não", 30) / 2, 305, 30, RAYWHITE);
+
 	EndDrawing();
 }
 

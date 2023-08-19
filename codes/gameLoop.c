@@ -105,6 +105,12 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 		else if (gameState == MENU)
 		{
 			InGameMenu(&gameState );
+		}else if(gameState == WarningMenu){
+			if(AreYouSureMenu() == 1){
+				NewGame();
+			}else if(AreYouSureMenu() == 0){
+				gameState = GAME;
+			}
 		}
 		if(WindowShouldClose())
 		{

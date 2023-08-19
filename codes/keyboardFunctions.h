@@ -121,7 +121,9 @@ void readKeyboardSpecialKeys(struct MapElement mapElements[N_MAP_ELEMENTS],struc
 			*gameState = GAME;
 		}
 	}
-	
+	if (IsKeyPressed(KEY_R)){
+		*gameState = WarningMenu;
+	}
 	
 }
 

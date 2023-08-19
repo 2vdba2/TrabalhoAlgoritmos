@@ -26,7 +26,7 @@ void NewGame() {
 	free(informationBarStrings);
 };
 
-void LoadGame() {
+void QuickLoadGame() {
 	//orderToLoadGame=1;
 	orderToLoadGame=1; // como n tem funcao visual de salvar jogo ta aqui a gambiarra
 }
@@ -35,7 +35,7 @@ void Config() {
 
 }
 
-void SaveGame(){
+void QuickSaveGame(){
 	orderToSaveGame=1;
 
 }
