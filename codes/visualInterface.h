@@ -113,9 +113,17 @@ void DrawMenu(char MenuItemStrings[][20], char SelectedItem[20], int NumItens) {
 
 void Menu() {
 
-	if (IsKeyPressed(KEY_DOWN)||IsKeyPressed(KEY_S)) {
+	if (IsKeyPressed(KEY_N)) {
+        currentMenuItem = NOVO_JOGO;
+    } else if (IsKeyPressed(KEY_C)) {
+        currentMenuItem = CARREGAR_JOGO;
+    } else if (IsKeyPressed(KEY_Q)) {
+        currentMenuItem = SAIR;
+    }
+	
+	if (IsKeyPressed(KEY_DOWN)) {
 		currentMenuItem = (currentMenuItem + 1) % 4;
-	} else if (IsKeyPressed(KEY_UP)||IsKeyPressed(KEY_W)) {
+	} else if (IsKeyPressed(KEY_UP)) {
 		currentMenuItem = (currentMenuItem - 1 + 4) % 4;
 	}
 
@@ -166,9 +174,22 @@ InGameMenuItem currentInGameMenuItem = NOVO_JOGO;
 
 void InGameMenu(GameState *gameState ) {
 
-	if (IsKeyPressed(KEY_DOWN)||IsKeyPressed(KEY_S)) {
+	if (IsKeyPressed(KEY_N)) {
+        currentInGameMenuItem = INGAME_NOVO_JOGO;
+    } else if (IsKeyPressed(KEY_C)) {
+        currentInGameMenuItem = INGAME_CARREGAR_JOGO;
+    } else if (IsKeyPressed(KEY_S)) {
+        currentInGameMenuItem = INGAME_SALVAR_JOGO;
+    } else if (IsKeyPressed(KEY_Q)) {
+        currentInGameMenuItem = INGAME_SAIR;
+    }else if (IsKeyPressed(KEY_V)) {
+        currentInGameMenuItem = INGAME_VOLTAR;
+    }
+
+
+	if (IsKeyPressed(KEY_DOWN)) {
 		currentInGameMenuItem = (currentInGameMenuItem + 1) % 6;
-	} else if (IsKeyPressed(KEY_UP)||IsKeyPressed(KEY_W)) {
+	} else if (IsKeyPressed(KEY_UP)) {
 		currentInGameMenuItem = (currentInGameMenuItem - 1 + 6) % 6;
 	}
 

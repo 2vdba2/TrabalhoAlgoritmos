@@ -148,4 +148,5 @@ void readKeyboard(struct Isaac *isaac, struct Bullet bullets[],struct MapElement
 	readKeyboardShoot(*isaac,bullets);
 	//readKeyboardSpecialKeys(mapElements,stopwatch);
 }
+
 #endif
