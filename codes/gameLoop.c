@@ -78,6 +78,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 			//If isaac reached portal, go to next stage
 			if(map[isaac.posY][isaac.posX]=='P' && EnemiesAlive <= 0)
 			{
+				isaac.missionComplete=1;
 				//if isaac passed through all maps, come back to initial menu
 				if(*map_counter==nMaps-1)
 				{
@@ -85,9 +86,11 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 					{
 						drawScore(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements);
 					}
-					isaac.missionComplete=1;
-					return 0;
+					
+					
 				}
+				
+				return 0;
 			}
 			if(isaac.nLifes<backUpIsaacNlifes&&isaac.nLifes>0)
 			{
