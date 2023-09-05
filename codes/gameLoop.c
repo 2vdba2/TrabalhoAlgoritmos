@@ -15,6 +15,7 @@ struct Bullet bullets[MAX_BULLLETS];
 struct Isaac isaac;
 struct Enemy enemies[MAX_ENEMIES];
 
+
 int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings,int nMaps)
 {
 	struct MapElement mapElements[N_MAP_ELEMENTS];
@@ -25,6 +26,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 	int frame=0;
 	int enemyMovesPeriod=2;
 	int backUpIsaacNlifes;
+	int scoreMessageDone=0;
 
 	GameState gameState = GAME;
 
@@ -67,7 +69,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 			AtualizarTiros(bullets, map, enemies, nEnemies);
 			readKeyboard(&isaac,bullets,mapElements,stopwatch);//read isaac movements, shoots and special functions
 			moveAndVerifyAllEnemies(enemies,&isaac,mapElements,&frame,nEnemies,nextMoveMatrix);
-			
+
 			//If kill all enemies dead, open portal
 			if(EnemiesAlive<=0)
 			{
@@ -76,13 +78,22 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 			//If isaac reached portal, go to next stage
 			if(map[isaac.posY][isaac.posX]=='P' && EnemiesAlive <= 0)
 			{
-				isaac.missionComplete=1;
 				//if isaac passed through all maps, come back to initial menu
-				/*if(map_counter==nMaps-1)
+				if(*map_counter==nMaps-1&&!scoreMessageDone)
 				{
-					Menu();
-				}*/
-				return 0;
+					while(!IsKeyPressed(KEY_ENTER))
+					{
+						drawScore(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements);
+					}
+					scoreMessageDone=1;
+				}
+				
+				else
+				{
+					isaac.missionComplete=1;
+					return 0;
+				}
+				
 			}
 			if(isaac.nLifes<backUpIsaacNlifes&&isaac.nLifes>0)
 			{
@@ -91,24 +102,24 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 				EnemiesAlive = nEnemies;
 				isaac.nLifes=backUpIsaacNlifes-1;
 			}
-			
+
 			if(isaac.nLifes<=0)
 			{
 				*map_counter=nMaps;//force leave maps loop
 				return 0;
 			}
-			
+
 			get_elapsed_time(stopwatch);//update stopwatch
 			drawWindow(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements); // draw visual interface
 		}
-		//check if gameState was changed from GAME to MENU by shortcut ESC 
+		//check if gameState was changed from GAME to MENU by shortcut ESC
 		else if (gameState == MENU)
 		{
 			InGameMenu(&gameState );
-		}else if(gameState == WarningMenu){
-			if(AreYouSureMenu() == 1){
+		} else if(gameState == WarningMenu) {
+			if(AreYouSureMenu() == 1) {
 				NewGame();
-			}else if(AreYouSureMenu() == 0){
+			} else if(AreYouSureMenu() == 0) {
 				gameState = GAME;
 			}
 		}
