@@ -78,10 +78,10 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 			{
 				isaac.missionComplete=1;
 				//if isaac passed through all maps, come back to initial menu
-				if(map_counter==nMaps-1)
+				/*if(map_counter==nMaps-1)
 				{
 					Menu();
-				}
+				}*/
 				return 0;
 			}
 			if(isaac.nLifes<backUpIsaacNlifes&&isaac.nLifes>0)
