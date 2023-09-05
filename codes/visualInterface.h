@@ -300,4 +300,44 @@ void drawScore(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, in
 	EndDrawing();
 	
 }
+
+void drawGameOver(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, int map_counter,  struct InformationBarStrings *informationBarStrings, int EnemiesAlive,struct MapElement mapElements[N_MAP_ELEMENTS])
+{	
+	char name[30]={"GAME OVER"};	
+	char pressEnter[50]={"Press enter to continue..."};
+	int score;
+	int posX, posY, width,  height;
+	
+	//draw information bar strings
+	BeginDrawing();
+	ClearBackground(RAYWHITE);
+	//draw map in background
+	drawMap(mapElements);
+	createInformationBarStrings(stopwatch,isaac, map_counter,informationBarStrings,EnemiesAlive);
+	informationBar(isaac,*informationBarStrings);
+	
+	
+	//Draw Score
+	
+	posX=MAP_SIZE_X_PX / 2 - MeasureText(name, 50) / 2-10;
+	posY=MAP_SIZE_Y_PX / 2-10;
+	width=MeasureText(name, 50)+20;
+	height=50+20;
+	
+	DrawRectangle(posX,posY,width,height,BLACK); // draw background
+	DrawText(name, MAP_SIZE_X_PX / 2 - MeasureText(name, 50) / 2, MAP_SIZE_Y_PX / 2, 50, RED);
+	
+	//Draw Press Enter to continue
+	
+	posX=MAP_SIZE_X_PX / 2 - MeasureText(pressEnter, 50) / 2-10;
+	posY=MAP_SIZE_Y_PX / 1.25-10;
+	width=MeasureText(pressEnter, 50)+20;
+	height=50+20;
+		
+	DrawRectangle(posX,posY,width,height,BLACK);
+	DrawText(pressEnter, MAP_SIZE_X_PX / 2 - MeasureText(pressEnter, 50) / 2, MAP_SIZE_Y_PX / 1.25, 50, RED);
+	EndDrawing();
+	
+}
+
 #endif

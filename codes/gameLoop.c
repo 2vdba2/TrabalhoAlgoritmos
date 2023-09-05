@@ -79,21 +79,15 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 			if(map[isaac.posY][isaac.posX]=='P' && EnemiesAlive <= 0)
 			{
 				//if isaac passed through all maps, come back to initial menu
-				if(*map_counter==nMaps-1&&!scoreMessageDone)
+				if(*map_counter==nMaps-1)
 				{
 					while(!IsKeyPressed(KEY_ENTER))
 					{
 						drawScore(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements);
 					}
-					scoreMessageDone=1;
-				}
-				
-				else
-				{
 					isaac.missionComplete=1;
 					return 0;
 				}
-				
 			}
 			if(isaac.nLifes<backUpIsaacNlifes&&isaac.nLifes>0)
 			{
@@ -105,6 +99,10 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 
 			if(isaac.nLifes<=0)
 			{
+				while(!IsKeyPressed(KEY_ENTER))
+				{
+					drawGameOver(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements);
+				}
 				*map_counter=nMaps;//force leave maps loop
 				return 0;
 			}
