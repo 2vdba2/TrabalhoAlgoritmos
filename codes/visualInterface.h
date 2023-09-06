@@ -42,14 +42,14 @@ void informationBar(struct Isaac isaac,struct InformationBarStrings informationB
 	int yPxLine2 = yPxLine1 + INFORMATION_BAR_Y_PX/4;
 	int yPxLine3 = yPxLine1 + INFORMATION_BAR_Y_PX/2;
 
-	DrawRectangle(0,MAP_SIZE_Y_PX,INFORMATION_BAR_X_PX,INFORMATION_BAR_Y_PX,SKYBLUE); // draw background
+	DrawRectangle(0,MAP_SIZE_Y_PX,INFORMATION_BAR_X_PX,INFORMATION_BAR_Y_PX,BLACK); // draw background
 
 	//draw information bar strings
-	DrawText(informationBarStrings.timeText, xPxCol1,yPxLine1,30, BLACK);
-	DrawText(informationBarStrings.lifeText, xPxCol1,yPxLine3,30, BLACK);
-	DrawText(informationBarStrings.stageText, xPxCol3,yPxLine1,30, BLACK);
-	DrawText(informationBarStrings.enemiesText, xPxCol3,yPxLine3,30, BLACK);
-	DrawText(informationBarStrings.bombsText, xPxCol2,yPxLine2,30, BLACK);
+	DrawText(informationBarStrings.timeText, xPxCol1,yPxLine1,30, RED);
+	DrawText(informationBarStrings.lifeText, xPxCol1,yPxLine3,30, RED);
+	DrawText(informationBarStrings.stageText, xPxCol3,yPxLine1,30, RED);
+	DrawText(informationBarStrings.enemiesText, xPxCol3,yPxLine3,30, RED);
+	DrawText(informationBarStrings.bombsText, xPxCol2,yPxLine2,30, RED);
 
 	if(godMode==1)
 	{
