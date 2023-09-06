@@ -19,14 +19,13 @@ struct Enemy enemies[MAX_ENEMIES];
 int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBarStrings *informationBarStrings,int nMaps)
 {
 	struct MapElement mapElements[N_MAP_ELEMENTS];
-	int missionComplete=0;
 	int nEnemies;
 	static char nextMoveMatrix[V][V];
 	int dxdy[2];//next enemy move
 	int frame=0;
 	int enemyMovesPeriod=2;
 	int backUpIsaacNlifes;
-	int scoreMessageDone=0;
+	int isaacDiedMessage=0,gameOverMessage=0,allMissionsComplete=0;
 
 	GameState gameState = GAME;
 
@@ -47,7 +46,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 	calculateEnemyMovesIfNeeded(*map_counter,nextMoveMatrix);
 
 	SetExitKey(0);// the function WindowShouldClose will close when ESC is press, this will Set the configuration flag to ignore the ESC key press
-	while (closeGame==0&&isaac.missionComplete==0) // Detect window close button or ESC key
+	while (closeGame==0) // Detect window close button or ESC key
 	{
 		// Trata entrada do usu´ario e atualiza estado do jogo
 		//----------------------------------------------------------------------------------
@@ -79,35 +78,25 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 			if(map[isaac.posY][isaac.posX]=='P' && EnemiesAlive <= 0)
 			{
 				isaac.missionComplete=1;
+				gameState=MESSAGE;
 				//if isaac passed through all maps, come back to initial menu
 				if(*map_counter==nMaps-1)
 				{
-					while(!IsKeyPressed(KEY_ENTER))
-					{
-						drawScore(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements);
-					}
-					
-					
+					allMissionsComplete=1;
 				}
 				
-				return 0;
+
 			}
 			if(isaac.nLifes<backUpIsaacNlifes&&isaac.nLifes>0)
 			{
-				readMap(&isaac,*map_counter,enemies,&nEnemies);
-				initializeIsaacEnemiesBullets(enemies,&isaac,bullets);
-				EnemiesAlive = nEnemies;
-				isaac.nLifes=backUpIsaacNlifes-1;
+				isaacDiedMessage=1;
+				gameState=MESSAGE;
 			}
 
 			if(isaac.nLifes<=0)
 			{
-				while(!IsKeyPressed(KEY_ENTER))
-				{
-					drawGameOver(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements);
-				}
-				*map_counter=nMaps;//force leave maps loop
-				return 0;
+				gameOverMessage=1;
+				gameState=MESSAGE;
 			}
 
 			get_elapsed_time(stopwatch);//update stopwatch
@@ -117,12 +106,62 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 		else if (gameState == MENU)
 		{
 			InGameMenu(&gameState );
-		} else if(gameState == WarningMenu) {
+		}
+		else if(gameState == WarningMenu)
+		{
 			if(AreYouSureMenu() == 1) {
 				NewGame();
 			} else if(AreYouSureMenu() == 0) {
 				gameState = GAME;
 			}
+		}
+		else if(gameState == MESSAGE)
+		{
+			gameMessageOn=1;
+			if(isaacDiedMessage)
+			{
+				drawYouDied(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements);
+				if(IsKeyPressed(KEY_ENTER))
+				{
+					isaacDiedMessage=0;
+					gameMessageOn=0;
+					gameState=GAME;
+					readMap(&isaac,*map_counter,enemies,&nEnemies);
+					initializeIsaacEnemiesBullets(enemies,&isaac,bullets);
+					EnemiesAlive = nEnemies;
+					isaac.nLifes=backUpIsaacNlifes-1;
+				}
+			}
+			else if(gameOverMessage)
+			{
+				drawGameOver(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements);
+				if(IsKeyPressed(KEY_ENTER))
+				{
+					*map_counter=nMaps;//force leave maps loop
+					return 0;
+				}
+			}
+			else if(allMissionsComplete)
+			{
+				drawScore(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements);
+				if(IsKeyPressed(KEY_ENTER))
+				{
+					allMissionsComplete=0;
+					return 0;
+				}
+			}
+			else if(isaac.missionComplete)
+			{
+				missionComplete(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements);
+				if(IsKeyPressed(KEY_ENTER))
+				{
+					return 0;
+				}
+			}
+
+			
+
+			
 		}
 		if(WindowShouldClose())
 		{

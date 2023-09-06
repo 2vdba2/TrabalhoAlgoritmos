@@ -97,6 +97,10 @@ int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac,struct MapElement ma
 				{
 					(*isaac).nLifes-=mapElements[MAP_ELEMENT_ENEMY_NUMBER].doesItDamageIsaac;
 				}
+				if(mapElements[i].id==mapElements[MAP_ELEMENT_ACTIVE_BOMB_NUMBER].id)
+				{
+					map[yNext][xNext]= ' ';
+				}
 			}
 		}
 	}

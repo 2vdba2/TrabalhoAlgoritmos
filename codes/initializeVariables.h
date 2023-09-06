@@ -40,7 +40,7 @@ void initializeMapElement(struct MapElement mapElements[N_MAP_ELEMENTS])
 
 
 	//Wall
-	i=1;
+	i=MAP_ELEMENT_WALL_NUMBER;//1
 	mapElements[i].id='#';
 	sprintf(mapElements[i].spritePath,"./Sprites/Wall.png");
 	mapElements[i].canIsaacMove=0;
@@ -63,7 +63,7 @@ void initializeMapElement(struct MapElement mapElements[N_MAP_ELEMENTS])
 	mapElements[i].doesItDamageEnemy=0;
 	
 	//Inactive Bomb
-	i=3;
+	i=MAP_ELEMENT_INACTIVE_BOMB_NUMBER;//3
 	mapElements[i].id='B';
 	sprintf(mapElements[i].spritePath,"./Sprites/bombInactive.png");
 	mapElements[i].canIsaacMove=1;
@@ -73,7 +73,7 @@ void initializeMapElement(struct MapElement mapElements[N_MAP_ELEMENTS])
 	mapElements[i].doesItDamageEnemy=0;
 
 	//Active Bomb
-	i=4;
+	i=MAP_ELEMENT_ACTIVE_BOMB_NUMBER;//4
 	mapElements[i].id='b';
 	sprintf(mapElements[i].spritePath,"./Sprites/bombActive.png");
 	mapElements[i].canIsaacMove=0;
@@ -101,7 +101,7 @@ void initializeMapElement(struct MapElement mapElements[N_MAP_ELEMENTS])
 	mapElements[i].doesItDamageIsaac=1;
 	mapElements[i].doesItDamageEnemy=0;
 	//BUllet
-	i=7;
+	i=MAP_ELEMENT_BULLET_NUMBER;//7
 	mapElements[i].id='o';
 	sprintf(mapElements[i].spritePath,"./Sprites/bullet.png");
 	mapElements[i].canIsaacMove=0;

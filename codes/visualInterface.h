@@ -214,7 +214,10 @@ void InGameMenu(GameState *gameState ) {
 			CloseWindow();
 			break;
 		case INGAME_VOLTAR:
-			*gameState = GAME;
+			if(gameMessageOn)
+				*gameState = MESSAGE;
+			else
+				*gameState = GAME;
 			break;
 		}
 	}
@@ -254,6 +257,8 @@ int AreYouSureMenu(){
 	DrawText("Não", MAP_SIZE_X_PX / 2 - MeasureText("Não", 30) / 2, 305, 30, RAYWHITE);
 
 	EndDrawing();
+	
+	return 2;
 }
 
 void drawScore(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, int map_counter,  struct InformationBarStrings *informationBarStrings, int EnemiesAlive,struct MapElement mapElements[N_MAP_ELEMENTS])
@@ -268,7 +273,7 @@ void drawScore(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, in
 		score=0;
 	}
 	
-	sprintf(name,"Your score is %d",score);
+	sprintf(name,"You won! Your score is %d",score);
 	//draw information bar strings
 	BeginDrawing();
 	ClearBackground(RAYWHITE);
@@ -339,5 +344,89 @@ void drawGameOver(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch,
 	EndDrawing();
 	
 }
+void drawYouDied(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, int map_counter,  struct InformationBarStrings *informationBarStrings, int EnemiesAlive,struct MapElement mapElements[N_MAP_ELEMENTS])
+{	
+	char name[50];	
+	char pressEnter[50]={"Press enter to continue..."};
+	int score;
+	int posX, posY, width,  height;
+	
+	if(isaac.nLifes>1)
+	{
+		sprintf(name,"You died! Only %d lifes remaining.",isaac.nLifes);
+	}
+	else
+		sprintf(name,"You died! Only %d life remaining",isaac.nLifes);
+	//draw information bar strings
+	BeginDrawing();
+	ClearBackground(RAYWHITE);
+	//draw map in background
+	drawMap(mapElements);
+	createInformationBarStrings(stopwatch,isaac, map_counter,informationBarStrings,EnemiesAlive);
+	informationBar(isaac,*informationBarStrings);
+	
+	
+	//Draw Score
+	
+	posX=MAP_SIZE_X_PX / 2 - MeasureText(name, 50) / 2-10;
+	posY=MAP_SIZE_Y_PX / 2-10;
+	width=MeasureText(name, 50)+20;
+	height=50+20;
+	
+	DrawRectangle(posX,posY,width,height,BLACK); // draw background
+	DrawText(name, MAP_SIZE_X_PX / 2 - MeasureText(name, 50) / 2, MAP_SIZE_Y_PX / 2, 50, RED);
+	
+	//Draw Press Enter to continue
+	
+	posX=MAP_SIZE_X_PX / 2 - MeasureText(pressEnter, 50) / 2-10;
+	posY=MAP_SIZE_Y_PX / 1.25-10;
+	width=MeasureText(pressEnter, 50)+20;
+	height=50+20;
+		
+	DrawRectangle(posX,posY,width,height,BLACK);
+	DrawText(pressEnter, MAP_SIZE_X_PX / 2 - MeasureText(pressEnter, 50) / 2, MAP_SIZE_Y_PX / 1.25, 50, RED);
+	EndDrawing();
+	
+}
+void missionComplete(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, int map_counter,  struct InformationBarStrings *informationBarStrings, int EnemiesAlive,struct MapElement mapElements[N_MAP_ELEMENTS])
+{	
+	char name[50];	
+	char pressEnter[50]={"Press enter to continue..."};
+	int score;
+	int posX, posY, width,  height;
 
+	sprintf(name,"Mission Complete! Now stage %d is coming...",map_counter+2);
+
+
+	//draw information bar strings
+	BeginDrawing();
+	ClearBackground(RAYWHITE);
+	//draw map in background
+	drawMap(mapElements);
+	createInformationBarStrings(stopwatch,isaac, map_counter,informationBarStrings,EnemiesAlive);
+	informationBar(isaac,*informationBarStrings);
+	
+	
+	//Draw Score
+	
+	posX=MAP_SIZE_X_PX / 2 - MeasureText(name, 50) / 2-10;
+	posY=MAP_SIZE_Y_PX / 2-10;
+	width=MeasureText(name, 50)+20;
+	height=50+20;
+	
+	DrawRectangle(posX,posY,width,height,BLACK); // draw background
+	DrawText(name, MAP_SIZE_X_PX / 2 - MeasureText(name, 50) / 2, MAP_SIZE_Y_PX / 2, 50, RED);
+	
+	//Draw Press Enter to continue
+	
+	posX=MAP_SIZE_X_PX / 2 - MeasureText(pressEnter, 50) / 2-10;
+	posY=MAP_SIZE_Y_PX / 1.25-10;
+	width=MeasureText(pressEnter, 50)+20;
+	height=50+20;
+		
+	DrawRectangle(posX,posY,width,height,BLACK);
+	DrawText(pressEnter, MAP_SIZE_X_PX / 2 - MeasureText(pressEnter, 50) / 2, MAP_SIZE_Y_PX / 1.25, 50, RED);
+	EndDrawing();
+	
+}
 #endif

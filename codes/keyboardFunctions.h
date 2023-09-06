@@ -111,9 +111,13 @@ void readKeyboardSpecialKeys(struct MapElement mapElements[N_MAP_ELEMENTS],struc
 	if (IsKeyPressed(KEY_ESCAPE))
 	{
 		// Toggle the game state between GAME and MENU
-		if (*gameState == GAME)
+		if (*gameState == GAME||*gameState == MESSAGE)
 		{
 			*gameState = MENU;
+		}
+		else if (*gameState == MENU && gameMessageOn)
+		{
+			*gameState = MESSAGE;
 		}
 		else if (*gameState == MENU)
 		{

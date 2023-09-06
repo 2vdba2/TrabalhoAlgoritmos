@@ -75,7 +75,8 @@ struct MapElement
 typedef enum { 
     GAME,
     MENU,
-    WarningMenu, 
+    WarningMenu,
+    MESSAGE, 
 } GameState;
 
 #endif
