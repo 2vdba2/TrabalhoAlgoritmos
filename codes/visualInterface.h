@@ -173,7 +173,7 @@ const char InGameMenuItemStrings[][20] = {
 InGameMenuItem currentInGameMenuItem = NOVO_JOGO;
 
 
-void InGameMenu(GameState *gameState ) {
+void InGameMenu(GameState *gameState,struct Stopwatch *stopwatch) {
 
 	if (IsKeyPressed(KEY_N)) {
         currentInGameMenuItem = INGAME_NOVO_JOGO;
@@ -215,9 +215,15 @@ void InGameMenu(GameState *gameState ) {
 			break;
 		case INGAME_VOLTAR:
 			if(gameMessageOn)
+			{
 				*gameState = MESSAGE;
+				restart_chronometer(stopwatch);
+			}
 			else
+			{
 				*gameState = GAME;
+				restart_chronometer(stopwatch);
+			}
 			break;
 		}
 	}
