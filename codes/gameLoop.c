@@ -26,7 +26,6 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 	int enemyMovesPeriod=2;
 	int backUpIsaacNlifes;
 	int isaacDiedMessage=0,gameOverMessage=0,allMissionsComplete=0;
-	int allMissionsCompleteAndGoToMenu=0;
 
 	GameState gameState = GAME;
 
@@ -47,7 +46,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 	calculateEnemyMovesIfNeeded(*map_counter,nextMoveMatrix);
 
 	SetExitKey(0);// the function WindowShouldClose will close when ESC is press, this will Set the configuration flag to ignore the ESC key press
-	while (closeGame==0&&!allMissionsCompleteAndGoToMenu) // Detect window close button or ESC key
+	while (closeGame==0) // Detect window close button or ESC key
 	{
 		// Trata entrada do usu´ario e atualiza estado do jogo
 		//----------------------------------------------------------------------------------
@@ -138,9 +137,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 				drawGameOver(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements);
 				if(IsKeyPressed(KEY_ENTER))
 				{
-					*map_counter=nMaps;//force leave maps loop
-					gameState=MENU;
-					return 0;
+					return 1; // ShouldGameClose=1 means end of game 
 				}
 			}
 			else if(allMissionsComplete)
@@ -149,10 +146,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 				if(IsKeyPressed(KEY_ENTER))
 				{
 					allMissionsComplete=0;
-					allMissionsCompleteAndGoToMenu=1;
-					//gameState=MENU;
-					//Menu();
-					return 0;
+					return 1; // ShouldGameClose=1 means end of game
 				}
 			}
 			else if(isaac.missionComplete)
