@@ -154,8 +154,10 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 				missionComplete(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements);
 				if(IsKeyPressed(KEY_ENTER))
 				{
+					restart_chronometer(stopwatch);
 					return 0;
 				}
+				
 			}
 
 			
