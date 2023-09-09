@@ -91,8 +91,19 @@ int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac,struct MapElement ma
 			if(map[yNext][xNext]==mapElements[i].id)
 			{
 				result=mapElements[i].canEnemyMove;
-				(*enemy).IsAlive=!mapElements[i].doesItDamageEnemy;
+				//(*enemy).IsAlive=!mapElements[i].doesItDamageEnemy;
 				jumpFireAndBombEnemy(enemy,&result,mapElements[i].id);
+				if(mapElements[i].doesItDamageEnemy)
+				{
+					(*enemy).IsAlive=0;
+					//This condition below
+					if(map[(*enemy).posY][(*enemy).posX] == (*enemy).id)
+					{
+						map[(*enemy).posY][(*enemy).posX]= ' ';
+					}
+					(*enemy).id = ' ';
+					EnemiesAlive--;
+				}
 				if(mapElements[i].id==mapElements[MAP_ELEMENT_ISAAC_NUMBER].id)
 				{
 					(*isaac).nLifes-=mapElements[MAP_ELEMENT_ENEMY_NUMBER].doesItDamageIsaac;
@@ -104,12 +115,14 @@ int verifyMoveEnemy(struct Enemy *enemy,struct Isaac *isaac,struct MapElement ma
 			}
 		}
 	}
+	/*
 	else if(map[(*enemy).posY][(*enemy).posX] == (*enemy).id)
 	{
 			map[(*enemy).posY][(*enemy).posX]= ' ';
 			(*enemy).id = ' ';
 			EnemiesAlive--;
 	}
+	*/
 	return result;
 }
 
