@@ -137,6 +137,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 				drawGameOver(stopwatch->str_time,isaac, *stopwatch, *map_counter,informationBarStrings,EnemiesAlive,mapElements);
 				if(IsKeyPressed(KEY_ENTER))
 				{
+					gameMessageOn=0;
 					return 1; // ShouldGameClose=1 means end of game 
 				}
 			}
@@ -146,6 +147,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 				if(IsKeyPressed(KEY_ENTER))
 				{
 					allMissionsComplete=0;
+					gameMessageOn=0;
 					return 1; // ShouldGameClose=1 means end of game
 				}
 			}
@@ -155,6 +157,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 				if(IsKeyPressed(KEY_ENTER))
 				{
 					restart_chronometer(stopwatch);
+					gameMessageOn=0;
 					return 0;
 				}
 				
