@@ -3,8 +3,9 @@
 #include <string.h>
 #include "structs.h"
 #include "constants.h"
+#include "globals.h"
 
-extern char map[MAP_SIZE_Y][MAP_SIZE_X]={' '};
+
 int readMap(struct Isaac *isaac,int map_counter, struct Enemy *enemies, int *nEnemies)
 {
 	FILE* filePointer;
