@@ -114,7 +114,9 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 		else if(gameState == WarningMenu)
 		{
 			if(AreYouSureMenu() == 1) {
-				NewGame();
+				*map_counter=-1;//because it leaves the loop and increments 1
+				gameState = GAME;
+				return 0;
 			} else if(AreYouSureMenu() == 0) {
 				gameState = GAME;
 			}
