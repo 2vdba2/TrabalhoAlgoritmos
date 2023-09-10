@@ -216,7 +216,7 @@ void InGameMenu(GameState *gameState,struct Stopwatch *stopwatch) {
 			break;
 		case INGAME_CARREGAR_JOGO:
 			orderToLoadGame=1;
-			NewGame();
+			//NewGame();
 			break;
 		case INGAME_CONFIGURACOES:
 			Config();
