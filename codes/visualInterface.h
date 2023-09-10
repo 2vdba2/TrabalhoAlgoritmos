@@ -8,6 +8,7 @@
 #include "initializeVariables.h"
 #include <stdlib.h>
 
+// Function to draw the map on the screen
 void drawMap(struct MapElement mapElements[N_MAP_ELEMENTS])
 {
 	int xpx,ypx;
@@ -24,7 +25,6 @@ void drawMap(struct MapElement mapElements[N_MAP_ELEMENTS])
 				// and then draw other elements, because they have some transparents parts
 				if(map[i][j]==mapElements[k].id||k==MAP_ELEMENT_BACKGROUND_NUMBER)
 				{
-					//DrawTexture(mapElements[0].sprite ,xpx, ypx, WHITE);
 					DrawTexture(mapElements[k].sprite,xpx, ypx, WHITE);
 				}
 			}
@@ -32,240 +32,247 @@ void drawMap(struct MapElement mapElements[N_MAP_ELEMENTS])
 		}
 	}
 }
-void informationBar(struct Isaac isaac,struct InformationBarStrings informationBarStrings)
+
+// Function to draw the information bar
+void informationBar(struct Isaac isaac, struct InformationBarStrings informationBarStrings)
 {
-	//This function draws the informationBar at the botton of the window
-	int xPxCol1  = INFORMATION_BAR_X_PX/30;
-	int xPxCol2  = xPxCol1+INFORMATION_BAR_X_PX/2.6;
-	int xPxCol3  = xPxCol1+INFORMATION_BAR_X_PX/1.25;
-	int yPxLine1 = MAP_SIZE_Y_PX+INFORMATION_BAR_Y_PX/6;
-	int yPxLine2 = yPxLine1 + INFORMATION_BAR_Y_PX/4;
-	int yPxLine3 = yPxLine1 + INFORMATION_BAR_Y_PX/2;
+    int xPxCol1  = INFORMATION_BAR_X_PX / 30;
+    int xPxCol2  = xPxCol1 + INFORMATION_BAR_X_PX / 2.6;
+    int xPxCol3  = xPxCol1 + INFORMATION_BAR_X_PX / 1.25;
+    int yPxLine1 = MAP_SIZE_Y_PX + INFORMATION_BAR_Y_PX / 6;
+    int yPxLine2 = yPxLine1 + INFORMATION_BAR_Y_PX / 4;
+    int yPxLine3 = yPxLine1 + INFORMATION_BAR_Y_PX / 2;
 
-	DrawRectangle(0,MAP_SIZE_Y_PX,INFORMATION_BAR_X_PX,INFORMATION_BAR_Y_PX,BLACK); // draw background
+    // draw the information bar
+    DrawRectangle(0, MAP_SIZE_Y_PX, INFORMATION_BAR_X_PX, INFORMATION_BAR_Y_PX, BLACK);
 
-	//draw information bar strings
-	DrawText(informationBarStrings.timeText, xPxCol1,yPxLine1,30, RED);
-	DrawText(informationBarStrings.lifeText, xPxCol1,yPxLine3,30, RED);
-	DrawText(informationBarStrings.stageText, xPxCol3,yPxLine1,30, RED);
-	DrawText(informationBarStrings.enemiesText, xPxCol3,yPxLine3,30, RED);
-	DrawText(informationBarStrings.bombsText, xPxCol2,yPxLine2,30, RED);
+    //draw the information 
+    DrawText(informationBarStrings.timeText, xPxCol1, yPxLine1, 30, RED);
+    DrawText(informationBarStrings.lifeText, xPxCol1, yPxLine3, 30, RED);
+    DrawText(informationBarStrings.stageText, xPxCol3, yPxLine1, 30, RED);
+    DrawText(informationBarStrings.enemiesText, xPxCol3, yPxLine3, 30, RED);
+    DrawText(informationBarStrings.bombsText, xPxCol2, yPxLine2, 30, RED);
 
-	if(godMode==1)
-	{
-		DrawText("GOD MODE ON", xPxCol2,yPxLine3,30, RED);
-	}
+    if(godMode == 1)
+    {
+        DrawText("GOD MODE ON", xPxCol2, yPxLine3, 30, RED);
+    }
 }
 
-void createInformationBarStrings(struct Stopwatch stopwatch, struct Isaac isaac, int map_counter, struct InformationBarStrings *informationBarStrings,int EnemiesAlive)
+// Function to create the strings for the information bar
+void createInformationBarStrings(struct Stopwatch stopwatch, struct Isaac isaac, int map_counter, struct InformationBarStrings *informationBarStrings, int EnemiesAlive)
 {
-	//This function creates the information bar strings
-	sprintf(informationBarStrings->lifeText, "Lifes: %d", isaac.nLifes);
-	sprintf(informationBarStrings->timeText, "Time alive: %s", stopwatch.str_time);
-	sprintf(informationBarStrings->stageText, "Stage: %d", map_counter+1);
-	sprintf(informationBarStrings->enemiesText, "Enemies: %d", EnemiesAlive);
-	sprintf(informationBarStrings->bombsText, "Bombs: %d", isaac.nBombs);
+    sprintf(informationBarStrings->lifeText, "Lifes: %d", isaac.nLifes);
+    sprintf(informationBarStrings->timeText, "Time alive: %s", stopwatch.str_time);
+    sprintf(informationBarStrings->stageText, "Stage: %d", map_counter + 1);
+    sprintf(informationBarStrings->enemiesText, "Enemies: %d", EnemiesAlive);
+    sprintf(informationBarStrings->bombsText, "Bombs: %d", isaac.nBombs);
 }
 
-void drawWindow(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, int map_counter,  struct InformationBarStrings *informationBarStrings, int EnemiesAlive,struct MapElement mapElements[N_MAP_ELEMENTS])
+// Function to draw the game window
+void drawWindow(char str_time[], struct Isaac isaac, struct Stopwatch stopwatch, int map_counter, struct InformationBarStrings *informationBarStrings, int EnemiesAlive, struct MapElement mapElements[N_MAP_ELEMENTS])
 {
-	//This function draws the entire game window
-	BeginDrawing();//Inicia o ambiente de desenho na tela
-	//ClearBackground(RAYWHITE);//Limpa a tela e define cor de fundo
-	drawMap(mapElements);
-	createInformationBarStrings(stopwatch,isaac, map_counter,informationBarStrings,EnemiesAlive);
-	informationBar(isaac,*informationBarStrings);
-	EndDrawing();//Finaliza o ambiente de desenho na tela
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+    drawMap(mapElements);
+    createInformationBarStrings(stopwatch, isaac, map_counter, informationBarStrings, EnemiesAlive);
+    informationBar(isaac, *informationBarStrings);
+    EndDrawing();
 }
 
+// Enum for the main menu options
 typedef enum {
-	NOVO_JOGO,
-	CARREGAR_JOGO,
-	SAIR
+    NOVO_JOGO,
+    CARREGAR_JOGO,
+    SAIR
 } MenuItem;
 
+// Array with the texts of the main menu options
 const char MenuItemStrings[][20] = {
-	"Novo Jogo",
-	"Carregar Jogo",
-	"Sair"
+    "Novo Jogo",
+    "Carregar Jogo",
+    "Sair"
 };
 
+// Variable indicating the selected option in the main menu
 MenuItem currentMenuItem = NOVO_JOGO;
 
-void DrawMenu(char MenuItemStrings[][20], char SelectedItem[20], int NumItens) {
+// Function to draw menu
+void DrawMenu()
+{
+    ClearBackground(RAYWHITE);
 
-	ClearBackground(RAYWHITE);
+    // Draw the game title
+    DrawText("The Binding of Isaac", MAP_SIZE_X_PX / 2 - MeasureText("The Binding of Isaac", 40) / 2, 80, 40, DARKGRAY);
 
-	DrawText("The Binding of Isaac", MAP_SIZE_X_PX / 2 - MeasureText("The Binding of Isaac", 40) / 2, 80, 40, DARKGRAY);
-
-	for(int i = 0; i < NumItens;i++){
-		if(strcmp(MenuItemStrings[i], SelectedItem) == 0){
-			char highlightedItem[25] = {"> "};
-			strcat(highlightedItem, SelectedItem);
-			DrawText(highlightedItem, MAP_SIZE_X_PX / 2 - MeasureText(highlightedItem, 30) / 2, (200 + (50 * i)), 30, GRAY);
-		}else{
-			DrawText(MenuItemStrings[i], MAP_SIZE_X_PX / 2 - MeasureText(MenuItemStrings[i], 30) / 2, (200 + (50 * i)), 30, GRAY);
-		}
-	}
-	DrawText("Use as setas para navegar e pressione enter para selecionar", 50, MAP_SIZE_Y_PX - 50, 20, DARKGRAY);
-}
-
-bool IsSelectedMainMenu = false;
-
-void Menu() {
-
-	if (IsKeyPressed(KEY_N)) {
-        currentMenuItem = NOVO_JOGO;
-		IsSelectedMainMenu = true;
-    } else if (IsKeyPressed(KEY_C)) {
-        currentMenuItem = CARREGAR_JOGO;
-		IsSelectedMainMenu = true;
-    } else if (IsKeyPressed(KEY_Q)) {
-        currentMenuItem = SAIR;
-		IsSelectedMainMenu = true;
+    for(int i = 0; i < 3; i++)
+    {
+        if(i == currentMenuItem)
+        {
+            // Draw the selected option
+            DrawText("> ", MAP_SIZE_X_PX / 2 - MeasureText("> ", 30) / 2, (200 + (50 * i)), 30, GRAY);
+        }
+        DrawText(MenuItemStrings[i], MAP_SIZE_X_PX / 2 - MeasureText(MenuItemStrings[i], 30) / 2, (200 + (50 * i)), 30, GRAY);
     }
-	
-	if (IsKeyPressed(KEY_DOWN)) {
-		currentMenuItem = (currentMenuItem + 1) % 4;
-	} else if (IsKeyPressed(KEY_UP)) {
-		currentMenuItem = (currentMenuItem - 1 + 4) % 4;
-	}
 
-	if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE) || IsSelectedMainMenu == true) {
-		IsSelectedMainMenu = false;
-		switch (currentMenuItem) {
-		case NOVO_JOGO:
-			NewGame();
-			break;
-		case CARREGAR_JOGO:
-			orderToLoadGame=1;
-			NewGame();
-			break;
-		case SAIR:
-			// Close the window
-			CloseWindow();
-			break;
-		}
-	}
-
-	BeginDrawing();
-	DrawMenu(MenuItemStrings, MenuItemStrings[currentMenuItem], 3);
-	EndDrawing();
+    DrawText("Use as setas para navegar e pressione enter para selecionar", 50, MAP_SIZE_Y_PX - 50, 20, DARKGRAY);
 }
 
+// function to Main Menu
+void Menu()
+{
+    if(IsKeyPressed(KEY_N)) {
+        currentMenuItem = NOVO_JOGO;
+    } else if(IsKeyPressed(KEY_C)) {
+        currentMenuItem = CARREGAR_JOGO;
+    } else if(IsKeyPressed(KEY_Q)) {
+        currentMenuItem = SAIR;
+    }
+
+    if(IsKeyPressed(KEY_DOWN)) {
+        currentMenuItem = (currentMenuItem + 1) % 3;
+    } else if(IsKeyPressed(KEY_UP)) {
+        currentMenuItem = (currentMenuItem - 1 + 3) % 3;
+    }
+
+    if(IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE))
+    {
+        switch(currentMenuItem)
+        {
+            case NOVO_JOGO:
+                NewGame();
+                break;
+            case CARREGAR_JOGO:
+                orderToLoadGame = 1;
+                NewGame();
+                break;
+            case SAIR:
+                CloseWindow();
+                break;
+        }
+    }
+
+    BeginDrawing();
+    DrawMenu();
+    EndDrawing();
+}
+
+// Enum for in-game menu options
 typedef enum {
-	INGAME_NOVO_JOGO,
-	INGAME_SALVAR_JOGO,
-	INGAME_CARREGAR_JOGO,
-	INGAME_VOLTAR,
-	INGAME_SAIR,
+    INGAME_NOVO_JOGO,
+    INGAME_SALVAR_JOGO,
+    INGAME_CARREGAR_JOGO,
+    INGAME_VOLTAR,
+    INGAME_SAIR,
 } InGameMenuItem;
 
+// Array with the texts of in-game menu options
 const char InGameMenuItemStrings[][20] = {
-	"Novo Jogo",
-	"Salvar Jogo",
-	"Carregar Jogo",
-	"Voltar",
-	"Sair"
+    "Novo Jogo",
+    "Salvar Jogo",
+    "Carregar Jogo",
+    "Voltar",
+    "Sair"
 };
 
-InGameMenuItem currentInGameMenuItem = NOVO_JOGO;
-bool IsSelectedInGameMenu = false;
+// Variable indicating the selected option in the in-game menu
+InGameMenuItem currentInGameMenuItem = INGAME_NOVO_JOGO;
 
-void InGameMenu(GameState *gameState,struct Stopwatch *stopwatch) {
-
-	if (IsKeyPressed(KEY_N)) {
+// Function to draw the in-game menu
+void InGameMenu(GameState *gameState, struct Stopwatch *stopwatch)
+{
+    if(IsKeyPressed(KEY_N)) {
         currentInGameMenuItem = INGAME_NOVO_JOGO;
-		IsSelectedInGameMenu = true;
-    } else if (IsKeyPressed(KEY_C)) {
+    } else if(IsKeyPressed(KEY_C)) {
         currentInGameMenuItem = INGAME_CARREGAR_JOGO;
-		IsSelectedInGameMenu = true;
-    } else if (IsKeyPressed(KEY_S)) {
+    } else if(IsKeyPressed(KEY_S)) {
         currentInGameMenuItem = INGAME_SALVAR_JOGO;
-		IsSelectedInGameMenu = true;
-    } else if (IsKeyPressed(KEY_Q)) {
+    } else if(IsKeyPressed(KEY_Q)) {
         currentInGameMenuItem = INGAME_SAIR;
-		IsSelectedInGameMenu = true;
-    }else if (IsKeyPressed(KEY_V)) {
+    } else if(IsKeyPressed(KEY_V)) {
         currentInGameMenuItem = INGAME_VOLTAR;
-		IsSelectedInGameMenu = true;
     }
 
+    if(IsKeyPressed(KEY_DOWN)) {
+        currentInGameMenuItem = (currentInGameMenuItem + 1) % 5;
+    } else if(IsKeyPressed(KEY_UP)) {
+        currentInGameMenuItem = (currentInGameMenuItem - 1 + 5) % 5;
+    }
 
-	if (IsKeyPressed(KEY_DOWN)) {
-		currentInGameMenuItem = (currentInGameMenuItem + 1) % 6;
-	} else if (IsKeyPressed(KEY_UP)) {
-		currentInGameMenuItem = (currentInGameMenuItem - 1 + 6) % 6;
-	}
+    if(IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE))
+    {
+        switch(currentInGameMenuItem)
+        {
+            case INGAME_NOVO_JOGO:
+                NewGame();
+                break;
+            case INGAME_SALVAR_JOGO:
+                QuickSaveGame();
+                break;
+            case INGAME_CARREGAR_JOGO:
+                orderToLoadGame = 1;
+                break;
+            case INGAME_SAIR:
+                CloseWindow();
+                break;
+            case INGAME_VOLTAR:
+                if(gameMessageOn)
+                {
+                    *gameState = MESSAGE;
+                    restart_chronometer(stopwatch);
+                }
+                else
+                {
+                    *gameState = GAME;
+                    restart_chronometer(stopwatch);
+                }
+                break;
+        }
+    }
 
-	if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE) || IsSelectedInGameMenu) {
-		IsSelectedInGameMenu = false;
-		switch (currentInGameMenuItem) {
-		case INGAME_NOVO_JOGO:
-			NewGame();
-			break;
-		case INGAME_SALVAR_JOGO:
-			QuickSaveGame();
-			break;
-		case INGAME_CARREGAR_JOGO:
-			orderToLoadGame=1;
-			//NewGame();
-			break;
-		case INGAME_SAIR:
-			// Close the window
-			CloseWindow();
-			break;
-		case INGAME_VOLTAR:
-			if(gameMessageOn)
-			{
-				*gameState = MESSAGE;
-				restart_chronometer(stopwatch);
-			}
-			else
-			{
-				*gameState = GAME;
-				restart_chronometer(stopwatch);
-			}
-			break;
-		}
-	}
-	BeginDrawing();
-	DrawMenu(InGameMenuItemStrings, InGameMenuItemStrings[currentInGameMenuItem] ,5);
-	EndDrawing();
+    BeginDrawing();
+    DrawMenu(InGameMenuItemStrings, InGameMenuItemStrings[currentInGameMenuItem], 5);
+    EndDrawing();
 }
 
+// Confirmation menu to restart the game
 int AreYouSureMenuIndex = 0;
 
-int AreYouSureMenu(){
-	if (IsKeyPressed(KEY_DOWN)||IsKeyPressed(KEY_S) || IsKeyPressed(KEY_UP)||IsKeyPressed(KEY_W)) {
-		AreYouSureMenuIndex = (AreYouSureMenuIndex + 1) % 2;
-	}
+int AreYouSureMenu()
+{
+    if(IsKeyPressed(KEY_DOWN) || IsKeyPressed(KEY_S) || IsKeyPressed(KEY_UP) || IsKeyPressed(KEY_W))
+    {
+        AreYouSureMenuIndex = (AreYouSureMenuIndex + 1) % 2;
+    }
 
+    if(IsKeyPressed(KEY_ENTER))
+    {
+        if(AreYouSureMenuIndex == 1)
+        {
+            return 1; // return 1 if player select "Sim"
+        }
+        if(AreYouSureMenuIndex == 0)
+        {
+            return 0; // return 1 if player select "Não"
+        }
+    }
 
-	if (IsKeyPressed(KEY_ENTER)){
-		if(AreYouSureMenuIndex == 1){
-			return 1;
-		}
-		if(AreYouSureMenuIndex == 0){
-			return 0;
-		}
-	}
-	Color YesColor = AreYouSureMenuIndex == 1 ? DARKGRAY : LIGHTGRAY;
-	Color NoColor = AreYouSureMenuIndex == 0 ? DARKGRAY : LIGHTGRAY;
+    Color YesColor = AreYouSureMenuIndex == 1 ? DARKGRAY : LIGHTGRAY;
+    Color NoColor = AreYouSureMenuIndex == 0 ? DARKGRAY : LIGHTGRAY;
 
-	BeginDrawing();
-	ClearBackground(RAYWHITE);
-	DrawText("Você tem certeza que quer recomeçar o jogo?", MAP_SIZE_X_PX / 2 - MeasureText("Você tem certeza que quer recomeçar o jogo?", 40) / 2, 200, 40, GRAY);
+    BeginDrawing();
+    ClearBackground(RAYWHITE);
+    DrawText("Você tem certeza que quer recomeçar o jogo?", MAP_SIZE_X_PX / 2 - MeasureText("Você tem certeza que quer recomeçar o jogo?", 40) / 2, 200, 40, GRAY);
 
-	DrawRectangle(MAP_SIZE_X_PX / 2 - 60, 250, 120, 40, YesColor); 
-	DrawRectangle(MAP_SIZE_X_PX / 2 - 60, 300, 120, 40, NoColor); 
+    DrawRectangle(MAP_SIZE_X_PX / 2 - 60, 250, 120, 40, YesColor);
+    DrawRectangle(MAP_SIZE_X_PX / 2 - 60, 300, 120, 40, NoColor);
 
-	DrawText("Sim", MAP_SIZE_X_PX / 2 - MeasureText("Sim", 30) / 2, 255, 30, RAYWHITE);
-	DrawText("Não", MAP_SIZE_X_PX / 2 - MeasureText("Não", 30) / 2, 305, 30, RAYWHITE);
+    DrawText("Sim", MAP_SIZE_X_PX / 2 - MeasureText("Sim", 30) / 2, 255, 30, RAYWHITE);
+    DrawText("Não", MAP_SIZE_X_PX / 2 - MeasureText("Não", 30) / 2, 305, 30, RAYWHITE);
 
-	EndDrawing();
-	
-	return 2;
+    EndDrawing();
+
+    return 2; 
 }
 
 void drawScore(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, int map_counter,  struct InformationBarStrings *informationBarStrings, int EnemiesAlive,struct MapElement mapElements[N_MAP_ELEMENTS])
@@ -358,12 +365,12 @@ void drawYouDied(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, 
 	int score;
 	int posX, posY, width,  height;
 	
-	if(isaac.nLifes>1)
-	{
+	if(isaac.nLifes>1){
 		sprintf(name,"You died! Only %d lifes remaining.",isaac.nLifes);
-	}
-	else
+	} else{
 		sprintf(name,"You died! Only %d life remaining",isaac.nLifes);
+	}
+
 	//draw information bar strings
 	BeginDrawing();
 	ClearBackground(RAYWHITE);
@@ -371,7 +378,6 @@ void drawYouDied(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, 
 	drawMap(mapElements);
 	createInformationBarStrings(stopwatch,isaac, map_counter,informationBarStrings,EnemiesAlive);
 	informationBar(isaac,*informationBarStrings);
-	
 	
 	//Draw Score
 	

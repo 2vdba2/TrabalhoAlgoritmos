@@ -26,30 +26,34 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 	int enemyMovesPeriod=2;
 	int backUpIsaacNlifes;
 	int isaacDiedMessage=0,gameOverMessage=0,allMissionsComplete=0;
+	
 
+	// Set the initial game state to "GAME"
 	GameState gameState = GAME;
 
+	// Initialize the map elements
 	initializeMapElement(mapElements);
 
-	if(orderToLoadGame==1)
-	{
-		loadGame(map,enemies,&isaac,stopwatch,&EnemiesAlive,bullets,map_counter,&nEnemies, "QuickSave.bin");
+	if (orderToLoadGame == 1) {
+		// Load the saved game and reset the stopwatch
+		loadGame(map, enemies, &isaac, stopwatch, &EnemiesAlive, bullets, map_counter, &nEnemies, "QuickSave.bin");
 		restart_chronometer(stopwatch);
-		orderToLoadGame=0;
-	}
-	else
-	{
-		readMap(&isaac,*map_counter,enemies,&nEnemies);
-		initializeIsaacEnemiesBullets(enemies,&isaac,bullets);
+		orderToLoadGame = 0; // Reset the flag for loading the game
+	} else {
+		// Read the map, initialize Isaac, enemies, and bullets
+		readMap(&isaac, *map_counter, enemies, &nEnemies);
+		initializeIsaacEnemiesBullets(enemies, &isaac, bullets);
 		EnemiesAlive = nEnemies;
 	}
-	calculateEnemyMovesIfNeeded(*map_counter,nextMoveMatrix);
 
-	SetExitKey(0);// the function WindowShouldClose will close when ESC is press, this will Set the configuration flag to ignore the ESC key press
+	// Calculate enemy movements if needed
+	calculateEnemyMovesIfNeeded(*map_counter, nextMoveMatrix);
+
+	// WindowShouldClose will ignore the ESC key press
+	SetExitKey(0);
+
 	while (closeGame==0) // Detect window close button or ESC key
 	{
-		// Trata entrada do usu´ario e atualiza estado do jogo
-		//----------------------------------------------------------------------------------
 		if(orderToSaveGame==1)
 		{
 			saveGame(map,enemies,isaac,stopwatch,EnemiesAlive,bullets,*map_counter,nEnemies, "QuickSave.bin");
@@ -65,7 +69,7 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 		if (gameState == GAME)
 		{
 			backUpIsaacNlifes=isaac.nLifes;
-			AtualizarTiros(bullets, map, enemies, nEnemies);
+			UpdateBullets(bullets, map, enemies, nEnemies);
 			readKeyboard(&isaac,bullets,mapElements,stopwatch);//read isaac movements, shoots and special functions
 			moveAndVerifyAllEnemies(enemies,&isaac,mapElements,&frame,nEnemies,nextMoveMatrix);
 

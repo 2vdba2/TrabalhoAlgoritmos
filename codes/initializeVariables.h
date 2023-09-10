@@ -5,23 +5,28 @@
 #include "constants.h"
 #include <stdio.h>
 
-void initializeIsaacEnemiesBullets(struct Enemy enemies[MAX_ENEMIES],struct Isaac *isaac,struct Bullet bullets[MAX_BULLLETS])
+// Function to initialize variables related to characters, enemies, and bullets
+void initializeIsaacEnemiesBullets(struct Enemy enemies[MAX_ENEMIES], struct Isaac *isaac, struct Bullet bullets[MAX_BULLLETS])
 {
-		for(int i = 0; i < MAX_BULLLETS; i++) {
-			bullets[i].IsAlive = false;
-		}
+    // Initialize bullets
+    for(int i = 0; i < MAX_BULLLETS; i++) {
+        bullets[i].IsAlive = false;
+    }
 
-		//Characters Variables
-		isaac->id='J';
-		isaac->missionComplete=0;
-		isaac->nLifes=3;
-		isaac->nBombs=0;
-		for(int i=0; i<MAX_ENEMIES; i++)
-		{
-			enemies[i].id='I';
-		}
+    // Initialize Isaac's variables
+    isaac->id = 'J';
+    isaac->missionComplete = 0;
+    isaac->nLifes = 3;
+    isaac->nBombs = 0;
+
+    // Initialize enemy IDs
+    for(int i = 0; i < MAX_ENEMIES; i++)
+    {
+        enemies[i].id = 'I';
+    }
 }
 
+// Function to initialize map elements
 void initializeMapElement(struct MapElement mapElements[N_MAP_ELEMENTS])
 {
 	//This function define each mapElement value:
