@@ -81,14 +81,12 @@ void drawWindow(char str_time[],struct Isaac isaac,struct Stopwatch stopwatch, i
 typedef enum {
 	NOVO_JOGO,
 	CARREGAR_JOGO,
-	CONFIGURACOES,
 	SAIR
 } MenuItem;
 
 const char MenuItemStrings[][20] = {
 	"Novo Jogo",
 	"Carregar Jogo",
-	"Configurações",
 	"Sair"
 };
 
@@ -143,9 +141,6 @@ void Menu() {
 			orderToLoadGame=1;
 			NewGame();
 			break;
-		case CONFIGURACOES:
-			Config();
-			break;
 		case SAIR:
 			// Close the window
 			CloseWindow();
@@ -154,7 +149,7 @@ void Menu() {
 	}
 
 	BeginDrawing();
-	DrawMenu(MenuItemStrings, MenuItemStrings[currentMenuItem], 4);
+	DrawMenu(MenuItemStrings, MenuItemStrings[currentMenuItem], 3);
 	EndDrawing();
 }
 
@@ -162,7 +157,6 @@ typedef enum {
 	INGAME_NOVO_JOGO,
 	INGAME_SALVAR_JOGO,
 	INGAME_CARREGAR_JOGO,
-	INGAME_CONFIGURACOES,
 	INGAME_VOLTAR,
 	INGAME_SAIR,
 } InGameMenuItem;
@@ -171,7 +165,6 @@ const char InGameMenuItemStrings[][20] = {
 	"Novo Jogo",
 	"Salvar Jogo",
 	"Carregar Jogo",
-	"Configurações",
 	"Voltar",
 	"Sair"
 };
@@ -218,9 +211,6 @@ void InGameMenu(GameState *gameState,struct Stopwatch *stopwatch) {
 			orderToLoadGame=1;
 			//NewGame();
 			break;
-		case INGAME_CONFIGURACOES:
-			Config();
-			break;
 		case INGAME_SAIR:
 			// Close the window
 			CloseWindow();
@@ -240,7 +230,7 @@ void InGameMenu(GameState *gameState,struct Stopwatch *stopwatch) {
 		}
 	}
 	BeginDrawing();
-	DrawMenu(InGameMenuItemStrings, InGameMenuItemStrings[currentInGameMenuItem] ,6);
+	DrawMenu(InGameMenuItemStrings, InGameMenuItemStrings[currentInGameMenuItem] ,5);
 	EndDrawing();
 }
 
