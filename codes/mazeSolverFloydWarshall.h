@@ -7,6 +7,7 @@
 #include "constants.h"
 #include "structs.h"
 #include <sys/stat.h>   // stat
+#include "globals.h"
 
 void mapToMaze(int maze[][MAP_SIZE_X])
 {

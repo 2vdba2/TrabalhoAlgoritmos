@@ -8,6 +8,7 @@
 #include "constants.h"
 #include "structs.h"
 #include <time.h>
+#include "globals.h"
 
 int numberOfMaps()
 {

@@ -3,6 +3,7 @@
 
 #include "constants.h"
 #include "structs.h"
+#include "globals.h"
 #include <stdbool.h>
 
 // This file contains functions for reading keyboard inputs and performing corresponding actions.

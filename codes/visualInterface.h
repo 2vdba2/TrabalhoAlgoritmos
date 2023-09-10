@@ -7,6 +7,7 @@
 #include <raylib.h>
 #include "initializeVariables.h"
 #include <stdlib.h>
+#include "globals.h"
 
 // Function to draw the map on the screen
 void drawMap(struct MapElement mapElements[N_MAP_ELEMENTS])

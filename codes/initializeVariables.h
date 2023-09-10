@@ -4,6 +4,7 @@
 #include "structs.h"
 #include "constants.h"
 #include <stdio.h>
+#include "globals.h"
 
 // Function to initialize variables related to characters, enemies, and bullets
 void initializeIsaacEnemiesBullets(struct Enemy enemies[MAX_ENEMIES], struct Isaac *isaac, struct Bullet bullets[MAX_BULLLETS])

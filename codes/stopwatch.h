@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <time.h>       // for time()
 #include <unistd.h>     // for sleep()
+#include "globals.h"
 
 //void get_elapsed_time(int start_time, int *elapsed_time, char str_time[])
 void get_elapsed_time(struct Stopwatch *stopwatch)
