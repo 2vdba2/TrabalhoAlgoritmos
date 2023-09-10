@@ -64,7 +64,13 @@ int gameLoop(int *map_counter,struct Stopwatch *stopwatch, struct InformationBar
 			*map_counter-=1;//because it leaves the loop and increments 1
 			return 0;
 		}
-
+		if(orderToNewGame==1)
+		{
+			orderToNewGame=0;
+			*map_counter=-1;//because it leaves the loop and increments 1
+			gameState = GAME;
+			return 0;
+		}
 		readKeyboardSpecialKeys(mapElements,stopwatch,&gameState);
 		if (gameState == GAME)
 		{

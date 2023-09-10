@@ -216,7 +216,8 @@ void InGameMenu(GameState *gameState,struct Stopwatch *stopwatch) {
         switch(currentInGameMenuItem)
         {
             case INGAME_NOVO_JOGO:
-                NewGame();
+                orderToNewGame=1;
+                *gameState = GAME;
                 break;
             case INGAME_SALVAR_JOGO:
                 QuickSaveGame();

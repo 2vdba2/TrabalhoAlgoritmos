@@ -26,6 +26,7 @@
 #define ENEMY_FRAMES_PER_MOVE 2
 
 extern int EnemiesAlive = 0;
+extern int orderToNewGame = 0;
 extern int orderToSaveGame = 0;
 extern int orderToLoadGame = 0;
 extern int gameMessageOn = 0;
