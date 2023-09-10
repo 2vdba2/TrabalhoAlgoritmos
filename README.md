@@ -1,4 +1,4 @@
-# TrabalhoAlgoritmos
+# The Binding of Isaac
 
 Windows:
 
@@ -8,4 +8,4 @@ Ubuntu:
 
 Executar TheBindingOfIsaac_Ubuntu
 
-# The Binding of Isaac
+
