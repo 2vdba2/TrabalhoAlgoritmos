@@ -257,8 +257,19 @@ int AreYouSureMenu()
         }
     }
 
-    Color YesColor = AreYouSureMenuIndex == 1 ? DARKGRAY : LIGHTGRAY;
-    Color NoColor = AreYouSureMenuIndex == 0 ? DARKGRAY : LIGHTGRAY;
+	Color YesColor;
+	Color NoColor;
+
+	if (AreYouSureMenuIndex == 1)
+	{
+		YesColor = DARKGRAY;
+		NoColor = LIGHTGRAY;
+	}
+	else if (AreYouSureMenuIndex == 0)
+	{
+		YesColor = LIGHTGRAY;
+		NoColor = DARKGRAY;
+	}
 
     BeginDrawing();
     ClearBackground(RAYWHITE);
