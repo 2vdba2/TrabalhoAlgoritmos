@@ -72,9 +72,6 @@ int saveGame()
 
 int saveGame(char map[MAP_SIZE_Y][MAP_SIZE_X],struct Enemy enemies[MAX_ENEMIES],struct Isaac isaac,struct Stopwatch *stopwatch, int EnemiesAlive,struct Bullet bullets[MAX_BULLLETS],int map_counter, int nEnemies, char SaveName[20])
 {
-
-	
-// The save file is given a random name if it's not a quicksave
 //the saved file contains a record of the name used during the save process
 	int saved=1;
 	char path[30]={"./savedGame/"};

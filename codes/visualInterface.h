@@ -98,24 +98,22 @@ const char MenuItemStrings[][20] = {
 MenuItem currentMenuItem = NOVO_JOGO;
 
 // Function to draw menu
-void DrawMenu()
-{
-    ClearBackground(RAYWHITE);
+void DrawMenu(char MenuItemStrings[][20], char SelectedItem[20], int NumItens) {
 
-    // Draw the game title
-    DrawText("The Binding of Isaac", MAP_SIZE_X_PX / 2 - MeasureText("The Binding of Isaac", 40) / 2, 80, 40, DARKGRAY);
+	ClearBackground(RAYWHITE);
 
-    for(int i = 0; i < 3; i++)
-    {
-        if(i == currentMenuItem)
-        {
-            // Draw the selected option
-            DrawText("> ", MAP_SIZE_X_PX / 2 - MeasureText("> ", 30) / 2, (200 + (50 * i)), 30, GRAY);
-        }
-        DrawText(MenuItemStrings[i], MAP_SIZE_X_PX / 2 - MeasureText(MenuItemStrings[i], 30) / 2, (200 + (50 * i)), 30, GRAY);
-    }
+	DrawText("The Binding of Isaac", MAP_SIZE_X_PX / 2 - MeasureText("The Binding of Isaac", 40) / 2, 80, 40, DARKGRAY);
 
-    DrawText("Use as setas para navegar e pressione enter para selecionar", 50, MAP_SIZE_Y_PX - 50, 20, DARKGRAY);
+	for(int i = 0; i < NumItens;i++){
+		if(strcmp(MenuItemStrings[i], SelectedItem) == 0){
+			char highlightedItem[25] = {"> "};
+			strcat(highlightedItem, SelectedItem);
+			DrawText(highlightedItem, MAP_SIZE_X_PX / 2 - MeasureText(highlightedItem, 30) / 2, (200 + (50 * i)), 30, GRAY);
+		}else{
+			DrawText(MenuItemStrings[i], MAP_SIZE_X_PX / 2 - MeasureText(MenuItemStrings[i], 30) / 2, (200 + (50 * i)), 30, GRAY);
+		}
+	}
+	DrawText("Use as setas para navegar e pressione enter para selecionar", 50, MAP_SIZE_Y_PX - 50, 20, DARKGRAY);
 }
 
 // function to Main Menu
@@ -153,7 +151,7 @@ void Menu()
     }
 
     BeginDrawing();
-    DrawMenu();
+    DrawMenu(MenuItemStrings, MenuItemStrings[currentMenuItem], 3);
     EndDrawing();
 }
 
@@ -231,7 +229,7 @@ void InGameMenu(GameState *gameState, struct Stopwatch *stopwatch)
     }
 
     BeginDrawing();
-    DrawMenu(InGameMenuItemStrings, InGameMenuItemStrings[currentInGameMenuItem], 5);
+	DrawMenu(InGameMenuItemStrings, InGameMenuItemStrings[currentInGameMenuItem] ,5);
     EndDrawing();
 }
 
