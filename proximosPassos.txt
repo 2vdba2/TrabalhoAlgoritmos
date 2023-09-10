@@ -1,8 +1,0 @@
- - Menu Inicial
- - Menu inferior
- - tiro  (juan)
- - bomba (perguntar para natan)
- - fogueira (juan)
- - inimigo
- - mais 2 mapas
- - entender classes (vitor)
