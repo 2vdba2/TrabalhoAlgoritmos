@@ -27,15 +27,10 @@ void NewGame() {
 };
 
 void QuickLoadGame() {
-	//orderToLoadGame=1;
-	orderToLoadGame=1; // como n tem funcao visual de salvar jogo ta aqui a gambiarra
+	orderToLoadGame=1;
 }
 
-void Config() {
-
-}
 
 void QuickSaveGame(){
 	orderToSaveGame=1;
-
 }
