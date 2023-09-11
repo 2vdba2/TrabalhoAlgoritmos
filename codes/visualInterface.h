@@ -117,14 +117,19 @@ void DrawMenu(char MenuItemStrings[][20], char SelectedItem[20], int NumItens) {
 }
 
 // function to Main Menu
-void Menu()
-{
-    if(IsKeyPressed(KEY_N)) {
+bool IsSelectedMainMenu = false;
+
+void Menu() {
+
+	if (IsKeyPressed(KEY_N)) {
         currentMenuItem = NOVO_JOGO;
-    } else if(IsKeyPressed(KEY_C)) {
+		IsSelectedMainMenu = true;
+    } else if (IsKeyPressed(KEY_C)) {
         currentMenuItem = CARREGAR_JOGO;
-    } else if(IsKeyPressed(KEY_Q)) {
+		IsSelectedMainMenu = true;
+    } else if (IsKeyPressed(KEY_Q)) {
         currentMenuItem = SAIR;
+		IsSelectedMainMenu = true;
     }
 
     if(IsKeyPressed(KEY_DOWN)) {
@@ -133,8 +138,9 @@ void Menu()
         currentMenuItem = (currentMenuItem - 1 + 3) % 3;
     }
 
-    if(IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE))
+    if(IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE) || IsSelectedMainMenu == true)
     {
+		IsSelectedMainMenu = false;
         switch(currentMenuItem)
         {
             case NOVO_JOGO:
@@ -177,28 +183,36 @@ const char InGameMenuItemStrings[][20] = {
 InGameMenuItem currentInGameMenuItem = INGAME_NOVO_JOGO;
 
 // Function to draw the in-game menu
-void InGameMenu(GameState *gameState, struct Stopwatch *stopwatch)
-{
-    if(IsKeyPressed(KEY_N)) {
+bool IsSelectedInGameMenu = false;
+
+void InGameMenu(GameState *gameState,struct Stopwatch *stopwatch) {
+
+	if (IsKeyPressed(KEY_N)) {
         currentInGameMenuItem = INGAME_NOVO_JOGO;
-    } else if(IsKeyPressed(KEY_C)) {
+		IsSelectedInGameMenu = true;
+    } else if (IsKeyPressed(KEY_C)) {
         currentInGameMenuItem = INGAME_CARREGAR_JOGO;
-    } else if(IsKeyPressed(KEY_S)) {
+		IsSelectedInGameMenu = true;
+    } else if (IsKeyPressed(KEY_S)) {
         currentInGameMenuItem = INGAME_SALVAR_JOGO;
-    } else if(IsKeyPressed(KEY_Q)) {
+		IsSelectedInGameMenu = true;
+    } else if (IsKeyPressed(KEY_Q)) {
         currentInGameMenuItem = INGAME_SAIR;
-    } else if(IsKeyPressed(KEY_V)) {
+		IsSelectedInGameMenu = true;
+    }else if (IsKeyPressed(KEY_V)) {
         currentInGameMenuItem = INGAME_VOLTAR;
+		IsSelectedInGameMenu = true;
     }
 
-    if(IsKeyPressed(KEY_DOWN)) {
-        currentInGameMenuItem = (currentInGameMenuItem + 1) % 5;
-    } else if(IsKeyPressed(KEY_UP)) {
-        currentInGameMenuItem = (currentInGameMenuItem - 1 + 5) % 5;
-    }
 
-    if(IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE))
-    {
+	if (IsKeyPressed(KEY_DOWN)) {
+		currentInGameMenuItem = (currentInGameMenuItem + 1) % 5;
+	} else if (IsKeyPressed(KEY_UP)) {
+		currentInGameMenuItem = (currentInGameMenuItem - 1 + 5) % 5;
+	}
+
+	if (IsKeyPressed(KEY_ENTER) || IsKeyPressed(KEY_SPACE) || IsSelectedInGameMenu) {
+		IsSelectedInGameMenu = false;
         switch(currentInGameMenuItem)
         {
             case INGAME_NOVO_JOGO:
