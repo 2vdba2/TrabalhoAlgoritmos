@@ -5,6 +5,7 @@
 #include "structs.h"
 #include "mazeSolverFloydWarshall.h"
 #include <stdbool.h>
+#include "globals.h"
 
 void moveIsaac(struct Isaac *isaac)
 {

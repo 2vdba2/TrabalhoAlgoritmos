@@ -1,4 +1,5 @@
 #include "codes/gameLoop.c"
+#include "codes/globals.h"
 #include "codes/manageFiles.h"
 #include "codes/structs.h"
 #include "codes/gameFunctions.c"

@@ -25,13 +25,7 @@
 #define MAP_ELEMENT_ISAAC_NUMBER 8
 #define ENEMY_FRAMES_PER_MOVE 2
 
-extern int EnemiesAlive = 0;
-extern int orderToNewGame = 0;
-extern int orderToSaveGame = 0;
-extern int orderToLoadGame = 0;
-extern int gameMessageOn = 0;
-extern int godMode = 0;
-extern int closeGame = 0;
+
 //extern GameState gameState = GAME;
 
 #endif

@@ -2,6 +2,7 @@
 #include <string.h>
 #include "structs.h"
 #include "constants.h"
+#include "globals.h"
 
 // Function to shoot a bullet
 void Shoot(struct Bullet bullets[], int x, int y, int VelocityX, int VelocityY) {

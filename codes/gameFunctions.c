@@ -1,4 +1,5 @@
 #include "manageFiles.h"
+#include "globals.h"
 
 void NewGame() {
 	int nMaps=numberOfMaps();

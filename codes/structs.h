@@ -2,6 +2,7 @@
 #define STRUCTS_H
 #include "raylib.h"
 #include <stdbool.h> 
+#include "globals.h"
 struct Bullet
 {
     int posX;

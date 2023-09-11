@@ -10,6 +10,7 @@
 #include <time.h>       // for time()
 #include "mazeSolverFloydWarshall.h"
 #include "constants.h"
+#include "globals.h"
 
 struct Bullet bullets[MAX_BULLLETS];
 struct Isaac isaac;
